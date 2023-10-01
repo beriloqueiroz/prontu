@@ -1,3 +1,4 @@
+namespace domain;
 public class Notification
 {
   private List<NotificationError> Errors = new List<NotificationError>();

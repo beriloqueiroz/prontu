@@ -1,5 +1,4 @@
 namespace domain;
-
 public abstract class Entity
 {
   private Guid Id { get; }

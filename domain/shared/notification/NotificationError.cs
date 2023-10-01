@@ -1,3 +1,4 @@
+namespace domain;
 public class NotificationError
 {
   public string context;

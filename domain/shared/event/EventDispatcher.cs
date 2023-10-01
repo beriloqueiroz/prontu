@@ -1,5 +1,4 @@
 namespace domain;
-
 public class EventDispatcher : IEventDispatcher
 {
   private Dictionary<string, List<IEventHandler>> EventHandlers = new Dictionary<string, List<IEventHandler>>();

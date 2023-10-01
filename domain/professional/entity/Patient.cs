@@ -6,9 +6,9 @@ public class Patient : Entity
 {
   private string Name { get; }
   private string Email { get; }
-  private Document Document { get; }
+  private IDocument Document { get; }
   private bool Active;
-  public Patient(string name, string email, Document document, string? id) : base(id)
+  public Patient(string name, string email, IDocument document, string? id) : base(id)
   {
     Name = name;
     Email = email;
