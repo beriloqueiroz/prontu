@@ -1,7 +1,7 @@
 namespace domain;
 public abstract class Entity
 {
-  private Guid Id { get; }
+  public Guid Id { get; private set; }
   public Notification notification = new();
   public Entity(string? id)
   {

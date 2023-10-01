@@ -1,4 +1,4 @@
-namespace prontu;
+namespace prontu.infrastructure;
 
 public class WeatherForecast
 {

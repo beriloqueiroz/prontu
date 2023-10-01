@@ -4,11 +4,11 @@ namespace domain;
 
 public class Professional : Entity
 {
-  private string ProfessionalDocument { get; }
-  private string Name { get; }
-  private string Email { get; }
-  private IDocument Document { get; }
-  private List<Guid> Patients { get; }
+  public string ProfessionalDocument { get; private set; }
+  public string Name { get; private set; }
+  public string Email { get; private set; }
+  public IDocument Document { get; private set; }
+  public List<Guid> Patients { get; private set; }
 
   public Professional(string professionalDocument, string name, string email, IDocument document, List<Guid> patientIds, string? id) : base(id)
   {

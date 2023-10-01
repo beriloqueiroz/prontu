@@ -4,10 +4,10 @@ namespace domain;
 
 public class Patient : Entity
 {
-  private string Name { get; }
-  private string Email { get; }
-  private IDocument Document { get; }
-  private bool Active;
+  public string Name { get; private set; }
+  public string Email { get; private set; }
+  public IDocument Document { get; private set; }
+  public bool Active { get; private set; }
   public Patient(string name, string email, IDocument document, string? id) : base(id)
   {
     Name = name;
