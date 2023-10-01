@@ -1,7 +1,37 @@
-# Modelagem
+# Modelagem e Projeto
 
 O que é:
 É uma aplicação cuja função é gerenciar os pacientes de um psicólogo.
+
+## Designer pattern do projeto
+
+Buscou-se neste projeto usar de alguns conceitos do clean arquitecture e alguns dos conceitos do DDD, como Entidades, agregados, objetos de valor e o dominio rico.
+De forma que, no módulo de domain estão as regras de negócio, o equivalente a camada entities do clean architecture.
+Na camada de aplicação, estão os use cases, que representam as intensões do "usuário", e as interfaces dos gateways/serviços/repositórios cujas implementações estão na camada de infrastructure.
+
+## domain
+
+- Estão as regras de negócio, as entidades, possíveis eventos de domínio, entidades de negócio, objetos de valor.
+- Entidade é tudo que na visão de negócio há identificação.
+- É comum que as entidades possuem objetos de valor, que são propriedades imutáveis das entidades, por exemplo o Voucher.
+- É importante dizer que estas entidades não são as entidade do banco de dados, são entidades do negócio.
+
+## application
+
+- Estão os casos de uso, representação da intensão de usuário, entendendo como usuário tudo que for usar este sistema.
+- Estão as interfaces dos gateways/serviços/repositórios, contratos claros do que o sistema precisa para orquestrar as regras de negócio e executar a intensão do usuário.
+
+## infraestructure
+
+- É nesta e somente nesta camada que as decisões de ferramentas, tecnologias, framework são tomadas, tal como, qual banco, qual ORM, qual framwork, versões, serviços externos e etc.
+- São feitas as implementações necessárias para executar os usecases.
+- Nesta camada há por exemplo os Controllers da api rest.
+- Podem ser implementado nesta camada presenters para diferentes tipos resposta de api.
+- Aqui define/implementa-se as formas de servir gRPC, REST, SOAP, CLI.
+
+O fluxo de dados basicamente é:
+
+```cliente -> infrastructure -> application -> domain```
 
 ## Linguagem ubíqua - glossário
 
@@ -18,7 +48,7 @@ quando o negócio já existe é a linguagem que os departamentos usam pra se com
   - Encontro marcado entre profissional e paciente(s) com horário e tempo definido.
 - Anotações
   - Notas da sessão.
-  
+
 ## Agregados, entidade, objetos de valor
 
 - Profissional.
@@ -44,7 +74,7 @@ quando o negócio já existe é a linguagem que os departamentos usam pra se com
   - Nome
   - E-mail
   - Documento
-  - Situação (ativado, desativado)
+  - Ativado
   - Ficha do paciente
 
 ## Agregado de Sessão
