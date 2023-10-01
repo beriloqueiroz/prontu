@@ -7,10 +7,10 @@ public class Professional : Entity
   private string ProfessionalDocument { get; }
   private string Name { get; }
   private string Email { get; }
-  private Document Document { get; }
+  private IDocument Document { get; }
   private List<Guid> Patients { get; }
 
-  public Professional(string professionalDocument, string name, string email, Document document, List<Guid> patientIds, string? id) : base(id)
+  public Professional(string professionalDocument, string name, string email, IDocument document, List<Guid> patientIds, string? id) : base(id)
   {
     ProfessionalDocument = professionalDocument;
     Name = name;

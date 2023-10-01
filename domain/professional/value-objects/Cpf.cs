@@ -1,12 +1,12 @@
 namespace domain;
 
-public class Cpf : Document
+public class Cpf : IDocument
 {
   private readonly string[] InvalidCPFs = { "11111111111", "22222222222", "33333333333", "44444444444", "55555555555", "66666666666", "77777777777", "88888888888", "99999999999", "00000000000" };
 
-  public override string Value => Value;
+  public string Value => Value;
 
-  public override bool IsValid()
+  public bool IsValid()
   {
     string cpf = Value.Replace("\\D", "");
     if (cpf.Length == 11 && !InvalidCPFs.Contains(cpf))
