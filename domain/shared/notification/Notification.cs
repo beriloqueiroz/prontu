@@ -20,7 +20,7 @@ public class Notification
     {
       if (context == null || error.context.Equals(context))
       {
-        message += $"{error.context}: ${error.message},";
+        message += $"{error.context}: {error.message}" + (message.Equals("") ? "" : ",");
       }
     });
     return message;

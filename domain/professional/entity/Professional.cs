@@ -8,15 +8,19 @@ public class Professional : Entity
   public string Name { get; private set; }
   public string Email { get; private set; }
   public IDocument Document { get; private set; }
-  public List<Guid> Patients { get; private set; }
+  public List<Patient> Patients { get; private set; }
 
-  public Professional(string professionalDocument, string name, string email, IDocument document, List<Guid> patientIds, string? id) : base(id)
+  public Professional(string professionalDocument, string name, string email, IDocument document, List<Patient> patients, string? id) : base(id)
   {
     ProfessionalDocument = professionalDocument;
     Name = name;
     Email = email;
     Document = document;
-    Patients = patientIds;
+    Patients = patients;
+    if (patients == null)
+    {
+      Patients = new List<Patient>();
+    }
     Validate();
     if (notification.HasErrors())
     {
@@ -24,9 +28,9 @@ public class Professional : Entity
     }
   }
 
-  public void AddPatient(Guid patientId)
+  public void AddPatient(Patient patient)
   {
-    Patients.Add(patientId);
+    Patients.Add(patient);
   }
 
   public override void Validate()

@@ -1,7 +1,6 @@
 using System.Text.RegularExpressions;
 
 namespace domain;
-
 public class Patient : Entity
 {
   public string Name { get; private set; }
