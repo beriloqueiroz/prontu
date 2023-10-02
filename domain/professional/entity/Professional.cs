@@ -43,7 +43,7 @@ public class Professional : Entity
     {
       notification.AddError(new NotificationError("Professional", "Nome inválido"));
     }
-    if (IsValidEmail(Email))
+    if (!Helpers.IsValidEmail(Email))
     {
       notification.AddError(new NotificationError("Professional", "Email inválido"));
     }
@@ -51,13 +51,6 @@ public class Professional : Entity
     {
       notification.AddError(new NotificationError("Professional", "Cpf inválido"));
     }
-  }
-
-  private static bool IsValidEmail(string email)
-  {
-    string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-
-    return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
   }
 }
 

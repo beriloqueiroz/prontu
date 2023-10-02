@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 
 namespace domain;
@@ -39,22 +40,15 @@ public class Patient : Entity
   {
     if (Name.Length < 4 && !Name.Contains(" "))
     {
-      notification.AddError(new NotificationError("Professional", "Nome inválido"));
+      notification.AddError(new NotificationError("Patient", "Nome inválido"));
     }
-    if (IsValidEmail(Email))
+    if (!Helpers.IsValidEmail(Email))
     {
-      notification.AddError(new NotificationError("Professional", "Email inválido"));
+      notification.AddError(new NotificationError("Patient", "Email inválido"));
     }
     if (!Document.IsValid())
     {
-      notification.AddError(new NotificationError("Professional", "Cpf inválido"));
+      notification.AddError(new NotificationError("Patient", "Cpf inválido"));
     }
-  }
-
-  private static bool IsValidEmail(string email)
-  {
-    string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-
-    return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
   }
 }
