@@ -9,5 +9,13 @@ public record FindProfessionalOutputDto(
   string Email,
   string Document,
   string ProfessionalDocument,
-  string[] Patients
+  FindProfessionalPatientOutputDto[] Patients
+);
+
+public record FindProfessionalPatientOutputDto(
+  string Id,
+  string Name,
+  string Email,
+  string Document,
+  bool IsActive
 );

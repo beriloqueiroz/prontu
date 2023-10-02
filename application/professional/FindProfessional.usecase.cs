@@ -19,6 +19,8 @@ public class FindProfessionalUseCase : IUsecase<FindProfessionalInputDto, FindPr
       professional.Email,
       professional.Document.Value,
       professional.ProfessionalDocument,
-      professional.Patients.Select(pat => pat.ToString()).ToArray());
+      professional.Patients.Select(pat =>
+        new FindProfessionalPatientOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active))
+      .ToArray());
   }
 }

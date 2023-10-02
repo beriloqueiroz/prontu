@@ -1,7 +1,7 @@
 namespace domain;
 public class EventDispatcher : IEventDispatcher
 {
-  private Dictionary<string, List<IEventHandler>> EventHandlers = new Dictionary<string, List<IEventHandler>>();
+  private Dictionary<string, List<IEventHandler>> EventHandlers = new();
 
   public Dictionary<string, List<IEventHandler>> GetEventHandlers()
   {
@@ -9,32 +9,40 @@ public class EventDispatcher : IEventDispatcher
   }
   public void Notify(DomainEvent domainEvent)
   {
-    string eventName = domainEvent.GetType().ToString();
-    if (EventHandlers[eventName] != null)
+    string eventName = domainEvent.GetType().Name;
+    try
     {
       EventHandlers[eventName].ForEach((eventHandler) =>
-      {
-        eventHandler.Handle(domainEvent);
-      });
+     {
+       eventHandler.Handle(domainEvent);
+     });
+    }
+    catch (KeyNotFoundException)
+    {
     }
   }
 
   public void Register(string eventName, IEventHandler eventHandler)
   {
-    if (EventHandlers[eventName] == null)
+    if (!EventHandlers.TryAdd(eventName, new List<IEventHandler>
     {
-      EventHandlers[eventName] = new List<IEventHandler>();
+        eventHandler
+    }))
+    {
+      EventHandlers[eventName].Add(eventHandler);
     }
-    EventHandlers[eventName].Add(eventHandler);
   }
 
   public void Unregister(string eventName, IEventHandler eventHandler)
   {
-    if (EventHandlers[eventName] == null)
+    try
     {
-      return;
+      EventHandlers[eventName].Remove(eventHandler);
     }
-    EventHandlers[eventName].Remove(eventHandler);
+    catch (KeyNotFoundException)
+    {
+
+    }
   }
 
   public void UnregisterAll()
