@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace prontu.infrastructure.controllers;
+namespace infrastructure.Controllers;
 
 [ApiController]
 [Route("[controller]")]
