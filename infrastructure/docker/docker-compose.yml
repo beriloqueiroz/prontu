@@ -7,9 +7,13 @@ services:
     restart: always
     container_name: db
     environment:
-      POSTGRES_PASSWORD: teste@123
+      POSTGRES_PASSWORD: teste
+      POSTGRES_DB: prontu_db
+      POSTGRES_USER: teste
     volumes:
-      - ~/db_prontu:/var/lib/postgres
+      - ./postgres_data:/var/lib/postgres
+    ports:
+      - "5432:5432"
 
   adminer:
     image: adminer
@@ -18,4 +22,4 @@ services:
       - 8080:8080
 
 volumes:
-  my-db:
+  postgres_data:

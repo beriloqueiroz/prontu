@@ -1,3 +1,4 @@
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,8 +8,8 @@ public static class DbInitializer
 {
   public static void InjectDbContext(this IServiceCollection services)
   {
-    services.AddDbContext<ProntuDbContext>(
-    options => options.UseNpgsql("Host=localhost;Database=prontu_db;Username=postgres;Password=teste@123"));
+    services.AddDbContext<ProntuDbContext>();
+    var db = services.BuildServiceProvider().GetRequiredService<ProntuDbContext>();
+    db.Database.CanConnectAsync().ContinueWith(_ => db.Database.Migrate());
   }
-
 }
