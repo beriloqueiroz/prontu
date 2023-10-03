@@ -15,6 +15,6 @@ public class CreateProfessionalUseCase : IUsecase<CreateProfessionalInputDto, Cr
     Cpf cpf = new(input.Document);
     Professional professional = new(input.ProfessionalDocument, input.Name, input.Email, cpf, new List<Patient>(), null);
     ProfessionalGateway.Create(professional);
-    return new CreateProfessionalOutputDto("", input.Name, input.Email, cpf.Value, input.ProfessionalDocument);
+    return new CreateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, cpf.Value, input.ProfessionalDocument);
   }
 }

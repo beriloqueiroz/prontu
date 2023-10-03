@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace domain;
 
 public class Professional : Entity
@@ -21,16 +19,30 @@ public class Professional : Entity
     {
       Patients = new List<Patient>();
     }
-    Validate();
-    if (notification.HasErrors())
-    {
-      throw new DomainException(notification.GetErrors());
-    }
+
   }
 
   public void AddPatient(Patient patient)
   {
     Patients.Add(patient);
+  }
+
+  public void ChangeEmail(string email)
+  {
+    Email = email;
+    Validate();
+  }
+
+  public void ChangeName(string name)
+  {
+    Name = name;
+    Validate();
+  }
+
+  public void ChangeProfessionalDocument(string professionalDocument)
+  {
+    ProfessionalDocument = professionalDocument;
+    Validate();
   }
 
   public override void Validate()
@@ -50,6 +62,10 @@ public class Professional : Entity
     if (!Document.IsValid())
     {
       notification.AddError(new NotificationError("Professional", "Cpf inválido"));
+    }
+    if (notification.HasErrors())
+    {
+      throw new DomainException(notification.GetErrors());
     }
   }
 }
