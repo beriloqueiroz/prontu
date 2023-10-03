@@ -90,7 +90,7 @@ public class PatientTest
   [TestMethod]
   public void ShouldBeChangePatientEmail()
   {
-    Patient patient = CreateValidPatient("1");
+    Patient patient = CreateValidPatient("1", "74838333005");
     patient.ChangeEmail("teste.silva@hotmail.com");
 
     Assert.AreEqual(patient.Email, "teste.silva@hotmail.com");
@@ -101,7 +101,7 @@ public class PatientTest
   {
     try
     {
-      Patient patient = CreateValidPatient("1");
+      Patient patient = CreateValidPatient("1", "74838333005");
       patient.ChangeEmail("teste.silvahotmail.com");
       Assert.Fail();
     }
@@ -114,7 +114,7 @@ public class PatientTest
   [TestMethod]
   public void ShouldBeChangePatientName()
   {
-    Patient patient = CreateValidPatient("1");
+    Patient patient = CreateValidPatient("1", "74838333005");
     patient.ChangeName("teste silva");
 
     Assert.AreEqual(patient.Name, "teste silva");
@@ -125,7 +125,7 @@ public class PatientTest
   {
     try
     {
-      Patient patient = CreateValidPatient("1");
+      Patient patient = CreateValidPatient("1", "74838333005");
       patient.ChangeName("");
       Assert.Fail();
     }
@@ -135,8 +135,8 @@ public class PatientTest
     }
   }
 
-  public static Patient CreateValidPatient(string tag)
+  public static Patient CreateValidPatient(string tag, string cpf)
   {
-    return new($"Fulano de tal {tag}", $"fulano.tal{tag}@gmail.com", new Cpf("74838333005"), null);
+    return new($"Fulano de tal {tag}", $"fulano.tal{tag}@gmail.com", new Cpf(cpf), null);
   }
 }

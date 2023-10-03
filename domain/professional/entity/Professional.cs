@@ -24,6 +24,18 @@ public class Professional : Entity
 
   public void AddPatient(Patient patient)
   {
+    if (Patients.Any(pat => pat.Document.Value.Equals(patient.Document.Value)))
+    {
+      notification.AddError(new NotificationError("Professional", "Já existe um paciente cadastrado com documento informado"));
+    }
+    if (Patients.Any(pat => pat.Email.Equals(patient.Email)))
+    {
+      notification.AddError(new NotificationError("Professional", "Já existe um paciente cadastrado com email informado"));
+    }
+    if (notification.HasErrors())
+    {
+      throw new DomainException(notification.GetErrors());
+    }
     Patients.Add(patient);
   }
 

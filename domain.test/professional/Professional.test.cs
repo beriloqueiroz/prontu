@@ -89,7 +89,7 @@ public class ProfessionalTest
   {
     Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
 
-    Patient patient = PatientTest.CreateValidPatient("1");
+    Patient patient = PatientTest.CreateValidPatient("1", "73345940027");
     professional.AddPatient(patient);
 
     Assert.IsNotNull(professional.Patients);
@@ -97,8 +97,8 @@ public class ProfessionalTest
     Assert.AreEqual(professional.Name, "Fulano de tal");
     Assert.AreSame(professional.Patients[0], patient);
 
-    Patient patient2 = PatientTest.CreateValidPatient("2");
-    Patient patient3 = PatientTest.CreateValidPatient("3");
+    Patient patient2 = PatientTest.CreateValidPatient("2", "37115176094");
+    Patient patient3 = PatientTest.CreateValidPatient("3", "74838333005");
     professional.AddPatient(patient2);
     professional.AddPatient(patient3);
 
@@ -106,6 +106,60 @@ public class ProfessionalTest
     Assert.AreSame(professional.Patients[0], patient);
     Assert.AreSame(professional.Patients[1], patient2);
     Assert.AreSame(professional.Patients[2], patient3);
+  }
+
+  [TestMethod]
+  public void ShouldBeNotAddPatientWhenAlreadyEmailExists()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("73345940027"), new(), null);
+
+    Patient patient = PatientTest.CreateValidPatient("", "74838333005");
+    professional.AddPatient(patient);
+
+    Assert.IsNotNull(professional.Patients);
+    Assert.AreEqual(professional.Patients.Count, 1);
+    Assert.AreEqual(professional.Name, "Fulano de tal");
+    Assert.AreSame(professional.Patients[0], patient);
+
+    try
+    {
+      Patient patient2 = PatientTest.CreateValidPatient("", "73345940027");
+      professional.AddPatient(patient2);
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Professional: Já existe um paciente cadastrado com email informado"));
+    }
+    Assert.AreEqual(professional.Patients.Count, 1);
+    Assert.AreSame(professional.Patients[0], patient);
+  }
+
+  [TestMethod]
+  public void ShouldBeNotAddPatientWhenAlreadyDocumentExists()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("73345940027"), new(), null);
+
+    Patient patient = PatientTest.CreateValidPatient("", "74838333005");
+    professional.AddPatient(patient);
+
+    Assert.IsNotNull(professional.Patients);
+    Assert.AreEqual(professional.Patients.Count, 1);
+    Assert.AreEqual(professional.Name, "Fulano de tal");
+    Assert.AreSame(professional.Patients[0], patient);
+
+    try
+    {
+      Patient patient2 = PatientTest.CreateValidPatient("1", "74838333005");
+      professional.AddPatient(patient2);
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Professional: Já existe um paciente cadastrado com documento informado"));
+    }
+    Assert.AreEqual(professional.Patients.Count, 1);
+    Assert.AreSame(professional.Patients[0], patient);
   }
 
   [TestMethod]
