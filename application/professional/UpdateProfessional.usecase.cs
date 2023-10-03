@@ -12,7 +12,8 @@ public class UpdateProfessionalUseCase : IUsecase<UpdateProfessionalInputDto, Up
 
   public UpdateProfessionalOutputDto Execute(UpdateProfessionalInputDto input)
   {
-    Professional professional = ProfessionalGateway.Find(input.Id);
+    Professional? professional = ProfessionalGateway.Find(input.Id) ?? throw new ApplicationException("AddPatientOutputDto: Profissional não encontrado");
+
     professional.ChangeEmail(input.Email);
     professional.ChangeName(input.Name);
     professional.ChangeProfessionalDocument(input.ProfessionalDocument);
