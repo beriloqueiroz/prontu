@@ -1,6 +1,3 @@
-using System.Net.Mail;
-using System.Text.RegularExpressions;
-
 namespace domain;
 public class Patient : Entity
 {
@@ -15,10 +12,6 @@ public class Patient : Entity
     Document = document;
     Active = true;
     Validate();
-    if (notification.HasErrors())
-    {
-      throw new DomainException(notification.GetErrors());
-    }
   }
 
   public void Activate()
@@ -36,6 +29,18 @@ public class Patient : Entity
     return Active;
   }
 
+  public void ChangeEmail(string email)
+  {
+    Email = email;
+    Validate();
+  }
+
+  public void ChangeName(string name)
+  {
+    Name = name;
+    Validate();
+  }
+
   public override void Validate()
   {
     if (Name.Length < 4 && !Name.Contains(" "))
@@ -49,6 +54,10 @@ public class Patient : Entity
     if (!Document.IsValid())
     {
       notification.AddError(new NotificationError("Patient", "Cpf inválido"));
+    }
+    if (notification.HasErrors())
+    {
+      throw new DomainException(notification.GetErrors());
     }
   }
 }

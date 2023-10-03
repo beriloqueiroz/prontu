@@ -19,7 +19,7 @@ public class Professional : Entity
     {
       Patients = new List<Patient>();
     }
-
+    Validate();
   }
 
   public void AddPatient(Patient patient)

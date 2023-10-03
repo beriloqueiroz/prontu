@@ -107,4 +107,76 @@ public class ProfessionalTest
     Assert.AreSame(professional.Patients[1], patient2);
     Assert.AreSame(professional.Patients[2], patient3);
   }
+
+  [TestMethod]
+  public void ShouldBeChangeProfessionalEmail()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    professional.ChangeEmail("teste.silva@hotmail.com");
+
+    Assert.AreEqual(professional.Email, "teste.silva@hotmail.com");
+  }
+
+  [TestMethod]
+  public void ShouldBeNotChangeProfessionalEmailToInvalidEmail()
+  {
+    try
+    {
+      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      professional.ChangeEmail("teste.silvahotmail.com");
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.AreEqual(e.Message, "Professional: Email inválido");
+    }
+  }
+
+  [TestMethod]
+  public void ShouldBeChangeProfessionalName()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    professional.ChangeName("teste silva");
+
+    Assert.AreEqual(professional.Name, "teste silva");
+  }
+
+  [TestMethod]
+  public void ShouldBeNotChangeProfessionalNameToInvalidName()
+  {
+    try
+    {
+      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      professional.ChangeName("");
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.AreEqual(e.Message, "Professional: Nome inválido");
+    }
+  }
+
+  [TestMethod]
+  public void ShouldBeChangeProfessionalDocument()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    professional.ChangeProfessionalDocument("00112233");
+
+    Assert.AreEqual(professional.ProfessionalDocument, "00112233");
+  }
+
+  [TestMethod]
+  public void ShouldBeNotChangeProfessionalDocumentToInvalidProfessionalDocument()
+  {
+    try
+    {
+      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      professional.ChangeProfessionalDocument("");
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.AreEqual(e.Message, "Professional: Documento profissional inválido");
+    }
+  }
 }

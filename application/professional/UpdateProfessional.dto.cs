@@ -3,7 +3,16 @@ public record UpdateProfessionalInputDto(
   string Id,
   string Name,
   string Email,
-  string ProfessionalDocument
+  string ProfessionalDocument,
+  UpdateProfessionalPatientInputDto[] Patients
+);
+
+public record UpdateProfessionalPatientInputDto(
+  string Id,
+  string Name,
+  string Email,
+  string Document,
+  bool IsActive
 );
 
 public record UpdateProfessionalOutputDto(
@@ -11,5 +20,14 @@ public record UpdateProfessionalOutputDto(
   string Name,
   string Email,
   string Document,
-  string ProfessionalDocument
+  string ProfessionalDocument,
+  UpdateProfessionalPatientOutputDto[] Patients
+);
+
+public record UpdateProfessionalPatientOutputDto(
+  string Id,
+  string Name,
+  string Email,
+  string Document,
+  bool IsActive
 );
