@@ -7,7 +7,7 @@ public abstract class Entity
   {
     if (id == null)
     {
-      Id = new Guid();
+      Id = Guid.NewGuid();
       return;
     }
     Guid guid;

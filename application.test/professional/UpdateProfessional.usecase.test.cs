@@ -3,8 +3,8 @@ using domain;
 using Moq;
 
 namespace application.test;
-//TODO ShouldBeNotUpdatePatientsFromProfessionalWhenPatientIsNotExists
-//TODO ShouldBeUpdatePatientsFromProfessionalOnlyPatientIsExists
+//TODO 
+//TODO 
 
 [TestClass]
 public class UpdateProfessionalUsecaseTest
@@ -98,7 +98,7 @@ public class UpdateProfessionalUsecaseTest
   }
 
   [TestMethod]
-  public void ShouldBeExecuteUpdateProfessionalUseCaseWithPatients()
+  public void ShouldBeExecuteUpdateProfessionalUseCaseWhenChangeAllPatients()
   {
     Professional professional = CreateValidProfessional();
     Patient patient2 = CreateValidPatient("2", "37115176094");
@@ -108,9 +108,11 @@ public class UpdateProfessionalUsecaseTest
 
     mock.Setup(p => p.Find(professional.Id.ToString())).Returns(professional);
 
-    var inputPatients = new UpdateProfessionalPatientInputDto(patient2.Id.ToString(), patient2.Name, patient2.Email, patient2.Document.Value, patient2.IsActive());
+    var change = "#11aaaaa";
 
-    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028", null);
+    var inputPatients = professional.Patients.Select(p => new UpdateProfessionalPatientInputDto(p.Id.ToString(), p.Name + change, p.Email, p.Document.Value, p.IsActive())).ToArray();
+
+    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028", inputPatients);
 
     var output = Usecase?.Execute(input);
 
@@ -119,6 +121,97 @@ public class UpdateProfessionalUsecaseTest
     Assert.AreEqual(output?.Patients.Length, 2);
     Assert.AreEqual(output?.Patients[0].Document, patient2.Document.Value);
     Assert.AreEqual(output?.Patients[1].Document, patient3.Document.Value);
+    Assert.AreEqual(output?.Patients[0].Name, inputPatients[0].Name);
+    Assert.AreEqual(output?.Patients[1].Name, inputPatients[1].Name);
+    mock.Verify(mk => mk.Update(It.IsAny<Professional>()), Times.Once());
+  }
+
+  [TestMethod]
+  public void ShouldBeExecuteUpdateProfessionalUseCaseWhenChangeOneOfTwoPatients()
+  {
+    Professional professional = CreateValidProfessional();
+    Patient patient2 = CreateValidPatient("2", "37115176094");
+    Patient patient3 = CreateValidPatient("3", "74838333005");
+    professional.AddPatient(patient2);
+    professional.AddPatient(patient3);
+
+    mock.Setup(p => p.Find(professional.Id.ToString())).Returns(professional);
+
+    var change = "#11aaaaa";
+
+    UpdateProfessionalPatientInputDto[] inputPatients = { new(patient2.Id.ToString(), patient2.Name + change, patient2.Email, patient2.Document.Value, patient2.IsActive()) };
+
+    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028", inputPatients);
+
+    var output = Usecase?.Execute(input);
+
+    Assert.AreEqual(output?.Email, input.Email);
+    Assert.AreEqual(output?.Id, input.Id);
+    Assert.AreEqual(output?.Patients.Length, 2);
+    Assert.AreEqual(output?.Patients[0].Document, patient2.Document.Value);
+    Assert.AreEqual(output?.Patients[1].Document, patient3.Document.Value);
+    Assert.AreEqual(output?.Patients[0].Name, inputPatients[0].Name);
+    Assert.AreEqual(output?.Patients[1].Name, professional.Patients[1].Name);
+    mock.Verify(mk => mk.Update(It.IsAny<Professional>()), Times.Once());
+  }
+
+  [TestMethod]
+  public void ShouldBeUpdatePatientsFromProfessionalOnlyPatientIsExists()
+  {
+    Professional professional = CreateValidProfessional();
+    Patient patient2 = CreateValidPatient("2", "37115176094");
+    Patient patient3 = CreateValidPatient("3", "74838333005");
+    professional.AddPatient(patient2);
+    professional.AddPatient(patient3);
+
+    mock.Setup(p => p.Find(professional.Id.ToString())).Returns(professional);
+
+    var change = "#11aaaaa";
+
+    UpdateProfessionalPatientInputDto[] inputPatients = { new("53f31bda-b6e1-47d4-8a93-013e8a7a1ffc", patient2.Name + change, patient2.Email, patient2.Document.Value, patient2.IsActive()) };
+
+    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028", inputPatients);
+
+    var output = Usecase?.Execute(input);
+
+    Assert.AreEqual(output?.Email, input.Email);
+    Assert.AreEqual(output?.Id, input.Id);
+    Assert.AreEqual(output?.Patients.Length, 2);
+    Assert.AreEqual(output?.Patients[0].Document, patient2.Document.Value);
+    Assert.AreEqual(output?.Patients[1].Document, patient3.Document.Value);
+    Assert.AreEqual(output?.Patients[0].Name, professional.Patients[0].Name);
+    Assert.AreEqual(output?.Patients[1].Name, professional.Patients[1].Name);
+    mock.Verify(mk => mk.Update(It.IsAny<Professional>()), Times.Once());
+  }
+
+  [TestMethod]
+  public void ShouldBeNotUpdatePatientsFromProfessionalWhenPatientIsNotExists()
+  {
+    Professional professional = CreateValidProfessional();
+    Patient patient2 = CreateValidPatient("2", "37115176094");
+    Patient patient3 = CreateValidPatient("3", "74838333005");
+    professional.AddPatient(patient2);
+    professional.AddPatient(patient3);
+
+    mock.Setup(p => p.Find(professional.Id.ToString())).Returns(professional);
+
+    var change = "#11aaaaa";
+
+    var inputPatients = professional.Patients.Select(p => new UpdateProfessionalPatientInputDto(p.Id.ToString(), p.Name + change, p.Email, p.Document.Value, p.IsActive())).ToList();
+
+    inputPatients.Add(new("53f31bda-b6e1-47d4-8a93-013e8a7a1ffc", patient2.Name + change, patient2.Email, patient2.Document.Value, patient2.IsActive()));
+
+    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028", inputPatients.ToArray());
+
+    var output = Usecase?.Execute(input);
+
+    Assert.AreEqual(output?.Email, input.Email);
+    Assert.AreEqual(output?.Id, input.Id);
+    Assert.AreEqual(output?.Patients.Length, 2);
+    Assert.AreEqual(output?.Patients[0].Document, patient2.Document.Value);
+    Assert.AreEqual(output?.Patients[1].Document, patient3.Document.Value);
+    Assert.AreEqual(output?.Patients[0].Name, inputPatients[0].Name);
+    Assert.AreEqual(output?.Patients[1].Name, inputPatients[1].Name);
     mock.Verify(mk => mk.Update(It.IsAny<Professional>()), Times.Once());
   }
 
