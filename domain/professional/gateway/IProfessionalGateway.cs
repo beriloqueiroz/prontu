@@ -1,2 +1,5 @@
 namespace domain;
-public interface IProfessionalGateway : IRepository<Professional> { }
+public interface IProfessionalGateway : IRepository<Professional>
+{
+  bool IsExists(string document, string email);
+}
