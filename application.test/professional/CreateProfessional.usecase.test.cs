@@ -33,8 +33,8 @@ public class CreateProfessionalUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteCreateProfessionalUseCaseWhenProfessionalAlreadyExists()
   {
-    var professionalId = new Guid().ToString();
-    var patientId = new Guid().ToString();
+    var professionalId = Guid.NewGuid().ToString();
+    var patientId = Guid.NewGuid().ToString();
     Professional? professional = CreateValidProfessional();
     mock.Setup(p => p.IsExists(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
@@ -55,8 +55,8 @@ public class CreateProfessionalUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteCreateProfessionalUseCaseWhenVerifyIfExistsError()
   {
-    var professionalId = new Guid().ToString();
-    var patientId = new Guid().ToString();
+    var professionalId = Guid.NewGuid().ToString();
+    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.IsExists(It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception("teste error"));
 
     var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654");
@@ -76,8 +76,8 @@ public class CreateProfessionalUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteCreateProfessionalUseCaseWhenCreateError()
   {
-    var professionalId = new Guid().ToString();
-    var patientId = new Guid().ToString();
+    var professionalId = Guid.NewGuid().ToString();
+    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.Create(It.IsAny<Professional>())).Throws(new Exception("teste error"));
 

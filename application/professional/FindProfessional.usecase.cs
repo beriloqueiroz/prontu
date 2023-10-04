@@ -12,7 +12,20 @@ public class FindProfessionalUseCase : IUsecase<FindProfessionalInputDto, FindPr
 
   public FindProfessionalOutputDto Execute(FindProfessionalInputDto input)
   {
-    Professional? professional = ProfessionalGateway.Find(input.Id) ?? throw new ApplicationException("AddPatientOutputDto: Profissional não encontrado");
+    Professional? professional = null;
+    try
+    {
+      professional = ProfessionalGateway.Find(input.Id);
+    }
+    catch (Exception e)
+    {
+      throw new ApplicationException("FindProfessionalUseCase: Erro ao buscar profissional", e);
+    }
+
+    if (professional == null)
+    {
+      throw new ApplicationException("FindProfessionalUseCase: Profissional não encontrado");
+    }
 
     return new FindProfessionalOutputDto(
       professional.Id.ToString(),

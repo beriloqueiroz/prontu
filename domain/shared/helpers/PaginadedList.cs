@@ -15,4 +15,9 @@ public class PaginatedList<T> : List<T>
   public bool HasPreviousPage => PageIndex > 1;
 
   public bool HasNextPage => PageIndex < TotalPages;
+
+  public static PaginatedList<T> Empty()
+  {
+    return new PaginatedList<T>(new List<T>(), 0, new PageAble(1, 1));
+  }
 }

@@ -1,6 +1,6 @@
 namespace domain;
 
-public class Professional : Entity
+public class Professional : AggregateRoot
 {
   public string ProfessionalDocument { get; private set; }
   public string Name { get; private set; }

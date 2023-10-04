@@ -1,6 +1,5 @@
 namespace application.professional;
 public record ListProfessionalInputDto(
-  string Id,
   int PageSize,
   int PageIndex
 );

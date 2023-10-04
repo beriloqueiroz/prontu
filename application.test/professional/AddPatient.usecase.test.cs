@@ -21,8 +21,8 @@ public class AddPatientUsecaseTest
   [TestMethod]
   public void ShouldBeExecuteAddPatientUseCase()
   {
-    var professionalId = new Guid().ToString();
-    var patientId = new Guid().ToString();
+    var professionalId = Guid.NewGuid().ToString();
+    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
 
     var input = new AddPatientInputDto(professionalId, patientId, "teste da silva", "teste.silva@gmail.com", "86153877028");
@@ -36,8 +36,8 @@ public class AddPatientUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteAddPatientUseCaseWhenProfessionalNotExists()
   {
-    var professionalId = new Guid().ToString();
-    var patientId = new Guid().ToString();
+    var professionalId = Guid.NewGuid().ToString();
+    var patientId = Guid.NewGuid().ToString();
     Professional? professional = null;
     mock.Setup(p => p.Find(professionalId)).Returns(professional);
 
@@ -58,8 +58,8 @@ public class AddPatientUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteAddPatientUseCaseWhenFindError()
   {
-    var professionalId = new Guid().ToString();
-    var patientId = new Guid().ToString();
+    var professionalId = Guid.NewGuid().ToString();
+    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Throws(new Exception("teste error"));
 
     var input = new AddPatientInputDto(professionalId, patientId, "teste da silva", "teste.silva@gmail.com", "86153877028");
@@ -79,8 +79,8 @@ public class AddPatientUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteAddPatientUseCaseWhenUpdateError()
   {
-    var professionalId = new Guid().ToString();
-    var patientId = new Guid().ToString();
+    var professionalId = Guid.NewGuid().ToString();
+    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new Exception("teste error"));
 

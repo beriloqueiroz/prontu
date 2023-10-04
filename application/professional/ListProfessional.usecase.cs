@@ -12,12 +12,16 @@ public class ListProfessionalUseCase : IUsecase<ListProfessionalInputDto, Pagina
 
   public PaginatedList<ListProfessionalOutputDto> Execute(ListProfessionalInputDto input)
   {
-    PageAble pageAble = new()
+    PageAble pageAble = new(input.PageIndex, input.PageSize);
+    PaginatedList<Professional>? professionals;
+    try
     {
-      PageIndex = input.PageIndex,
-      PageSize = input.PageSize
-    };
-    PaginatedList<Professional> professionals = ProfessionalGateway.List(pageAble);
+      professionals = ProfessionalGateway.List(pageAble);
+    }
+    catch (Exception e)
+    {
+      throw new ApplicationException("ListProfessionalUseCase: Erro ao listar profissionais", e);
+    }
     return
       new PaginatedList<ListProfessionalOutputDto>(
       professionals.Select(professional =>

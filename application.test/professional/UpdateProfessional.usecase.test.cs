@@ -3,8 +3,6 @@ using domain;
 using Moq;
 
 namespace application.test;
-//TODO 
-//TODO 
 
 [TestClass]
 public class UpdateProfessionalUsecaseTest
@@ -41,7 +39,7 @@ public class UpdateProfessionalUsecaseTest
     Professional? professional = null;
     mock.Setup(p => p.Find(It.IsAny<string>())).Returns(professional);
 
-    var input = new UpdateProfessionalInputDto(new Guid().ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028", null);
+    var input = new UpdateProfessionalInputDto(Guid.NewGuid().ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028", null);
 
     try
     {
@@ -78,8 +76,8 @@ public class UpdateProfessionalUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteUpdateProfessionalUseCaseWhenUpdateError()
   {
-    var professionalId = new Guid().ToString();
-    var patientId = new Guid().ToString();
+    var professionalId = Guid.NewGuid().ToString();
+    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new Exception("teste error"));
 
