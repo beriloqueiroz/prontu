@@ -63,7 +63,7 @@ public class ListProfessionalUsecaseTest
         CreateValidProfessional(Guid.NewGuid().ToString())
     };
 
-    mock.Setup(p => p.List(It.IsAny<PageAble>())).Returns(new PaginatedList<Professional>(professionals, professionals.Count, new PageAble(4, 1)));
+    mock.Setup(p => p.List(It.IsAny<PageAble>())).Returns(new PaginatedList<Professional>(professionals, new PageAble(4, 1)));
 
     var input = new ListProfessionalInputDto(0, 4);
 

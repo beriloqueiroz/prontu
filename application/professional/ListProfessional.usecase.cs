@@ -22,9 +22,7 @@ public class ListProfessionalUseCase : IUsecase<ListProfessionalInputDto, Pagina
     {
       throw new ApplicationException("ListProfessionalUseCase: Erro ao listar profissionais", e);
     }
-    return
-      new PaginatedList<ListProfessionalOutputDto>(
-      professionals.Select(professional =>
+    var professionalList = professionals.Select(professional =>
         new ListProfessionalOutputDto(
           professional.Id.ToString(),
           professional.Name,
@@ -32,6 +30,8 @@ public class ListProfessionalUseCase : IUsecase<ListProfessionalInputDto, Pagina
           professional.Document.Value,
           professional.ProfessionalDocument,
           professional.Patients.Select(pat =>
-            new ListProfessionalPatientOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active)).ToArray())).ToList(), professionals.Count, pageAble);
+            new ListProfessionalPatientOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active)).ToArray()));
+
+    return new PaginatedList<ListProfessionalOutputDto>(professionalList, pageAble);
   }
 }

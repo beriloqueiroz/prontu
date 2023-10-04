@@ -1,23 +1,27 @@
+using X.PagedList;
+
 namespace domain;
-public class PaginatedList<T> : List<T>
+
+public class PaginatedList<T> : PagedList<T>
 {
-  public int PageIndex { get; private set; }
-  public int TotalPages { get; private set; }
-
-  public PaginatedList(List<T> items, int count, PageAble pageAble)
+  public PaginatedList(IPagedList pagedList, IEnumerable<T> superset) : base(pagedList, superset)
   {
-    PageIndex = pageAble.PageIndex;
-    TotalPages = (int)Math.Ceiling(count / (double)pageAble.PageSize);
-
-    AddRange(items);
   }
 
-  public bool HasPreviousPage => PageIndex > 1;
+  public PaginatedList(IQueryable<T> superset, int pageNumber, int pageSize) : base(superset, pageNumber, pageSize)
+  {
+  }
 
-  public bool HasNextPage => PageIndex < TotalPages;
+  public PaginatedList(IEnumerable<T> superset, int pageNumber, int pageSize) : base(superset, pageNumber, pageSize)
+  {
+  }
+
+  public PaginatedList(IEnumerable<T> superset, PageAble pageAble) : base(superset, pageAble.PageIndex, pageAble.PageSize)
+  {
+  }
 
   public static PaginatedList<T> Empty()
   {
-    return new PaginatedList<T>(new List<T>(), 0, new PageAble(1, 1));
+    return new PaginatedList<T>(new List<T>(), 1, 1);
   }
 }

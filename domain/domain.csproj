@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.OpenApi" Version="1.6.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="X.PagedList" Version="8.4.7" />
+  </ItemGroup>
+
 </Project>
