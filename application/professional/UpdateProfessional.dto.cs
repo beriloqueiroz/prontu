@@ -4,7 +4,7 @@ public record UpdateProfessionalInputDto(
   string Name,
   string Email,
   string ProfessionalDocument,
-  UpdateProfessionalPatientInputDto[] Patients
+  UpdateProfessionalPatientInputDto[]? Patients
 );
 
 public record UpdateProfessionalPatientInputDto(

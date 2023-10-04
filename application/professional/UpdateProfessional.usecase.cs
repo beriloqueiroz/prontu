@@ -12,13 +12,24 @@ public class UpdateProfessionalUseCase : IUsecase<UpdateProfessionalInputDto, Up
 
   public UpdateProfessionalOutputDto Execute(UpdateProfessionalInputDto input)
   {
-    Professional? professional = ProfessionalGateway.Find(input.Id) ?? throw new ApplicationException("AddPatientOutputDto: Profissional não encontrado");
-
+    Professional? professional;
+    try
+    {
+      professional = ProfessionalGateway.Find(input.Id);
+    }
+    catch (Exception e)
+    {
+      throw new ApplicationException("UpdateProfessionalUseCase: Erro ao buscar", e);
+    }
+    if (professional == null)
+    {
+      throw new ApplicationException("UpdateProfessionalUseCase: Profissional não encontrado");
+    }
     professional.ChangeEmail(input.Email);
     professional.ChangeName(input.Name);
     professional.ChangeProfessionalDocument(input.ProfessionalDocument);
 
-    input.Patients.ToList().ForEach(inputPatient =>
+    input.Patients?.ToList().ForEach(inputPatient =>
     {
       professional.Patients.ForEach(patient =>
       {
@@ -32,7 +43,15 @@ public class UpdateProfessionalUseCase : IUsecase<UpdateProfessionalInputDto, Up
 
     UpdateProfessionalPatientOutputDto[] patientsOutput = professional.Patients.Select(patient =>
       new UpdateProfessionalPatientOutputDto(patient.Id.ToString(), patient.Name, patient.Email, patient.Document.Value, patient.IsActive())).ToArray();
-    ProfessionalGateway.Update(professional);
+
+    try
+    {
+      ProfessionalGateway.Update(professional);
+    }
+    catch (Exception e)
+    {
+      throw new ApplicationException("UpdateProfessionalUseCase: Erro ao atualizar", e);
+    }
     return new UpdateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, patientsOutput);
   }
 }
