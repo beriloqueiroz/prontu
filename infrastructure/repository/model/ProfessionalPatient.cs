@@ -4,6 +4,9 @@ namespace infrastructure.repository;
 
 public class ProfessionalPatient : Model
 {
+
+  public ProfessionalPatient() { }
+
   [ForeignKey("Professional")]
   public Guid ProfessionalId { get; set; }
   public required Professional Professional { get; set; }
