@@ -1,4 +1,4 @@
-namespace domain;
+namespace application;
 
 public class PageAble
 {

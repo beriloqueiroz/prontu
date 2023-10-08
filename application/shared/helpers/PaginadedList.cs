@@ -1,6 +1,6 @@
 using X.PagedList;
 
-namespace domain;
+namespace application;
 
 public class PaginatedList<T> : PagedList<T>
 {

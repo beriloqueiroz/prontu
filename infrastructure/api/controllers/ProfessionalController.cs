@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.controllers;
 
 [ApiController]
-[Route("professional")]
+[Route("api/professional/")]
 public class ProfessionalController : ControllerBase
 {
     private readonly ListProfessionalUseCase listProfessionalUseCase;
@@ -28,25 +28,25 @@ public class ProfessionalController : ControllerBase
         this.updateProfessionalUseCase = updateProfessionalUseCase;
     }
 
-    [HttpGet(Name = "")]
+    [HttpGet]
     public IEnumerable<ListProfessionalOutputDto> List(int PageSize = 20, int PageIndex = 1) //tomei a decisão de não fazer um dto para o controller
     {
         return listProfessionalUseCase.Execute(new(PageSize, PageIndex));
     }
 
-    [HttpGet(Name = "{id}")]
+    [HttpGet("{id}")]
     public FindProfessionalOutputDto Find(string id) //tomei a decisão de não fazer um dto para o controller
     {
         return findProfessionalUseCase.Execute(new(id));
     }
 
-    [HttpPost(Name = "")]
+    [HttpPost]
     public CreateProfessionalOutputDto Create(CreateProfessionalInputDto input) //tomei a decisão de não fazer um dto para o controller
     {
         return createProfessionalUseCase.Execute(input);
     }
 
-    [HttpPost(Name = "{professionalId}")]
+    [HttpPost("{professionalId}")]
     public AddPatientControllerOutputDto AddPatient(AddPatientControllerInputDto input, string professionalId)
     {
         var outputDto = addPatientUseCase.Execute(new(

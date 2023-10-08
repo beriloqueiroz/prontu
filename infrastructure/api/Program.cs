@@ -1,4 +1,6 @@
+using application.professional;
 using infrastructure.repository;
+using repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<IProfessionalGateway, ProfessionalRepository>();
 builder.Services.InjectDbContext();
 
 var app = builder.Build();

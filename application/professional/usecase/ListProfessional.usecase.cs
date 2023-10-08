@@ -2,7 +2,7 @@ using domain;
 
 namespace application.professional;
 
-public class ListProfessionalUseCase : IUsecase<ListProfessionalInputDto, PaginatedList<ListProfessionalOutputDto>>
+public class ListProfessionalUseCase : IListProfessionalUseCase
 {
   private readonly IProfessionalGateway ProfessionalGateway;
   public ListProfessionalUseCase(IProfessionalGateway professionalGateway)

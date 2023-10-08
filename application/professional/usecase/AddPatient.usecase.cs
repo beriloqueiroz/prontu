@@ -2,7 +2,7 @@ using domain;
 
 namespace application.professional;
 
-public class AddPatientUseCase : IUsecase<AddPatientInputDto, AddPatientOutputDto>
+public class AddPatientUseCase : IAddPatientUseCase
 {
   private readonly IProfessionalGateway ProfessionalGateway;
   public AddPatientUseCase(IProfessionalGateway professionalGateway)

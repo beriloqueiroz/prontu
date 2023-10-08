@@ -2,7 +2,7 @@ using domain;
 
 namespace application.professional;
 
-public class UpdateProfessionalUseCase : IUsecase<UpdateProfessionalInputDto, UpdateProfessionalOutputDto>
+public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
 {
   private readonly IProfessionalGateway ProfessionalGateway;
   public UpdateProfessionalUseCase(IProfessionalGateway professionalGateway)
