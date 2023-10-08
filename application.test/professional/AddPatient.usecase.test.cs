@@ -25,7 +25,7 @@ public class AddPatientUsecaseTest
     var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
 
-    var input = new AddPatientInputDto(professionalId, patientId, "teste da silva", "teste.silva@gmail.com", "86153877028");
+    var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028");
 
     var output = Usecase?.Execute(input);
 
@@ -41,7 +41,7 @@ public class AddPatientUsecaseTest
     Professional? professional = null;
     mock.Setup(p => p.Find(professionalId)).Returns(professional);
 
-    var input = new AddPatientInputDto(professionalId, patientId, "teste da silva", "teste.silva@gmail.com", "86153877028");
+    var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028");
 
     try
     {
@@ -62,7 +62,7 @@ public class AddPatientUsecaseTest
     var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Throws(new Exception("teste error"));
 
-    var input = new AddPatientInputDto(professionalId, patientId, "teste da silva", "teste.silva@gmail.com", "86153877028");
+    var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028");
 
     try
     {
@@ -84,7 +84,7 @@ public class AddPatientUsecaseTest
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new Exception("teste error"));
 
-    var input = new AddPatientInputDto(professionalId, patientId, "teste da silva", "teste.silva@gmail.com", "86153877028");
+    var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028");
 
     try
     {

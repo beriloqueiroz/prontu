@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace infrastructure.repository;
 
+[Index(nameof(Email), nameof(Document))]
 public class Professional : Model
 {
   public required string ProfessionalDocument { get; set; }

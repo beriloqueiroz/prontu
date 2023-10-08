@@ -1,4 +1,6 @@
-namespace domain;
+using domain;
+
+namespace application;
 
 public interface IRepository<T> where T : AggregateRoot
 {
