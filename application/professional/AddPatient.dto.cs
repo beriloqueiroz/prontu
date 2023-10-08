@@ -1,7 +1,6 @@
 namespace application.professional;
 public record AddPatientInputDto(
   string ProfessionalId,
-  string PatientId,
   string Name,
   string Email,
   string Document
