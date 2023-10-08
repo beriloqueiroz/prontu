@@ -12,6 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IProfessionalGateway, ProfessionalRepository>();
+builder.Services.AddTransient<IFindProfessionalUseCase, FindProfessionalUseCase>();
+builder.Services.AddTransient<IAddPatientUseCase, AddPatientUseCase>();
+builder.Services.AddTransient<IListProfessionalUseCase, ListProfessionalUseCase>();
+builder.Services.AddTransient<ICreateProfessionalUseCase, CreateProfessionalUseCase>();
+builder.Services.AddTransient<IUpdateProfessionalUseCase, UpdateProfessionalUseCase>();
 builder.Services.InjectDbContext();
 
 var app = builder.Build();

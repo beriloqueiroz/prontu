@@ -1,6 +1,4 @@
-using application.professional;
-
-namespace application;
+namespace application.professional;
 
 public interface IAddPatientUseCase : IUsecase<AddPatientInputDto, AddPatientOutputDto> { };
 public interface IListProfessionalUseCase : IUsecase<ListProfessionalInputDto, PaginatedList<ListProfessionalOutputDto>> { };

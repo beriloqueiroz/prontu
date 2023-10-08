@@ -8,17 +8,17 @@ namespace api.controllers;
 [Route("api/professional/")]
 public class ProfessionalController : ControllerBase
 {
-    private readonly ListProfessionalUseCase listProfessionalUseCase;
-    private readonly FindProfessionalUseCase findProfessionalUseCase;
-    private readonly CreateProfessionalUseCase createProfessionalUseCase;
-    private readonly AddPatientUseCase addPatientUseCase;
-    private readonly UpdateProfessionalUseCase updateProfessionalUseCase;
+    private readonly IListProfessionalUseCase listProfessionalUseCase;
+    private readonly IFindProfessionalUseCase findProfessionalUseCase;
+    private readonly ICreateProfessionalUseCase createProfessionalUseCase;
+    private readonly IAddPatientUseCase addPatientUseCase;
+    private readonly IUpdateProfessionalUseCase updateProfessionalUseCase;
     public ProfessionalController(
-        ListProfessionalUseCase listProfessionalUseCase,
-        FindProfessionalUseCase findProfessionalUseCase,
-        CreateProfessionalUseCase createProfessionalUseCase,
-        AddPatientUseCase addPatientUseCase,
-        UpdateProfessionalUseCase updateProfessionalUseCase
+        IListProfessionalUseCase listProfessionalUseCase,
+        IFindProfessionalUseCase findProfessionalUseCase,
+        ICreateProfessionalUseCase createProfessionalUseCase,
+        IAddPatientUseCase addPatientUseCase,
+        IUpdateProfessionalUseCase updateProfessionalUseCase
         )
     {
         this.listProfessionalUseCase = listProfessionalUseCase;

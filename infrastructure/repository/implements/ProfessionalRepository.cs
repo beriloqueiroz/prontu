@@ -13,7 +13,7 @@ public class ProfessionalRepository : IProfessionalGateway
 
   public Professional? Find(string id)
   {
-    throw new NotImplementedException();
+    return new Professional("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), id);
   }
 
   public bool IsExists(string document, string email)
