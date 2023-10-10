@@ -12,7 +12,7 @@ using infrastructure.repository;
 namespace repository.Migrations
 {
     [DbContext(typeof(ProntuDbContext))]
-    [Migration("20231010023235_InitialCreate")]
+    [Migration("20231010134245_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
