@@ -21,9 +21,10 @@ public class ListProfessionalUsecaseTest
   [TestMethod]
   public void ShouldBeExecuteListProfessionalUseCaseWhenEmpty()
   {
+
     mock.Setup(p => p.List(It.IsAny<PageAble>())).Returns(PaginatedList<Professional>.Empty());
 
-    var input = new ListProfessionalInputDto(0, 100);
+    var input = new ListProfessionalInputDto(100, 0);
 
     var output = Usecase?.Execute(input);
 
@@ -36,7 +37,7 @@ public class ListProfessionalUsecaseTest
   {
     mock.Setup(p => p.List(It.IsAny<PageAble>())).Throws(new Exception("erro do list"));
 
-    var input = new ListProfessionalInputDto(0, 100);
+    var input = new ListProfessionalInputDto(100, 0);
 
     try
     {
@@ -65,7 +66,7 @@ public class ListProfessionalUsecaseTest
 
     mock.Setup(p => p.List(It.IsAny<PageAble>())).Returns(new PaginatedList<Professional>(professionals, new PageAble(4, 1)));
 
-    var input = new ListProfessionalInputDto(0, 4);
+    var input = new ListProfessionalInputDto(4, 0);
 
     var output = Usecase?.Execute(input);
 

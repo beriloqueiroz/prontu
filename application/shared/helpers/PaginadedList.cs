@@ -26,6 +26,6 @@ public class PaginatedList<T> : PagedList<T>
 
   public static PaginatedList<T> Empty()
   {
-    return new PaginatedList<T>(new List<T>(), 0, 1);
+    return new PaginatedList<T>(new List<T>(), 1, 1);
   }
 }
