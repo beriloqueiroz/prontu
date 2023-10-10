@@ -4,14 +4,13 @@ namespace infrastructure.repository;
 
 public class ProfessionalPatient : Model
 {
-
-  public ProfessionalPatient() { }
-
   [ForeignKey("Professional")]
-  public Guid ProfessionalId { get; set; }
-  public required Professional Professional { get; set; }
+  public required Guid ProfessionalId { get; set; }
+
+  public Professional? Professional { get; set; }
 
   [ForeignKey("Patient")]
-  public Guid PatientId { get; set; }
-  public required Patient Patient { get; set; }
+  public required Guid PatientId { get; set; }
+
+  public Patient? Patient { get; set; }
 }

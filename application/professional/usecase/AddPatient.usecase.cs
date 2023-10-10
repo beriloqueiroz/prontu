@@ -35,8 +35,8 @@ public class AddPatientUseCase : IAddPatientUseCase
     {
       throw new ApplicationException("AddPatientUseCase: Erro ao atualizar", e);
     }
-    AddPatientsOutputDto[] addPatientsOutputDto = professional.Patients.Select(pat =>
+    AddPatientsOutputDto[]? addPatientsOutputDto = professional.Patients?.Select(pat =>
       new AddPatientsOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.IsActive())).ToArray();
-    return new AddPatientOutputDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, professional.ProfessionalDocument, addPatientsOutputDto);
+    return new AddPatientOutputDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, professional.ProfessionalDocument, addPatientsOutputDto ?? Array.Empty<AddPatientsOutputDto>());
   }
 }

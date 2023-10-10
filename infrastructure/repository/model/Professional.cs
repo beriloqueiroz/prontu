@@ -18,33 +18,72 @@ public class Professional : Model
   public IList<ProfessionalPatient>? ProfessionalPatients { get; set; }
 
   [NotMapped]
-  public IList<Patient>? Patients
+  public IList<Patient> Patients
   {
-    get
+    get; set;
+  } = new List<Patient>();
+  public IList<Patient?> GetPatients()
+  {
+    if (ProfessionalPatients == null) return new List<Patient?>();
+    return ProfessionalPatients.Select(pp => pp.Patient).ToList();
+  }
+
+  public void AddPatient(Patient patient)
+  {
+    ProfessionalPatients ??= new List<ProfessionalPatient>();
+    Patients ??= new List<Patient>();
+    Patients.Add(patient);
+    ProfessionalPatients.Add(new()
     {
-      return ProfessionalPatients?.Select(pp => pp.Patient).ToList();
-    }
-    set { }
+      Id = Guid.NewGuid(),
+      PatientId = patient.Id,
+      ProfessionalId = Id,
+      CreatedAt = DateTime.Now,
+      UpdateAt = DateTime.Now
+    });
   }
 
   public void FromEntity(domain.Professional entity)
   {
+    Id = entity.Id;
     Document = entity.Document.Value;
     Email = entity.Email;
     Name = entity.Name;
     ProfessionalDocument = entity.ProfessionalDocument;
-    Patients = entity.Patients?.Select(Patient.From).ToList();
+    entity.Patients?.ForEach(pe =>
+    {
+      var patient = Patients?.ToList().Find(p => p.Id.Equals(pe.Id));
+      if (patient == null)
+      {
+        AddPatient(new Patient()
+        {
+          Id = Guid.NewGuid(),
+          Document = pe.Document.Value,
+          Name = pe.Name,
+          Email = pe.Email,
+          CreatedAt = DateTime.Now,
+          UpdateAt = DateTime.Now,
+          Active = pe.IsActive()
+        });
+      }
+      else
+      {
+        patient.FromEntity(pe);
+      }
+    });
   }
 
   public static Professional From(domain.Professional entity)
   {
+    var patients = entity.Patients?.Select(Patient.From).ToList();
     return new Professional()
     {
+      Id = entity.Id,
       Document = entity.Document.Value,
       Email = entity.Email,
       Name = entity.Name,
       ProfessionalDocument = entity.ProfessionalDocument,
-      Patients = entity.Patients?.Select(Patient.From).ToList(),
+      Patients = patients ?? new()
     };
   }
 

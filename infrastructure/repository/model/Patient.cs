@@ -19,14 +19,11 @@ public class Patient : Model
   public IList<ProfessionalPatient>? ProfessionalPatients { get; set; }
 
   [NotMapped]
-  public IList<Professional>? Professionals
+  public IList<Professional> Professionals
   {
-    get
-    {
-      return ProfessionalPatients?.Select(pp => pp.Professional).ToList();
-    }
-    set { }
-  }
+    get;
+    set;
+  } = new List<Professional>();
 
   public void FromEntity(domain.Patient entity)
   {
@@ -34,7 +31,6 @@ public class Patient : Model
     Document = entity.Document.Value;
     Email = entity.Email;
     Name = entity.Name;
-    ProfessionalPatients = null;
   }
 
   public static Patient From(domain.Patient entity)
@@ -44,8 +40,7 @@ public class Patient : Model
       Id = entity.Id,
       Document = entity.Document.Value,
       Email = entity.Email,
-      Name = entity.Name,
-      ProfessionalPatients = null
+      Name = entity.Name
     };
   }
 

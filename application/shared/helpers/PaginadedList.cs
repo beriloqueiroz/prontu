@@ -20,8 +20,12 @@ public class PaginatedList<T> : PagedList<T>
   {
   }
 
+  public PaginatedList(IQueryable<T> superset, PageAble pageAble) : base(superset, pageAble.PageIndex, pageAble.PageSize)
+  {
+  }
+
   public static PaginatedList<T> Empty()
   {
-    return new PaginatedList<T>(new List<T>(), 1, 1);
+    return new PaginatedList<T>(new List<T>(), 0, 1);
   }
 }

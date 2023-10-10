@@ -12,7 +12,7 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
 
   public PaginatedList<ListProfessionalOutputDto> Execute(ListProfessionalInputDto input)
   {
-    PageAble pageAble = new(input.PageIndex, input.PageSize);
+    PageAble pageAble = new(input.PageSize, input.PageIndex);
     PaginatedList<Professional>? professionals;
     try
     {
@@ -29,8 +29,8 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
           professional.Email,
           professional.Document.Value,
           professional.ProfessionalDocument,
-          professional.Patients.Select(pat =>
-            new ListProfessionalPatientOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active)).ToArray()));
+          professional.Patients?.Select(pat =>
+            new ListProfessionalPatientOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active)).ToArray() ?? Array.Empty<ListProfessionalPatientOutputDto>()));
 
     return new PaginatedList<ListProfessionalOutputDto>(professionalList, pageAble);
   }

@@ -113,3 +113,16 @@ quando o negócio já existe é a linguagem que os departamentos usam pra se com
   - Edita a data marcada, incluir no histórico "adiada da data tal para data tal"
     - Caso Data for no passado a situação é:  realizada.
     - Caso Data for no futuro a situação é: marcada;
+
+## Executar localmente
+
+- na pastar infrastructure há uma pasta docker, nesta há um docker compose, para subir o banco, basta ir para a pasta e executar o container.
+
+  ```bash
+  cd infrastructure/docker
+  docker compose up -d
+  ```
+
+  ```bash
+  docker ps
+  ```

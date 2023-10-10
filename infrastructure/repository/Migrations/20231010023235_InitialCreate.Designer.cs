@@ -9,10 +9,10 @@ using infrastructure.repository;
 
 #nullable disable
 
-namespace repository.migrations
+namespace repository.Migrations
 {
     [DbContext(typeof(ProntuDbContext))]
-    [Migration("20231003035539_InitialCreate")]
+    [Migration("20231010023235_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace repository.migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Document")
                         .IsRequired()
@@ -50,11 +50,11 @@ namespace repository.migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdateAt")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email", "Document");
 
                     b.ToTable("Patients");
                 });
@@ -66,7 +66,7 @@ namespace repository.migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Document")
                         .IsRequired()
@@ -85,11 +85,11 @@ namespace repository.migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdateAt")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email", "Document");
 
                     b.ToTable("Professionals");
                 });
@@ -101,7 +101,7 @@ namespace repository.migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
@@ -110,9 +110,7 @@ namespace repository.migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdateAt")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 

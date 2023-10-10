@@ -31,7 +31,7 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
 
     input.Patients?.ToList().ForEach(inputPatient =>
     {
-      professional.Patients.ForEach(patient =>
+      professional.Patients?.ForEach(patient =>
       {
         if (inputPatient.Id.Equals(patient.Id.ToString()))
         {
@@ -41,7 +41,7 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
       });
     });
 
-    UpdateProfessionalPatientOutputDto[] patientsOutput = professional.Patients.Select(patient =>
+    UpdateProfessionalPatientOutputDto[]? patientsOutput = professional.Patients?.Select(patient =>
       new UpdateProfessionalPatientOutputDto(patient.Id.ToString(), patient.Name, patient.Email, patient.Document.Value, patient.IsActive())).ToArray();
 
     try
@@ -52,6 +52,6 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     {
       throw new ApplicationException("UpdateProfessionalUseCase: Erro ao atualizar", e);
     }
-    return new UpdateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, patientsOutput);
+    return new UpdateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, patientsOutput ?? Array.Empty<UpdateProfessionalPatientOutputDto>());
   }
 }

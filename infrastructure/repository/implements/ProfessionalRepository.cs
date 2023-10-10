@@ -14,17 +14,27 @@ public class ProfessionalRepository : IProfessionalGateway
   }
   public void Create(domain.Professional entity)
   {
-    throw new NotImplementedException();
+    var professional = Professional.From(entity);
+    professional.CreatedAt = DateTime.Now;
+    professional.UpdateAt = DateTime.Now;
+    Context.Professionals?.Add(professional);
+    Context.SaveChanges();
   }
 
   public domain.Professional? Find(string id)
   {
-    return Context.Professionals?.Find(id)?.ToEntity();
+    return Context.Professionals?.Find(new Guid(id))?.ToEntity();
   }
 
   public bool IsExists(string document, string email)
   {
     var result = Context.Professionals?.Any(p => p.Document.Equals(document) || p.Email.Equals(email));
+    return result != null && (bool)result;
+  }
+
+  public bool IsExists(string id)
+  {
+    var result = Context.Professionals?.Any(p => p.Id.ToString().Equals(id));
     return result != null && (bool)result;
   }
 
@@ -34,13 +44,27 @@ public class ProfessionalRepository : IProfessionalGateway
     {
       return PaginatedList<domain.Professional>.Empty();
     }
-    return new(Context.Professionals
-      .Skip(pageAble.PageIndex)
-      .Take(pageAble.PageSize).ToList().Select(p => p.ToEntity()), pageAble.PageIndex, pageAble.PageSize);
+    var list = Context.Professionals
+      .OrderBy(p => p.CreatedAt)
+      .Skip(pageAble.PageIndex - 1)
+      .Take(pageAble.PageSize)
+      .ToList();
+    return new(list.Select(p => p.ToEntity()), pageAble);
   }
 
   public void Update(domain.Professional entity)
   {
-    throw new NotImplementedException();
+    var transaction = Context.Database.BeginTransaction();
+    var professional = (Context.Professionals?.Find(entity.Id)) ?? throw new Exception("ProfessionalRepository: Profissional não encontrado");
+    professional.FromEntity(entity);
+    professional.UpdateAt = DateTime.Now;
+    professional.Patients?.ToList().ForEach(p => Context.Add(p));
+    professional.ProfessionalPatients?.ToList().ForEach(pp =>
+    {
+      pp.UpdateAt = DateTime.Now;
+      Context.Add(pp);
+    });
+    Context.SaveChanges();
+    transaction.Commit();
   }
 }

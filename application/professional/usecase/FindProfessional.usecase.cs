@@ -33,8 +33,8 @@ public class FindProfessionalUseCase : IFindProfessionalUseCase
       professional.Email,
       professional.Document.Value,
       professional.ProfessionalDocument,
-      professional.Patients.Select(pat =>
+      professional.Patients?.Select(pat =>
         new FindProfessionalPatientOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active))
-      .ToArray());
+      .ToArray() ?? Array.Empty<FindProfessionalPatientOutputDto>());
   }
 }
