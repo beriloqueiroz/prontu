@@ -53,7 +53,7 @@ public class Patient : Entity
     }
     if (!Document.IsValid())
     {
-      notification.AddError(new NotificationError("Patient", "Cpf inválido"));
+      notification.AddError(new NotificationError("Patient", Document.GetErrorMessages()));
     }
     if (notification.HasErrors())
     {

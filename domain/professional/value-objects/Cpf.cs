@@ -68,4 +68,9 @@ public class Cpf : IDocument
 
     return rest;
   }
+
+  public string GetErrorMessages()
+  {
+    return "Cpf inválido";
+  }
 }

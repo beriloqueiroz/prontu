@@ -27,7 +27,7 @@ public class Professional : AggregateRoot
     if (Patients == null)
     {
       notification.AddError(new NotificationError("Professional", "Não é possível adicionar paciente"));
-      return;
+      throw new DomainException(notification.GetErrors());
     }
     if (Patients.Any(pat => pat.Document.Value.Equals(patient.Document.Value)))
     {
@@ -78,7 +78,7 @@ public class Professional : AggregateRoot
     }
     if (!Document.IsValid())
     {
-      notification.AddError(new NotificationError("Professional", "Cpf inválido"));
+      notification.AddError(new NotificationError("Professional", Document.GetErrorMessages()));
     }
     if (notification.HasErrors())
     {
