@@ -6,9 +6,9 @@ public class Professional : AggregateRoot
   public string Name { get; private set; }
   public string Email { get; private set; }
   public IDocument Document { get; private set; }
-  public List<Patient>? Patients { get; private set; } = new List<Patient>();
+  public List<Patient> Patients { get; private set; } = new List<Patient>();
 
-  public Professional(string professionalDocument, string name, string email, IDocument document, List<Patient>? patients, string? id) : base(id)
+  public Professional(string professionalDocument, string name, string email, IDocument document, List<Patient> patients, string? id) : base(id)
   {
     ProfessionalDocument = professionalDocument;
     Name = name;

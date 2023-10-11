@@ -28,5 +28,6 @@ public class ProntuDbContext : DbContext
         .HasOne(p => p.Patient)
         .WithMany(pp => pp.ProfessionalPatients)
         .OnDelete(DeleteBehavior.Cascade);
+
   }
 }

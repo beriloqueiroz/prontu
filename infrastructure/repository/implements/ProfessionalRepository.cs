@@ -1,6 +1,7 @@
 using application;
 using application.professional;
 using infrastructure.repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace repository;
 
@@ -23,7 +24,7 @@ public class ProfessionalRepository : IProfessionalGateway
 
   public domain.Professional? Find(string id)
   {
-    return Context.Professionals?.Find(new Guid(id))?.ToEntity();
+    return Context.Professionals?.Include("ProfessionalPatients.Patient").First(p => p.Id.Equals(new Guid(id)))?.ToEntity();
   }
 
   public bool IsExists(string document, string email)
@@ -48,6 +49,7 @@ public class ProfessionalRepository : IProfessionalGateway
       .OrderBy(p => p.CreatedAt)
       .Skip(pageAble.PageIndex - 1)
       .Take(pageAble.PageSize)
+      .Include("ProfessionalPatients.Patient")
       .ToList();
     return new(list.Select(p => p.ToEntity()), pageAble);
   }

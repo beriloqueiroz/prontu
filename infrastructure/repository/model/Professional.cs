@@ -15,17 +15,20 @@ public class Professional : Model
   public required string Name { get; set; }
   public required string Email { get; set; }
   public required string Document { get; set; }
-  public IList<ProfessionalPatient>? ProfessionalPatients { get; set; }
+  public required IList<ProfessionalPatient> ProfessionalPatients { get; set; }
 
   [NotMapped]
-  public IList<Patient> Patients
+  public required IList<Patient> Patients
   {
-    get; set;
-  } = new List<Patient>();
-  public IList<Patient?> GetPatients()
-  {
-    if (ProfessionalPatients == null) return new List<Patient?>();
-    return ProfessionalPatients.Select(pp => pp.Patient).ToList();
+    set
+    {
+      Patients = value;
+    }
+    get
+    {
+      if (ProfessionalPatients == null) return new List<Patient>();
+      return ProfessionalPatients.Select(pp => pp.Patient).ToList();
+    }
   }
 
   public void AddPatient(Patient patient)
@@ -39,7 +42,9 @@ public class Professional : Model
       PatientId = patient.Id,
       ProfessionalId = Id,
       CreatedAt = DateTime.Now,
-      UpdateAt = DateTime.Now
+      UpdateAt = DateTime.Now,
+      Patient = patient,
+      Professional = this
     });
   }
 
@@ -50,9 +55,9 @@ public class Professional : Model
     Email = entity.Email;
     Name = entity.Name;
     ProfessionalDocument = entity.ProfessionalDocument;
-    entity.Patients?.ForEach(pe =>
+    entity.Patients.ForEach(pe =>
     {
-      var patient = Patients?.ToList().Find(p => p.Id.Equals(pe.Id));
+      var patient = Patients.ToList().Find(p => p.Id.Equals(pe.Id));
       if (patient == null)
       {
         AddPatient(new Patient()
@@ -63,7 +68,8 @@ public class Professional : Model
           Email = pe.Email,
           CreatedAt = DateTime.Now,
           UpdateAt = DateTime.Now,
-          Active = pe.IsActive()
+          Active = pe.IsActive(),
+          ProfessionalPatients = new List<ProfessionalPatient>()
         });
       }
       else
@@ -75,7 +81,7 @@ public class Professional : Model
 
   public static Professional From(domain.Professional entity)
   {
-    var patients = entity.Patients?.Select(Patient.From).ToList();
+    var patients = entity.Patients.Select(Patient.From).ToList();
     return new Professional()
     {
       Id = entity.Id,
@@ -83,7 +89,8 @@ public class Professional : Model
       Email = entity.Email,
       Name = entity.Name,
       ProfessionalDocument = entity.ProfessionalDocument,
-      Patients = patients ?? new()
+      Patients = patients,
+      ProfessionalPatients = new List<ProfessionalPatient>()
     };
   }
 
@@ -94,7 +101,7 @@ public class Professional : Model
       Name,
       Email,
       new Cpf(Document),
-      Patients?.Select(p => p.ToEntity()).ToList(),
+      Patients.Where(p => p != null).Select(p => p.ToEntity()).ToList(),
       Id.ToString());
   }
 

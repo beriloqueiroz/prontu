@@ -16,7 +16,7 @@ public class Patient : Model
   public required string Document { get; set; }
   public bool Active { get; set; }
 
-  public IList<ProfessionalPatient>? ProfessionalPatients { get; set; }
+  public required IList<ProfessionalPatient> ProfessionalPatients { get; set; }
 
   [NotMapped]
   public IList<Professional> Professionals
@@ -40,7 +40,8 @@ public class Patient : Model
       Id = entity.Id,
       Document = entity.Document.Value,
       Email = entity.Email,
-      Name = entity.Name
+      Name = entity.Name,
+      ProfessionalPatients = new List<ProfessionalPatient>()
     };
   }
 
