@@ -5,6 +5,8 @@ public class Patient : Entity
   public string Email { get; private set; }
   public IDocument Document { get; private set; }
   public bool Active { get; private set; }
+  public FinancialInfo? FinancialInfo { get; private set; }
+  public PersonalForm? PersonalForm { get; private set; }
   public Patient(string name, string email, IDocument document, string? id) : base(id)
   {
     Name = name;
@@ -41,6 +43,18 @@ public class Patient : Entity
     Validate();
   }
 
+  public void AddFinancialInfo(FinancialInfo financialInfo)
+  {
+    FinancialInfo = financialInfo;
+    Validate();
+  }
+
+  public void AddPersonalForm(PersonalForm personalForm)
+  {
+    PersonalForm = personalForm;
+    Validate();
+  }
+
   public override void Validate()
   {
     if (Name.Length < 4 && !Name.Contains(" "))
@@ -54,6 +68,14 @@ public class Patient : Entity
     if (!Document.IsValid())
     {
       notification.AddError(new NotificationError("Patient", Document.GetErrorMessages()));
+    }
+    if (FinancialInfo != null && !FinancialInfo.IsValid())
+    {
+      notification.AddError(new NotificationError("Patient", FinancialInfo.GetErrorMessages()));
+    }
+    if (PersonalForm != null && !PersonalForm.IsValid())
+    {
+      notification.AddError(new NotificationError("Patient", PersonalForm.GetErrorMessages()));
     }
     if (notification.HasErrors())
     {

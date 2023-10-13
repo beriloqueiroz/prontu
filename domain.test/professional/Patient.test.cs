@@ -139,4 +139,105 @@ public class PatientTest
   {
     return new($"Fulano de tal {tag}", $"fulano.tal{tag}@gmail.com", new Cpf(cpf), null);
   }
+
+  [TestMethod]
+  public void ShouldBePopulateFinancialInfos()
+  {
+    Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
+    patient.AddFinancialInfo(new()
+    {
+      DefaultPrice = 12.5M,
+      EstimatedSessionsByWeek = 4,
+      EstimatedTimeSessionInMinutes = 50,
+      SessionType = "Remoto"
+    });
+
+    Assert.IsNotNull(patient);
+    Assert.IsTrue(patient.Active);
+    Assert.AreEqual(patient.Name, "Fulano de tal");
+    Assert.AreEqual(patient.FinancialInfo?.SessionType, "Remoto");
+    Assert.AreEqual(patient.FinancialInfo?.DefaultPrice, 12.5M);
+  }
+
+  [TestMethod]
+  public void ShouldBePopulatePersonalForm()
+  {
+    Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
+    patient.AddPersonalForm(new()
+    {
+      City = "Fortaleza",
+      Contact = "Sicrano",
+      Country = "Brasil",
+      Neighborhood = "Bairro",
+      Number = "123",
+      Observations = "",
+      OthersInfos = "",
+      Phones = "85989898989",
+      Region = "Ceará",
+      Street = "Rua dos bobos"
+    });
+
+    Assert.IsNotNull(patient);
+    Assert.IsTrue(patient.Active);
+    Assert.AreEqual(patient.Name, "Fulano de tal");
+    Assert.AreEqual(patient.PersonalForm?.City, "Fortaleza");
+    Assert.AreEqual(patient.PersonalForm?.Contact, "Sicrano");
+    Assert.AreEqual(patient.PersonalForm?.Phones, "85989898989");
+  }
+
+  [TestMethod]
+  public void ShouldBeErrorWhenPopulateFinancialInfosWrong()
+  {
+    try
+    {
+      Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
+
+      patient.AddFinancialInfo(new()
+      {
+        DefaultPrice = -12.5M,
+        EstimatedSessionsByWeek = 0,
+        EstimatedTimeSessionInMinutes = 10,
+        SessionType = "Remoto"
+      });
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Preço inválido"));
+      Assert.IsTrue(e.Message.Contains("Quantidade de sessões por semana inválida"));
+      Assert.IsTrue(e.Message.Contains("Tempo estimado para sessão inválido"));
+    }
+  }
+
+  [TestMethod]
+  public void ShouldBeErrorWhenPopulatePersonalFormWrong()
+  {
+    try
+    {
+      Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
+
+      patient.AddPersonalForm(new()
+      {
+        City = "",
+        Contact = "",
+        Country = "",
+        Neighborhood = "",
+        Number = "123",
+        Observations = "",
+        OthersInfos = "",
+        Phones = "",
+        Region = "Ceará",
+        Street = "Rua dos bobos"
+      });
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Bairro inválido"));
+      Assert.IsTrue(e.Message.Contains("País inválido"));
+      Assert.IsTrue(e.Message.Contains("Cidade inválida"));
+      Assert.IsTrue(e.Message.Contains("Telefone inválido"));
+      Assert.IsTrue(e.Message.Contains("Contato inválido"));
+    }
+  }
 }

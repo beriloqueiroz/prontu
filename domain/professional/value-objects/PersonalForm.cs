@@ -2,6 +2,7 @@ namespace domain;
 
 public class PersonalForm : IValueObject
 {
+  private readonly List<string> Errors = new();
   public string? Street { get; set; }
   public string? Neighborhood { get; set; }
   public string? City { get; set; }
@@ -16,11 +17,21 @@ public class PersonalForm : IValueObject
 
   public string GetErrorMessages()
   {
-    return "";
+    return string.Join(",", Errors);
   }
 
   public bool IsValid()
   {
+    if (Street?.Length == 0) Errors.Add("Rua inválida");
+    if (Neighborhood?.Length == 0) Errors.Add("Bairro inválido");
+    if (City?.Length == 0) Errors.Add("Cidade inválida");
+    if (Number?.Length == 0) Errors.Add("Número inválido");
+    if (Country?.Length == 0) Errors.Add("País inválido");
+    if (ZipCode?.Length == 0) Errors.Add("Cep inválido");
+    if (Region?.Length == 0) Errors.Add("Estado inválido");
+    if (Contact?.Length == 0) Errors.Add("Contato inválido");
+    if (Phones?.Length == 0) Errors.Add("Telefone inválido");
+    if (Errors.Count > 0) return false;
     return true;
   }
 }
