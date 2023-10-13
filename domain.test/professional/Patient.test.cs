@@ -144,7 +144,7 @@ public class PatientTest
   public void ShouldBePopulateFinancialInfos()
   {
     Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
-    patient.AddFinancialInfo(new()
+    patient.ChangeFinancialInfo(new()
     {
       DefaultPrice = 12.5M,
       EstimatedSessionsByWeek = 4,
@@ -192,7 +192,7 @@ public class PatientTest
     {
       Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
 
-      patient.AddFinancialInfo(new()
+      patient.ChangeFinancialInfo(new()
       {
         DefaultPrice = -12.5M,
         EstimatedSessionsByWeek = 0,

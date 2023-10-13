@@ -43,7 +43,7 @@ public class Patient : Entity
     Validate();
   }
 
-  public void AddFinancialInfo(FinancialInfo financialInfo)
+  public void ChangeFinancialInfo(FinancialInfo financialInfo)
   {
     FinancialInfo = financialInfo;
     Validate();

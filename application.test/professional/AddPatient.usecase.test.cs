@@ -9,7 +9,7 @@ namespace application.test;
 public class AddPatientUsecaseTest
 {
 
-  private Mock<IProfessionalGateway> mock = new();
+  private readonly Mock<IProfessionalGateway> mock = new();
   private AddPatientUseCase? Usecase;
 
   [TestInitialize]
