@@ -19,7 +19,7 @@ public class FindPatientUseCase : IFindPatientUseCase
     }
     catch (Exception e)
     {
-      throw new ApplicationException("FindPatientUseCase: Erro ao buscar profissional", e);
+      throw new ApplicationException("FindPatientUseCase: Erro ao buscar paciente", e);
     }
 
     if (patient == null)

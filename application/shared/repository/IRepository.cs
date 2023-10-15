@@ -2,7 +2,7 @@ using domain;
 
 namespace application;
 
-public interface IRepository<T> where T : Entity
+public interface IRepository<T> where T : AggregateRoot
 {
   void Update(T entity);
   void Create(T entity);

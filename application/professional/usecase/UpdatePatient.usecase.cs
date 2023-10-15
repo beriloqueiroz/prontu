@@ -19,12 +19,12 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     }
     catch (Exception e)
     {
-      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar profissional", e);
+      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
     }
 
     if (professional == null)
     {
-      throw new ApplicationException("UpdatePatientUseCase: Profissional não encontrado");
+      throw new ApplicationException("UpdatePatientUseCase: Paciente não encontrado");
     }
 
     Patient? patient;
@@ -34,13 +34,40 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     }
     catch (Exception e)
     {
-      throw new ApplicationException("FindPatientUseCase: Erro ao buscar profissional", e);
+      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
     }
 
     if (patient == null)
     {
-      throw new ApplicationException("FindPatientUseCase: Paciente não encontrado");
+      throw new ApplicationException("UpdatePatientUseCase: Paciente não encontrado");
     }
+
+
+    patient.ChangeEmail(input.Email);
+    if (input.FinancialInfo != null) patient.ChangeFinancialInfo(new()
+    {
+      DefaultPrice = input.FinancialInfo.DefaultPrice,
+      EstimatedSessionsByWeek = input.FinancialInfo.EstimatedSessionsByWeek,
+      EstimatedTimeSessionInMinutes = input.FinancialInfo.EstimatedTimeSessionInMinutes,
+      SessionType = input.FinancialInfo.SessionType
+    });
+    patient.ChangeName(patient.Name);
+    if (input.PersonalForm != null) patient.ChangePersonalForm(
+      new()
+      {
+        Street = input.PersonalForm.Street,
+        Neighborhood = input.PersonalForm.Neighborhood,
+        City = input.PersonalForm.City,
+        Number = input.PersonalForm.Number,
+        Country = input.PersonalForm.Country,
+        ZipCode = input.PersonalForm.ZipCode,
+        Region = input.PersonalForm.Region,
+        Contact = input.PersonalForm.Contact,
+        Phones = input.PersonalForm.Phones,
+        OthersInfos = input.PersonalForm.OthersInfos,
+        Observations = input.PersonalForm.Observations,
+      }
+    );
 
     professional.ChangePatient(patient);
 
@@ -52,6 +79,7 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     {
       throw new ApplicationException("UpdatePatientUseCase: Erro ao atualizar", e);
     }
+
     return new PatientDefaultDto(
       patient.Id.ToString(),
       patient.Name,

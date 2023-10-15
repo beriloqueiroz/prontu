@@ -272,11 +272,13 @@ public class ProfessionalTest
 
     professional.ChangePatient(patientChanged);
 
+    Patient? patientChangedFound = professional.Patients.Find(p => p.Id.ToString().Equals(patientChanged.Id.ToString()));
+
     Assert.AreEqual(professional.Patients.Count, 3);
-    Assert.AreEqual(professional.Patients[0].Id, patientChanged.Id);
-    Assert.AreEqual(professional.Patients[0].Document, patientChanged.Document);
-    Assert.AreEqual(professional.Patients[0].Email, patientChanged.Email);
-    Assert.AreEqual(professional.Patients[0].Name, patientChanged.Name);
+    Assert.AreEqual(patientChangedFound?.Id, patientChanged.Id);
+    Assert.AreEqual(patientChangedFound?.Document, patientChanged.Document);
+    Assert.AreEqual(patientChangedFound?.Email, patientChanged.Email);
+    Assert.AreEqual(patientChangedFound?.Name, patientChanged.Name);
   }
 
   [TestMethod]
