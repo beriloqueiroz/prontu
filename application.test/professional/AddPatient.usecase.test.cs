@@ -30,7 +30,7 @@ public class AddPatientUsecaseTest
     var output = Usecase?.Execute(input);
 
     Assert.AreEqual(output?.Patients?[0].Document, input.Document);
-    mock.Verify(mk => mk.Update(It.IsAny<Professional>()), Times.Once());
+    mock.Verify(mk => mk.AddPatient(It.IsAny<Patient>(), professionalId), Times.Once());
   }
 
   [TestMethod]
@@ -77,12 +77,12 @@ public class AddPatientUsecaseTest
   }
 
   [TestMethod]
-  public void ShouldNotBeExecuteAddPatientUseCaseWhenUpdateError()
+  public void ShouldNotBeExecuteAddPatientUseCaseWhenAddError()
   {
     var professionalId = Guid.NewGuid().ToString();
     var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
-    mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.AddPatient(It.IsAny<Patient>(), It.IsAny<string>())).Throws(new Exception("teste error"));
 
     var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028");
 
@@ -93,8 +93,8 @@ public class AddPatientUsecaseTest
     }
     catch (ApplicationException e)
     {
-      mock.Verify(mk => mk.Update(It.IsAny<Professional>()), Times.Exactly(1));
-      Assert.IsTrue(e.Message.Contains("AddPatientUseCase: Erro ao atualizar"));
+      mock.Verify(mk => mk.AddPatient(It.IsAny<Patient>(), It.IsAny<string>()), Times.Exactly(1));
+      Assert.IsTrue(e.Message.Contains("AddPatientUseCase: Erro ao adicionar"));
     }
   }
 

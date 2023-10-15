@@ -29,13 +29,13 @@ public class ProfessionalController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<ListProfessionalOutputDto> List(int PageSize = 20, int PageIndex = 1) //tomei a decisão de não fazer um dto para o controller
+    public IEnumerable<ProfessionalDefaultDto> List(int PageSize = 20, int PageIndex = 1) //tomei a decisão de não fazer um dto para o controller
     {
         return listProfessionalUseCase.Execute(new(PageSize, PageIndex));
     }
 
     [HttpGet("{id}")]
-    public FindProfessionalOutputDto Find(string id) //tomei a decisão de não fazer um dto para o controller
+    public ProfessionalDefaultDto Find(string id) //tomei a decisão de não fazer um dto para o controller
     {
         return findProfessionalUseCase.Execute(new(id));
     }
@@ -55,13 +55,19 @@ public class ProfessionalController : ControllerBase
             input.Email,
             input.Document
         ));
-        return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument, outputDto.Patients);
+        return new(
+            outputDto.Id,
+            outputDto.Name,
+            outputDto.Email,
+            outputDto.Document,
+            outputDto.ProfessionalDocument,
+            outputDto.Patients ?? Array.Empty<PatientDefaultDto>());
     }
 
     [HttpPut(Name = "{id}")]
     public UpdateProfessionalControllerOutputDto Update(UpdateProfessionalControllerInputDto input, string id)
     {
-        var outputDto = updateProfessionalUseCase.Execute(new(id, input.Name, input.Email, input.ProfessionalDocument, input.Patients));
-        return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument, outputDto.Patients);
+        var outputDto = updateProfessionalUseCase.Execute(new(id, input.Name, input.Email, input.ProfessionalDocument));
+        return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument);
     }
 }

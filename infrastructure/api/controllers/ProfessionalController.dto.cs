@@ -14,15 +14,14 @@ public record AddPatientControllerOutputDto(
   string Email,
   string Document,
   string ProfessionalDocument,
-  AddPatientsOutputDto[] Patients
+  PatientDefaultDto[] Patients
 );
 
 public record UpdateProfessionalControllerInputDto(
   string Id,
   string Name,
   string Email,
-  string ProfessionalDocument,
-  UpdateProfessionalPatientInputDto[]? Patients
+  string ProfessionalDocument
 );
 
 public record UpdateProfessionalControllerOutputDto(
@@ -30,6 +29,5 @@ public record UpdateProfessionalControllerOutputDto(
   string Name,
   string Email,
   string Document,
-  string ProfessionalDocument,
-  UpdateProfessionalPatientOutputDto[] Patients
+  string ProfessionalDocument
 );

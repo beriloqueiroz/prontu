@@ -29,7 +29,6 @@ public class UpdateProfessionalUsecaseTest
 
     Assert.AreEqual(output?.Email, input.Email);
     Assert.AreEqual(output?.Id, input.Id);
-    Assert.AreEqual(output?.Patients?.Length, 0);
     mock.Verify(mk => mk.Update(It.IsAny<Professional>()), Times.Once());
   }
 
