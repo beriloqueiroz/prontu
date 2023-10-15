@@ -29,7 +29,7 @@ public class AddPatientUsecaseTest
 
     var output = Usecase?.Execute(input);
 
-    Assert.AreEqual(output?.Patients[0].Document, input.Document);
+    Assert.AreEqual(output?.Patients?[0].Document, input.Document);
     mock.Verify(mk => mk.Update(It.IsAny<Professional>()), Times.Once());
   }
 
