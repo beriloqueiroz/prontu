@@ -10,7 +10,7 @@ public class FindProfessionalUseCase : IFindProfessionalUseCase
     ProfessionalGateway = professionalGateway;
   }
 
-  public FindProfessionalOutputDto Execute(FindProfessionalInputDto input)
+  public ProfessionalDefaultDto Execute(FindProfessionalInputDto input)
   {
     Professional? professional = null;
     try
@@ -27,14 +27,18 @@ public class FindProfessionalUseCase : IFindProfessionalUseCase
       throw new ApplicationException("FindProfessionalUseCase: Profissional não encontrado");
     }
 
-    return new FindProfessionalOutputDto(
+    return new ProfessionalDefaultDto(
       professional.Id.ToString(),
       professional.Name,
       professional.Email,
       professional.Document.Value,
       professional.ProfessionalDocument,
       professional.Patients?.Select(pat =>
-        new FindProfessionalPatientOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active))
-      .ToArray() ?? Array.Empty<FindProfessionalPatientOutputDto>());
+        new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active, null, null))
+      .ToArray() ?? Array.Empty<PatientDefaultDto>());
   }
 }
+
+public record FindProfessionalInputDto(
+  string Id
+);

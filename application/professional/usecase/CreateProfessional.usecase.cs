@@ -38,3 +38,18 @@ public class CreateProfessionalUseCase : ICreateProfessionalUseCase
     return new CreateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, cpf.Value, input.ProfessionalDocument);
   }
 }
+
+public record CreateProfessionalInputDto(
+  string Name,
+  string Email,
+  string Document,
+  string ProfessionalDocument
+);
+
+public record CreateProfessionalOutputDto(
+  string Id,
+  string Name,
+  string Email,
+  string Document,
+  string ProfessionalDocument
+);

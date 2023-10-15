@@ -10,7 +10,7 @@ public class AddPatientUseCase : IAddPatientUseCase
     ProfessionalGateway = professionalGateway;
   }
 
-  public AddPatientOutputDto Execute(AddPatientInputDto input)
+  public ProfessionalDefaultDto Execute(AddPatientInputDto input)
   {
     Professional? professional;
     try
@@ -29,14 +29,22 @@ public class AddPatientUseCase : IAddPatientUseCase
     professional.AddPatient(patient);
     try
     {
-      ProfessionalGateway.Update(professional);
+      ProfessionalGateway.AddPatient(patient);
     }
     catch (Exception e)
     {
-      throw new ApplicationException("AddPatientUseCase: Erro ao atualizar", e);
+      throw new ApplicationException("AddPatientUseCase: Erro ao adicionar", e);
     }
-    AddPatientsOutputDto[]? addPatientsOutputDto = professional.Patients?.Select(pat =>
-      new AddPatientsOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.IsActive())).ToArray();
-    return new AddPatientOutputDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, professional.ProfessionalDocument, addPatientsOutputDto ?? Array.Empty<AddPatientsOutputDto>());
+    PatientDefaultDto[]? addPatientsOutputDto = professional.Patients?.Select(pat =>
+      new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.IsActive(), null, null)).ToArray();
+    return new ProfessionalDefaultDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, professional.ProfessionalDocument, addPatientsOutputDto ?? Array.Empty<PatientDefaultDto>());
   }
 }
+
+public record AddPatientInputDto(
+  string ProfessionalId,
+  string Name,
+  string Email,
+  string Document
+);
+

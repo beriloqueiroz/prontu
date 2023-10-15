@@ -44,6 +44,22 @@ public class Professional : AggregateRoot
     Patients.Add(patient);
   }
 
+  public void ChangePatient(Patient patient)
+  {
+    if (Patients == null)
+    {
+      notification.AddError(new NotificationError("Professional", "Não é possível adicionar paciente"));
+      throw new DomainException(notification.GetErrors());
+    }
+    Patient? patientFound = Patients.Find(p => p.Id.ToString().Equals(patient.Id.ToString()));
+    if (patientFound == null)
+    {
+      throw new ApplicationException("Professional: Paciente não é atendido pelo profissional");
+    }
+    Patients.Remove(patientFound);
+    Patients.Add(patient);
+  }
+
   public void ChangeEmail(string email)
   {
     Email = email;
