@@ -29,7 +29,7 @@ public class AddPatientUseCase : IAddPatientUseCase
     professional.AddPatient(patient);
     try
     {
-      ProfessionalGateway.AddPatient(patient);
+      ProfessionalGateway.AddPatient(patient, input.ProfessionalId);
     }
     catch (Exception e)
     {

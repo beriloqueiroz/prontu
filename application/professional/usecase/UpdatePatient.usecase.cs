@@ -46,7 +46,7 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
 
     try
     {
-      ProfessionalGateway.UpdatePatient(patient);
+      ProfessionalGateway.UpdatePatient(patient, input.ProfessionalId);
     }
     catch (Exception e)
     {
