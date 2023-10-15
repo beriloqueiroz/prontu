@@ -13,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IProfessionalGateway, ProfessionalRepository>();
 builder.Services.AddTransient<IFindProfessionalUseCase, FindProfessionalUseCase>();
+builder.Services.AddTransient<IFindPatientUseCase, FindPatientUseCase>();
+builder.Services.AddTransient<IUpdatePatientUseCase, UpdatePatientUseCase>();
 builder.Services.AddTransient<IAddPatientUseCase, AddPatientUseCase>();
 builder.Services.AddTransient<IListProfessionalUseCase, ListProfessionalUseCase>();
 builder.Services.AddTransient<ICreateProfessionalUseCase, CreateProfessionalUseCase>();

@@ -10,15 +10,19 @@ public class ProfessionalController : ControllerBase
 {
     private readonly IListProfessionalUseCase listProfessionalUseCase;
     private readonly IFindProfessionalUseCase findProfessionalUseCase;
+    private readonly IFindPatientUseCase findPatientUseCase;
     private readonly ICreateProfessionalUseCase createProfessionalUseCase;
     private readonly IAddPatientUseCase addPatientUseCase;
     private readonly IUpdateProfessionalUseCase updateProfessionalUseCase;
+    private readonly IUpdatePatientUseCase updatePatientUseCase;
     public ProfessionalController(
         IListProfessionalUseCase listProfessionalUseCase,
         IFindProfessionalUseCase findProfessionalUseCase,
+        IFindPatientUseCase findPatientUseCase,
         ICreateProfessionalUseCase createProfessionalUseCase,
         IAddPatientUseCase addPatientUseCase,
-        IUpdateProfessionalUseCase updateProfessionalUseCase
+        IUpdateProfessionalUseCase updateProfessionalUseCase,
+        IUpdatePatientUseCase updatePatientUseCase
         )
     {
         this.listProfessionalUseCase = listProfessionalUseCase;
@@ -26,6 +30,8 @@ public class ProfessionalController : ControllerBase
         this.createProfessionalUseCase = createProfessionalUseCase;
         this.addPatientUseCase = addPatientUseCase;
         this.updateProfessionalUseCase = updateProfessionalUseCase;
+        this.findPatientUseCase = findPatientUseCase;
+        this.updatePatientUseCase = updatePatientUseCase;
     }
 
     [HttpGet]
@@ -64,10 +70,22 @@ public class ProfessionalController : ControllerBase
             outputDto.Patients ?? Array.Empty<PatientDefaultDto>());
     }
 
-    [HttpPut(Name = "{id}")]
+    [HttpPut("{id}")]
     public UpdateProfessionalControllerOutputDto Update(UpdateProfessionalControllerInputDto input, string id)
     {
         var outputDto = updateProfessionalUseCase.Execute(new(id, input.Name, input.Email, input.ProfessionalDocument));
         return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument);
+    }
+
+    [HttpGet("{professionalId}/{patientId}")]
+    public PatientDefaultDto Find(string professionalId, string patientId)
+    {
+        return findPatientUseCase.Execute(new(patientId, professionalId));
+    }
+
+    [HttpPut("{professionalId}/{patientId}")]
+    public PatientDefaultDto UpdatePatient(UpdatePatientInputDto input)
+    {
+        return updatePatientUseCase.Execute(input);
     }
 }
