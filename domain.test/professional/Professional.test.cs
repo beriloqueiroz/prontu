@@ -233,4 +233,98 @@ public class ProfessionalTest
       Assert.AreEqual(e.Message, "Professional: Documento profissional inválido");
     }
   }
+
+  [TestMethod]
+  public void ShouldBeChangePatient()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+
+    Patient patient = PatientTest.CreateValidPatient("1", "73345940027");
+    Patient patient2 = PatientTest.CreateValidPatient("2", "37115176094");
+    Patient patient3 = PatientTest.CreateValidPatient("3", "74838333005");
+
+    professional.AddPatient(patient);
+    professional.AddPatient(patient2);
+    professional.AddPatient(patient3);
+
+    Patient patientChanged = new("Fulano de tal test", "fulano.tal@gmail.com", patient.Document, patient.Id.ToString());
+    patientChanged.ChangeFinancialInfo(
+      new()
+      {
+        DefaultPrice = 12.5M,
+        EstimatedSessionsByWeek = 4,
+        EstimatedTimeSessionInMinutes = 50,
+        SessionType = "Remoto"
+      });
+    patientChanged.ChangePersonalForm(new()
+    {
+      City = "Fortaleza",
+      Contact = "Sicrano",
+      Country = "Brasil",
+      Neighborhood = "Bairro",
+      Number = "123",
+      Observations = "",
+      OthersInfos = "",
+      Phones = "85989898989",
+      Region = "Ceará",
+      Street = "Rua dos bobos"
+    });
+
+    professional.ChangePatient(patientChanged);
+
+    Assert.AreEqual(professional.Patients.Count, 3);
+    Assert.AreEqual(professional.Patients[0].Id, patientChanged.Id);
+    Assert.AreEqual(professional.Patients[0].Document, patientChanged.Document);
+    Assert.AreEqual(professional.Patients[0].Email, patientChanged.Email);
+    Assert.AreEqual(professional.Patients[0].Name, patientChanged.Name);
+  }
+
+  [TestMethod]
+  public void ShouldBeChangePatientWhenDocumentAlreadyExist()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+
+    Patient patient = PatientTest.CreateValidPatient("1", "73345940027");
+    Patient patient2 = PatientTest.CreateValidPatient("2", "37115176094");
+    Patient patient3 = PatientTest.CreateValidPatient("3", "74838333005");
+
+    professional.AddPatient(patient);
+    professional.AddPatient(patient2);
+    professional.AddPatient(patient3);
+
+    Patient patientChanged = new("Fulano de tal test", "fulano.tal@gmail.com", patient2.Document, patient.Id.ToString());
+    try
+    {
+      professional.ChangePatient(patientChanged);
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Já existe um paciente cadastrado com documento informado"));
+    }
+  }
+  [TestMethod]
+  public void ShouldBeChangePatientWhenEmailAlreadyExist()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+
+    Patient patient = PatientTest.CreateValidPatient("1", "73345940027");
+    Patient patient2 = PatientTest.CreateValidPatient("2", "37115176094");
+    Patient patient3 = PatientTest.CreateValidPatient("3", "74838333005");
+
+    professional.AddPatient(patient);
+    professional.AddPatient(patient2);
+    professional.AddPatient(patient3);
+
+    Patient patientChanged = new("Fulano de tal test", patient3.Email, patient.Document, patient.Id.ToString());
+    try
+    {
+      professional.ChangePatient(patientChanged);
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Já existe um paciente cadastrado com email informado"));
+    }
+  }
 }
