@@ -56,11 +56,11 @@ public class Professional : AggregateRoot
     {
       throw new ApplicationException("Professional: Paciente não é atendido pelo profissional");
     }
-    if (Patients.Any(pat => pat.Document.Value.Equals(patient.Document.Value)) && !patient.Id.ToString().Equals(patient.Id.ToString()))
+    if (Patients.Any(pat => pat.Document.Value.Equals(patient.Document.Value) && !pat.Id.ToString().Equals(patient.Id.ToString())))
     {
       notification.AddError(new NotificationError("Professional", "Já existe um paciente cadastrado com documento informado"));
     }
-    if (Patients.Any(pat => pat.Email.Equals(patient.Email)) && !patient.Id.ToString().Equals(patient.Id.ToString()))
+    if (Patients.Any(pat => pat.Email.Equals(patient.Email) && !pat.Id.ToString().Equals(patient.Id.ToString())))
     {
       notification.AddError(new NotificationError("Professional", "Já existe um paciente cadastrado com email informado"));
     }

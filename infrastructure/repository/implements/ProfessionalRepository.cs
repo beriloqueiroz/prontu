@@ -13,6 +13,22 @@ public class ProfessionalRepository : IProfessionalGateway
   {
     Context = context;
   }
+
+  public void AddPatient(domain.Patient entity, string professionalId)
+  {
+    var transaction = Context.Database.BeginTransaction();
+    var patient = Patient.From(entity);
+    Context.Add(patient);
+    patient.ProfessionalPatients?.ToList().ForEach(pp =>
+    {
+      pp.ProfessionalId = new Guid(professionalId);
+      pp.UpdateAt = DateTime.Now;
+      Context.Add(pp);
+    });
+    Context.SaveChanges();
+    transaction.Commit();
+  }
+
   public void Create(domain.Professional entity)
   {
     var professional = Professional.From(entity);
@@ -25,6 +41,11 @@ public class ProfessionalRepository : IProfessionalGateway
   public domain.Professional? Find(string id)
   {
     return Context.Professionals?.Include("ProfessionalPatients.Patient").First(p => p.Id.Equals(new Guid(id)))?.ToEntity();
+  }
+
+  public domain.Patient FindPatient(string id, string professionalId)
+  {
+    throw new NotImplementedException();
   }
 
   public bool IsExists(string document, string email)
@@ -56,17 +77,17 @@ public class ProfessionalRepository : IProfessionalGateway
 
   public void Update(domain.Professional entity)
   {
-    var transaction = Context.Database.BeginTransaction();
     var professional = (Context.Professionals?.Find(entity.Id)) ?? throw new Exception("ProfessionalRepository: Profissional não encontrado");
     professional.FromEntity(entity);
     professional.UpdateAt = DateTime.Now;
-    professional.Patients?.ToList().ForEach(p => Context.Add(p));
-    professional.ProfessionalPatients?.ToList().ForEach(pp =>
-    {
-      pp.UpdateAt = DateTime.Now;
-      Context.Add(pp);
-    });
     Context.SaveChanges();
-    transaction.Commit();
+  }
+
+  public void UpdatePatient(domain.Patient entity, string professionalId)
+  {
+    var patient = (Context.Patients?.Find(entity.Id)) ?? throw new Exception("ProfessionalRepository: Patient não encontrado");
+    patient.FromEntity(entity);
+    patient.UpdateAt = DateTime.Now;
+    Context.SaveChanges();
   }
 }
