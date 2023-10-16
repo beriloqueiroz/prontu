@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +14,10 @@ public class Patient : Model
   public required string Document { get; set; }
   public bool Active { get; set; }
 
+  public List<ProfessionalPatient> ProfessionalPatients { get; } = new();
+
   public PersonalForm? PersonalForm { get; set; }
 
-  public required IList<ProfessionalPatient> ProfessionalPatients { get; set; }
-
-  [NotMapped]
   public IList<Professional> Professionals
   {
     get;
@@ -59,8 +57,7 @@ public class Patient : Model
       Id = entity.Id,
       Document = entity.Document.Value,
       Email = entity.Email,
-      Name = entity.Name,
-      ProfessionalPatients = new List<ProfessionalPatient>()
+      Name = entity.Name
     };
     if (entity.PersonalForm != null)
     {

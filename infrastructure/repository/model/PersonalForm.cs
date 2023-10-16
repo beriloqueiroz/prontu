@@ -15,9 +15,5 @@ public class PersonalForm : Model
   public string? Phones { get; set; }
   public string? OthersInfos { get; set; }
   public string? Observations { get; set; }
-
   public Patient? Patient { get; set; }
-
-  [ForeignKey("Patient")]
-  public Guid? PatientId { get; set; }
 }

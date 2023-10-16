@@ -2,8 +2,8 @@ namespace infrastructure.repository;
 
 public class FinancialInfo : Model
 {
-  public required Guid PatientId { get; set; }
-  public required Guid ProfessionalId { get; set; }
+  public required Patient Patient { get; set; }
+  public required Professional Professional { get; set; }
 
   public decimal? DefaultPrice { get; set; }
   public int? EstimatedSessionsByWeek { get; set; }

@@ -12,7 +12,7 @@ using infrastructure.repository;
 namespace repository.Migrations
 {
     [DbContext(typeof(ProntuDbContext))]
-    [Migration("20231015234656_InitialCreate")]
+    [Migration("20231016024510_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -62,7 +62,6 @@ namespace repository.Migrations
             modelBuilder.Entity("infrastructure.repository.PersonalForm", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("City")
@@ -89,9 +88,6 @@ namespace repository.Migrations
                     b.Property<string>("OthersInfos")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("PatientId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Phones")
                         .HasColumnType("text");
 
@@ -108,9 +104,6 @@ namespace repository.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PatientId")
-                        .IsUnique();
 
                     b.ToTable("PersonalForm");
                 });
@@ -193,39 +186,30 @@ namespace repository.Migrations
                 {
                     b.HasOne("infrastructure.repository.Patient", "Patient")
                         .WithOne("PersonalForm")
-                        .HasForeignKey("infrastructure.repository.PersonalForm", "PatientId");
+                        .HasForeignKey("infrastructure.repository.PersonalForm", "Id");
 
                     b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("infrastructure.repository.ProfessionalPatient", b =>
                 {
-                    b.HasOne("infrastructure.repository.Patient", "Patient")
+                    b.HasOne("infrastructure.repository.Patient", null)
                         .WithMany("ProfessionalPatients")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("infrastructure.repository.Professional", "Professional")
-                        .WithMany("ProfessionalPatients")
+                    b.HasOne("infrastructure.repository.Professional", null)
+                        .WithMany()
                         .HasForeignKey("ProfessionalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Professional");
                 });
 
             modelBuilder.Entity("infrastructure.repository.Patient", b =>
                 {
                     b.Navigation("PersonalForm");
 
-                    b.Navigation("ProfessionalPatients");
-                });
-
-            modelBuilder.Entity("infrastructure.repository.Professional", b =>
-                {
                     b.Navigation("ProfessionalPatients");
                 });
 #pragma warning restore 612, 618

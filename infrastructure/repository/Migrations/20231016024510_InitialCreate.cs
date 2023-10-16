@@ -61,7 +61,6 @@ namespace repository.Migrations
                     Phones = table.Column<string>(type: "text", nullable: true),
                     OthersInfos = table.Column<string>(type: "text", nullable: true),
                     Observations = table.Column<string>(type: "text", nullable: true),
-                    PatientId = table.Column<Guid>(type: "uuid", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -69,8 +68,8 @@ namespace repository.Migrations
                 {
                     table.PrimaryKey("PK_PersonalForm", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PersonalForm_Patients_PatientId",
-                        column: x => x.PatientId,
+                        name: "FK_PersonalForm_Patients_Id",
+                        column: x => x.Id,
                         principalTable: "Patients",
                         principalColumn: "Id");
                 });
@@ -110,12 +109,6 @@ namespace repository.Migrations
                 name: "IX_Patients_Email_Document",
                 table: "Patients",
                 columns: new[] { "Email", "Document" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PersonalForm_PatientId",
-                table: "PersonalForm",
-                column: "PatientId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Professionals_Email_Document",

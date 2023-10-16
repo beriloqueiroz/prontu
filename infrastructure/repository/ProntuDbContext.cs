@@ -17,23 +17,15 @@ public class ProntuDbContext : DbContext
   {
     base.OnModelCreating(modelBuilder);
 
-    modelBuilder
-        .Entity<ProfessionalPatient>()
-        .HasOne(p => p.Professional)
-        .WithMany(pp => pp.ProfessionalPatients)
-        .OnDelete(DeleteBehavior.Cascade);
+    modelBuilder.Entity<Professional>()
+        .HasMany(pr => pr.Patients)
+        .WithMany(pa => pa.Professionals)
+        .UsingEntity<ProfessionalPatient>();
 
-    modelBuilder
-        .Entity<ProfessionalPatient>()
-        .HasOne(p => p.Patient)
-        .WithMany(pp => pp.ProfessionalPatients)
-        .OnDelete(DeleteBehavior.Cascade);
-
-    // modelBuilder.Entity<Patient>()
-    //   .HasOne(p => p.PersonalForm)
-    //   .WithOne(pf => pf.Patient)
-    //   .HasForeignKey<PersonalForm>(pf => pf.PatientId)
-    //   .IsRequired(false);
-
+    modelBuilder.Entity<Patient>()
+      .HasOne(p => p.PersonalForm)
+      .WithOne(pf => pf.Patient)
+      .HasForeignKey<PersonalForm>()
+      .IsRequired(false);
   }
 }
