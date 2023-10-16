@@ -46,12 +46,46 @@ namespace repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PersonalForm",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Street = table.Column<string>(type: "text", nullable: true),
+                    Neighborhood = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    Number = table.Column<string>(type: "text", nullable: true),
+                    Country = table.Column<string>(type: "text", nullable: true),
+                    ZipCode = table.Column<string>(type: "text", nullable: true),
+                    Region = table.Column<string>(type: "text", nullable: true),
+                    Contact = table.Column<string>(type: "text", nullable: true),
+                    Phones = table.Column<string>(type: "text", nullable: true),
+                    OthersInfos = table.Column<string>(type: "text", nullable: true),
+                    Observations = table.Column<string>(type: "text", nullable: true),
+                    PatientId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonalForm", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PersonalForm_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProfessionalsPatients",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProfessionalId = table.Column<Guid>(type: "uuid", nullable: false),
                     PatientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DefaultPrice = table.Column<decimal>(type: "numeric", nullable: true),
+                    EstimatedSessionsByWeek = table.Column<int>(type: "integer", nullable: true),
+                    EstimatedTimeSessionInMinutes = table.Column<int>(type: "integer", nullable: true),
+                    SessionType = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -78,6 +112,12 @@ namespace repository.Migrations
                 columns: new[] { "Email", "Document" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_PersonalForm_PatientId",
+                table: "PersonalForm",
+                column: "PatientId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Professionals_Email_Document",
                 table: "Professionals",
                 columns: new[] { "Email", "Document" });
@@ -96,6 +136,9 @@ namespace repository.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "PersonalForm");
+
             migrationBuilder.DropTable(
                 name: "ProfessionalsPatients");
 

@@ -29,5 +29,11 @@ public class ProntuDbContext : DbContext
         .WithMany(pp => pp.ProfessionalPatients)
         .OnDelete(DeleteBehavior.Cascade);
 
+    // modelBuilder.Entity<Patient>()
+    //   .HasOne(p => p.PersonalForm)
+    //   .WithOne(pf => pf.Patient)
+    //   .HasForeignKey<PersonalForm>(pf => pf.PatientId)
+    //   .IsRequired(false);
+
   }
 }

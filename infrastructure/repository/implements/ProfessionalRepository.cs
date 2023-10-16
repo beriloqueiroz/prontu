@@ -43,9 +43,12 @@ public class ProfessionalRepository : IProfessionalGateway
     return Context.Professionals?.Include("ProfessionalPatients.Patient").First(p => p.Id.Equals(new Guid(id)))?.ToEntity();
   }
 
-  public domain.Patient FindPatient(string id, string professionalId)
+  public domain.Patient? FindPatient(string id, string professionalId)
   {
-    throw new NotImplementedException();
+    return Context.Patients?
+    .Include("ProfessionalPatients.Professionals")
+    .First(p => p.Id.Equals(new Guid(id)) && p.Professionals.Any(pp => pp.Id.Equals(new Guid(professionalId))))?
+    .ToEntity();
   }
 
   public bool IsExists(string document, string email)

@@ -56,6 +56,62 @@ namespace repository.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("infrastructure.repository.PersonalForm", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Contact")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Neighborhood")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Observations")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OthersInfos")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("PatientId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Phones")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId")
+                        .IsUnique();
+
+                    b.ToTable("PersonalForm");
+                });
+
             modelBuilder.Entity("infrastructure.repository.Professional", b =>
                 {
                     b.Property<Guid>("Id")
@@ -100,11 +156,23 @@ namespace repository.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<decimal?>("DefaultPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<int?>("EstimatedSessionsByWeek")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("EstimatedTimeSessionInMinutes")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ProfessionalId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("SessionType")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("timestamp without time zone");
@@ -116,6 +184,15 @@ namespace repository.Migrations
                     b.HasIndex("ProfessionalId");
 
                     b.ToTable("ProfessionalsPatients");
+                });
+
+            modelBuilder.Entity("infrastructure.repository.PersonalForm", b =>
+                {
+                    b.HasOne("infrastructure.repository.Patient", "Patient")
+                        .WithOne("PersonalForm")
+                        .HasForeignKey("infrastructure.repository.PersonalForm", "PatientId");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("infrastructure.repository.ProfessionalPatient", b =>
@@ -139,6 +216,8 @@ namespace repository.Migrations
 
             modelBuilder.Entity("infrastructure.repository.Patient", b =>
                 {
+                    b.Navigation("PersonalForm");
+
                     b.Navigation("ProfessionalPatients");
                 });
 
