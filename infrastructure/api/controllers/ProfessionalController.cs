@@ -71,9 +71,9 @@ public class ProfessionalController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public UpdateProfessionalControllerOutputDto Update(UpdateProfessionalControllerInputDto input, string id)
+    public UpdateProfessionalControllerOutputDto Update(UpdateProfessionalControllerInputDto input, string professionalId)
     {
-        var outputDto = updateProfessionalUseCase.Execute(new(id, input.Name, input.Email, input.ProfessionalDocument));
+        var outputDto = updateProfessionalUseCase.Execute(new(professionalId, input.Name, input.Email, input.ProfessionalDocument));
         return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument);
     }
 
@@ -84,8 +84,17 @@ public class ProfessionalController : ControllerBase
     }
 
     [HttpPut("{professionalId}/{patientId}")]
-    public PatientDefaultDto UpdatePatient(UpdatePatientInputDto input)
+    public PatientDefaultDto UpdatePatient(UpdatePatientControllerInputDto input, string professionalId, string patientId)
     {
-        return updatePatientUseCase.Execute(input);
+        return updatePatientUseCase.Execute(new(
+            professionalId,
+            patientId,
+            input.Name,
+            input.Email,
+            input.Document,
+            input.IsActive,
+            input.FinancialInfo,
+            input.PersonalForm
+        ));
     }
 }

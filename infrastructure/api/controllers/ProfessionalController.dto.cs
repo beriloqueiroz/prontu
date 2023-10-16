@@ -18,7 +18,6 @@ public record AddPatientControllerOutputDto(
 );
 
 public record UpdateProfessionalControllerInputDto(
-  string Id,
   string Name,
   string Email,
   string ProfessionalDocument
@@ -30,4 +29,13 @@ public record UpdateProfessionalControllerOutputDto(
   string Email,
   string Document,
   string ProfessionalDocument
+);
+
+public record UpdatePatientControllerInputDto(
+  string Name,
+  string Email,
+  string Document,
+  bool IsActive,
+  PatientFinancialInfoDefaultDto? FinancialInfo,
+  PatientPersonalFormDefaultDto? PersonalForm
 );
