@@ -1,4 +1,5 @@
 using application.professional;
+using domain;
 using infrastructure.repository;
 using repository;
 
