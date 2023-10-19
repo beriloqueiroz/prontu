@@ -69,7 +69,7 @@ public class Professional : AggregateRoot
       throw new DomainException(notification.GetErrors());
     }
     Patients.Remove(patientFound);
-    AddPatient(patient);
+    Patients.Add(patient);
   }
 
   public void ChangeEmail(string email)
