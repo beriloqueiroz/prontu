@@ -12,10 +12,23 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
 
   public ProfessionalDefaultDto Execute(UpdateProfessionalInputDto input)
   {
+    Professional professional = FindProfessional(input.Id);
+
+    professional.ChangeEmail(input.Email);
+    professional.ChangeName(input.Name);
+    professional.ChangeProfessionalDocument(input.ProfessionalDocument);
+
+    UpdateProfessional(professional);
+
+    return new ProfessionalDefaultDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, null);
+  }
+
+  private Professional FindProfessional(string professionalId)
+  {
     Professional? professional;
     try
     {
-      professional = ProfessionalGateway.Find(input.Id);
+      professional = ProfessionalGateway.Find(professionalId);
     }
     catch (Exception e)
     {
@@ -25,10 +38,11 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     {
       throw new ApplicationException("UpdateProfessionalUseCase: Profissional não encontrado");
     }
-    professional.ChangeEmail(input.Email);
-    professional.ChangeName(input.Name);
-    professional.ChangeProfessionalDocument(input.ProfessionalDocument);
+    return professional;
+  }
 
+  private void UpdateProfessional(Professional professional)
+  {
     try
     {
       ProfessionalGateway.Update(professional);
@@ -37,7 +51,6 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     {
       throw new ApplicationException("UpdateProfessionalUseCase: Erro ao atualizar", e);
     }
-    return new ProfessionalDefaultDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, null);
   }
 }
 

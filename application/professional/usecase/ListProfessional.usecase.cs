@@ -14,6 +14,7 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
   {
     PageAble pageAble = new(input.PageSize, input.PageIndex);
     PaginatedList<Professional>? professionals;
+
     try
     {
       professionals = ProfessionalGateway.List(pageAble);
@@ -22,6 +23,7 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
     {
       throw new ApplicationException("ListProfessionalUseCase: Erro ao listar profissionais", e);
     }
+
     var professionalList = professionals.Select(professional =>
         new ProfessionalDefaultDto(
           professional.Id.ToString(),

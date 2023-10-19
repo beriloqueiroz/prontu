@@ -12,38 +12,13 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
 
   public PatientDefaultDto Execute(UpdatePatientInputDto input)
   {
-    Professional? professional;
-    try
-    {
-      professional = ProfessionalGateway.Find(input.ProfessionalId);
-    }
-    catch (Exception e)
-    {
-      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
-    }
 
-    if (professional == null)
-    {
-      throw new ApplicationException("UpdatePatientUseCase: Paciente não encontrado");
-    }
+    Professional professional = FindProfessional(input.ProfessionalId);
 
-    Patient? patient;
-    try
-    {
-      patient = ProfessionalGateway.FindPatient(input.PatientId, input.ProfessionalId);
-    }
-    catch (Exception e)
-    {
-      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
-    }
-
-    if (patient == null)
-    {
-      throw new ApplicationException("UpdatePatientUseCase: Paciente não encontrado");
-    }
-
+    Patient patient = FindPatient(input.PatientId, input.ProfessionalId);
 
     patient.ChangeEmail(input.Email);
+
     if (input.FinancialInfo != null) patient.ChangeFinancialInfo(new()
     {
       DefaultPrice = input.FinancialInfo.DefaultPrice,
@@ -51,7 +26,9 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
       EstimatedTimeSessionInMinutes = input.FinancialInfo.EstimatedTimeSessionInMinutes,
       SessionType = input.FinancialInfo.SessionType
     });
+
     patient.ChangeName(patient.Name);
+
     if (input.PersonalForm != null) patient.ChangePersonalForm(
       new()
       {
@@ -71,14 +48,7 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
 
     professional.ChangePatient(patient);
 
-    try
-    {
-      ProfessionalGateway.UpdatePatient(patient, input.ProfessionalId);
-    }
-    catch (Exception e)
-    {
-      throw new ApplicationException("UpdatePatientUseCase: Erro ao atualizar", e);
-    }
+    UpdatePatient(patient, input.ProfessionalId);
 
     return new PatientDefaultDto(
       patient.Id.ToString(),
@@ -104,6 +74,56 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
         patient.PersonalForm?.OthersInfos,
         patient.PersonalForm?.Observations
       ) : null);
+  }
+
+  private Professional FindProfessional(string professionalId)
+  {
+    Professional? professional;
+    try
+    {
+      professional = ProfessionalGateway.Find(professionalId);
+    }
+    catch (Exception e)
+    {
+      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
+    }
+
+    if (professional == null)
+    {
+      throw new ApplicationException("UpdatePatientUseCase: Paciente não encontrado");
+    }
+    return professional;
+  }
+
+  private Patient FindPatient(string patientId, string professionalId)
+  {
+    Patient? patient;
+    try
+    {
+      patient = ProfessionalGateway.FindPatient(patientId, professionalId);
+    }
+    catch (Exception e)
+    {
+      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
+    }
+
+    if (patient == null)
+    {
+      throw new ApplicationException("UpdatePatientUseCase: Paciente não encontrado");
+    }
+    return patient;
+  }
+
+  private void UpdatePatient(Patient patient, string professionalId)
+  {
+    try
+    {
+      ProfessionalGateway.UpdatePatient(patient, professionalId);
+    }
+    catch (Exception e)
+    {
+      throw new ApplicationException("UpdatePatientUseCase: Erro ao atualizar", e);
+    }
   }
 }
 
