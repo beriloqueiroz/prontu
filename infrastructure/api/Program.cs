@@ -11,14 +11,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IProfessionalGateway, ProfessionalRepository>();
-builder.Services.AddTransient<IFindProfessionalUseCase, FindProfessionalUseCase>();
-builder.Services.AddTransient<IFindPatientUseCase, FindPatientUseCase>();
-builder.Services.AddTransient<IUpdatePatientUseCase, UpdatePatientUseCase>();
-builder.Services.AddTransient<IAddPatientUseCase, AddPatientUseCase>();
-builder.Services.AddTransient<IListProfessionalUseCase, ListProfessionalUseCase>();
-builder.Services.AddTransient<ICreateProfessionalUseCase, CreateProfessionalUseCase>();
-builder.Services.AddTransient<IUpdateProfessionalUseCase, UpdateProfessionalUseCase>();
+builder.Services.AddScoped<IProfessionalGateway, ProfessionalRepository>();
+builder.Services.AddScoped<IFindProfessionalUseCase, FindProfessionalUseCase>();
+builder.Services.AddScoped<IFindPatientUseCase, FindPatientUseCase>();
+builder.Services.AddScoped<IUpdatePatientUseCase, UpdatePatientUseCase>();
+builder.Services.AddScoped<IAddPatientUseCase, AddPatientUseCase>();
+builder.Services.AddScoped<IListProfessionalUseCase, ListProfessionalUseCase>();
+builder.Services.AddScoped<ICreateProfessionalUseCase, CreateProfessionalUseCase>();
+builder.Services.AddScoped<IUpdateProfessionalUseCase, UpdateProfessionalUseCase>();
 builder.Services.InjectDbContext();
 
 var app = builder.Build();
