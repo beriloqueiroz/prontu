@@ -129,5 +129,7 @@ quando o negócio já existe é a linguagem que os departamentos usam pra se com
 
   ```bash
   cd ../..
-  dotnet run --project infrastructure/api/api.csproj
+  dotnet run --project infrastructure/api/api.csproj --environment "Development"
   ```
+
+  - <http://localhost:5100/swagger>
