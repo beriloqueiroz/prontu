@@ -13,6 +13,21 @@ public class ProfessionalRepository : IProfessionalGateway
   {
     Context = context;
   }
+
+  public void AddPatient(domain.Patient entity, string professionalId)
+  {
+    var transaction = Context.Database.BeginTransaction();
+    var patient = Patient.From(entity);
+    var professional = Context.Professionals?.Find(new Guid(professionalId));
+    if (professional == null) throw new Exception("Profissional inválido");
+    patient.Professionals.Add(professional);
+    patient.CreatedAt = DateTime.Now;
+    patient.UpdateAt = DateTime.Now;
+    Context.Add(patient);
+    Context.SaveChanges();
+    transaction.Commit();
+  }
+
   public void Create(domain.Professional entity)
   {
     var professional = Professional.From(entity);
@@ -24,7 +39,30 @@ public class ProfessionalRepository : IProfessionalGateway
 
   public domain.Professional? Find(string id)
   {
-    return Context.Professionals?.Include("ProfessionalPatients.Patient").First(p => p.Id.Equals(new Guid(id)))?.ToEntity();
+    return Context.Professionals?.Include(p => p.Patients).First(p => p.Id.Equals(new Guid(id)))?.ToEntity();
+  }
+
+  public domain.Patient? FindPatient(string id, string professionalId)
+  {
+    var patient = Context.Patients?
+    .Include(p => p.PersonalForm)
+    .First(p => p.Id.Equals(new Guid(id)));
+
+    var patientToReturn = patient?.ToEntity();
+
+    var financialInfos = Context.ProfessionalsPatients?.First(pp => pp.PatientId.ToString().Equals(id) && pp.ProfessionalId.ToString().Equals(professionalId));
+
+    if (patientToReturn != null && financialInfos != null && financialInfos.IsFinancialInfoComplete())
+    {
+      patientToReturn.ChangeFinancialInfo(new()
+      {
+        DefaultPrice = financialInfos.DefaultPrice ?? 1000M,
+        EstimatedSessionsByWeek = financialInfos.EstimatedSessionsByWeek ?? 0,
+        EstimatedTimeSessionInMinutes = financialInfos.EstimatedTimeSessionInMinutes ?? 0,
+        SessionType = financialInfos.SessionType ?? "",
+      });
+    }
+    return patientToReturn;
   }
 
   public bool IsExists(string document, string email)
@@ -49,23 +87,54 @@ public class ProfessionalRepository : IProfessionalGateway
       .OrderBy(p => p.CreatedAt)
       .Skip(pageAble.PageIndex - 1)
       .Take(pageAble.PageSize)
-      .Include("ProfessionalPatients.Patient")
+      .Include(p => p.Patients)
       .ToList();
     return new(list.Select(p => p.ToEntity()), pageAble);
   }
 
   public void Update(domain.Professional entity)
   {
-    var transaction = Context.Database.BeginTransaction();
     var professional = (Context.Professionals?.Find(entity.Id)) ?? throw new Exception("ProfessionalRepository: Profissional não encontrado");
     professional.FromEntity(entity);
     professional.UpdateAt = DateTime.Now;
-    professional.Patients?.ToList().ForEach(p => Context.Add(p));
-    professional.ProfessionalPatients?.ToList().ForEach(pp =>
+    Context.SaveChanges();
+  }
+
+  public void UpdatePatient(domain.Patient entity, string professionalId)
+  {
+    var transaction = Context.Database.BeginTransaction();
+    var patient = (Context.Patients?.Include(p => p.ProfessionalPatients).First(p => p.Id.Equals(entity.Id)))
+      ?? throw new Exception("ProfessionalRepository: Patient não encontrado");
+    patient.FromEntity(entity);
+    patient.UpdateAt = DateTime.Now;
+    if (entity.FinancialInfo != null)
     {
-      pp.UpdateAt = DateTime.Now;
-      Context.Add(pp);
-    });
+      var professionalPatients = patient.ProfessionalPatients.Find(pp => pp.ProfessionalId.ToString().Equals(professionalId));
+      if (professionalPatients == null)
+      {
+        professionalPatients = new()
+        {
+          Id = Guid.NewGuid(),
+          ProfessionalId = new Guid(professionalId),
+          PatientId = patient.Id,
+          CreatedAt = DateTime.Now,
+          UpdateAt = DateTime.Now,
+          DefaultPrice = entity.FinancialInfo.DefaultPrice,
+          EstimatedSessionsByWeek = entity.FinancialInfo.EstimatedSessionsByWeek,
+          EstimatedTimeSessionInMinutes = entity.FinancialInfo.EstimatedTimeSessionInMinutes,
+          SessionType = entity.FinancialInfo.SessionType
+        };
+        Context.Add(professionalPatients);
+      }
+      else
+      {
+        professionalPatients.DefaultPrice = entity.FinancialInfo.DefaultPrice;
+        professionalPatients.EstimatedSessionsByWeek = entity.FinancialInfo.EstimatedSessionsByWeek;
+        professionalPatients.EstimatedTimeSessionInMinutes = entity.FinancialInfo.EstimatedTimeSessionInMinutes;
+        professionalPatients.SessionType = entity.FinancialInfo.SessionType;
+        professionalPatients.UpdateAt = DateTime.Now;
+      }
+    }
     Context.SaveChanges();
     transaction.Commit();
   }

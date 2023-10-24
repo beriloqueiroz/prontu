@@ -10,10 +10,11 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
     ProfessionalGateway = professionalGateway;
   }
 
-  public PaginatedList<ListProfessionalOutputDto> Execute(ListProfessionalInputDto input)
+  public PaginatedList<ProfessionalDefaultDto> Execute(ListProfessionalInputDto input)
   {
     PageAble pageAble = new(input.PageSize, input.PageIndex);
     PaginatedList<Professional>? professionals;
+
     try
     {
       professionals = ProfessionalGateway.List(pageAble);
@@ -22,16 +23,22 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
     {
       throw new ApplicationException("ListProfessionalUseCase: Erro ao listar profissionais", e);
     }
+
     var professionalList = professionals.Select(professional =>
-        new ListProfessionalOutputDto(
+        new ProfessionalDefaultDto(
           professional.Id.ToString(),
           professional.Name,
           professional.Email,
           professional.Document.Value,
           professional.ProfessionalDocument,
           professional.Patients?.Select(pat =>
-            new ListProfessionalPatientOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active)).ToArray() ?? Array.Empty<ListProfessionalPatientOutputDto>()));
+            new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active, null, null)).ToArray() ?? Array.Empty<PatientDefaultDto>()));
 
-    return new PaginatedList<ListProfessionalOutputDto>(professionalList, pageAble);
+    return new PaginatedList<ProfessionalDefaultDto>(professionalList, pageAble);
   }
 }
+
+public record ListProfessionalInputDto(
+  int PageSize,
+  int PageIndex
+);

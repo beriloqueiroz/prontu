@@ -49,7 +49,7 @@ public class Patient : Entity
     Validate();
   }
 
-  public void AddPersonalForm(PersonalForm personalForm)
+  public void ChangePersonalForm(PersonalForm personalForm)
   {
     PersonalForm = personalForm;
     Validate();

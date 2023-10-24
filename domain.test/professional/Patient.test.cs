@@ -163,7 +163,7 @@ public class PatientTest
   public void ShouldBePopulatePersonalForm()
   {
     Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
-    patient.AddPersonalForm(new()
+    patient.ChangePersonalForm(new()
     {
       City = "Fortaleza",
       Contact = "Sicrano",
@@ -216,7 +216,7 @@ public class PatientTest
     {
       Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
 
-      patient.AddPersonalForm(new()
+      patient.ChangePersonalForm(new()
       {
         City = "",
         Contact = "",

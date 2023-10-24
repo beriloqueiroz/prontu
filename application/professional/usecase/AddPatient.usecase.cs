@@ -10,12 +10,27 @@ public class AddPatientUseCase : IAddPatientUseCase
     ProfessionalGateway = professionalGateway;
   }
 
-  public AddPatientOutputDto Execute(AddPatientInputDto input)
+  public ProfessionalDefaultDto Execute(AddPatientInputDto input)
+  {
+    Professional? professional = Find(input.ProfessionalId);
+
+    Patient patient = new(input.Name, input.Email, new Cpf(input.Document), null);
+    professional.AddPatient(patient);
+
+    AddPatient(patient, input.ProfessionalId);
+
+    PatientDefaultDto[]? addPatientsOutputDto = professional.Patients?.Select(pat =>
+      new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.IsActive(), null, null)).ToArray();
+
+    return new ProfessionalDefaultDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, professional.ProfessionalDocument, addPatientsOutputDto ?? Array.Empty<PatientDefaultDto>());
+  }
+
+  private Professional Find(string id)
   {
     Professional? professional;
     try
     {
-      professional = ProfessionalGateway.Find(input.ProfessionalId);
+      professional = ProfessionalGateway.Find(id);
     }
     catch (Exception e)
     {
@@ -25,18 +40,25 @@ public class AddPatientUseCase : IAddPatientUseCase
     {
       throw new ApplicationException("AddPatientUseCase: Profissional não encontrado");
     }
-    Patient patient = new(input.Name, input.Email, new Cpf(input.Document), null);
-    professional.AddPatient(patient);
+    return professional;
+  }
+  private void AddPatient(Patient patient, string professionalId)
+  {
     try
     {
-      ProfessionalGateway.Update(professional);
+      ProfessionalGateway.AddPatient(patient, professionalId);
     }
     catch (Exception e)
     {
-      throw new ApplicationException("AddPatientUseCase: Erro ao atualizar", e);
+      throw new ApplicationException("AddPatientUseCase: Erro ao adicionar", e);
     }
-    AddPatientsOutputDto[]? addPatientsOutputDto = professional.Patients?.Select(pat =>
-      new AddPatientsOutputDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.IsActive())).ToArray();
-    return new AddPatientOutputDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, professional.ProfessionalDocument, addPatientsOutputDto ?? Array.Empty<AddPatientsOutputDto>());
   }
 }
+
+public record AddPatientInputDto(
+  string ProfessionalId,
+  string Name,
+  string Email,
+  string Document
+);
+

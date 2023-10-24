@@ -1,7 +1,7 @@
 # Modelagem e Projeto
 
 O que é:
-É uma aplicação cuja função é gerenciar os pacientes de um psicólogo.
+É uma aplicação cuja função é gerenciar os pacientes de um profissional.
 
 ## Designer pattern do projeto
 
@@ -19,7 +19,7 @@ Na camada de aplicação, estão os use cases, que representam as intensões do 
 ## application
 
 - Estão os casos de uso, representação da intensão de usuário, entendendo como usuário tudo que for usar este sistema.
-- Estão as interfaces dos gateways/serviços/repositórios, contratos claros do que o sistema precisa para orquestrar as regras de negócio e executar a intensão do usuário.
+- Estão as interfaces dos gateways/serviços/repositórios, contratos claros do que o sistema precisa para orquestrar as regras da aplicação e executar a intensão do usuário.
 
 ## infraestructure
 
@@ -126,3 +126,10 @@ quando o negócio já existe é a linguagem que os departamentos usam pra se com
   ```bash
   docker ps
   ```
+
+  ```bash
+  cd ../..
+  dotnet run --project infrastructure/api/api.csproj --environment "Development"
+  ```
+
+  - <http://localhost:5100/swagger>

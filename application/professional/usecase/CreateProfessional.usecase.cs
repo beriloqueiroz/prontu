@@ -12,10 +12,22 @@ public class CreateProfessionalUseCase : ICreateProfessionalUseCase
 
   public CreateProfessionalOutputDto Execute(CreateProfessionalInputDto input)
   {
+    VerifyIfProfessionalExists(input.Document, input.Email);
+
+    Cpf cpf = new(input.Document);
+    Professional professional = new(input.ProfessionalDocument, input.Name, input.Email, cpf, new List<Patient>(), null);
+
+    CreateProfessional(professional);
+
+    return new CreateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, cpf.Value, input.ProfessionalDocument);
+  }
+
+  private void VerifyIfProfessionalExists(string document, string email)
+  {
     bool exists;
     try
     {
-      exists = ProfessionalGateway.IsExists(input.Document, input.Email);
+      exists = ProfessionalGateway.IsExists(document, email);
     }
     catch (Exception e)
     {
@@ -25,8 +37,10 @@ public class CreateProfessionalUseCase : ICreateProfessionalUseCase
     {
       throw new ApplicationException("CreateProfessionalUseCase: Já existe um profissional cadastrado");
     }
-    Cpf cpf = new(input.Document);
-    Professional professional = new(input.ProfessionalDocument, input.Name, input.Email, cpf, new List<Patient>(), null);
+  }
+
+  private void CreateProfessional(Professional professional)
+  {
     try
     {
       ProfessionalGateway.Create(professional);
@@ -35,6 +49,20 @@ public class CreateProfessionalUseCase : ICreateProfessionalUseCase
     {
       throw new ApplicationException("CreateProfessionalUseCase: Erro ao criar", e);
     }
-    return new CreateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, cpf.Value, input.ProfessionalDocument);
   }
 }
+
+public record CreateProfessionalInputDto(
+  string Name,
+  string Email,
+  string Document,
+  string ProfessionalDocument
+);
+
+public record CreateProfessionalOutputDto(
+  string Id,
+  string Name,
+  string Email,
+  string Document,
+  string ProfessionalDocument
+);

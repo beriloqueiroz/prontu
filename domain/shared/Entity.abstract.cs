@@ -1,6 +1,7 @@
 namespace domain;
 public abstract class Entity
 {
+  public bool IsNew { get; } = false;
   public Guid Id { get; private set; }
   public Notification notification = new();
   public Entity(string? id)
@@ -8,6 +9,7 @@ public abstract class Entity
     if (id == null)
     {
       Id = Guid.NewGuid();
+      IsNew = true;
       return;
     }
     Guid guid;

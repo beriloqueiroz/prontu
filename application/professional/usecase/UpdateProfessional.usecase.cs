@@ -10,12 +10,25 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     ProfessionalGateway = professionalGateway;
   }
 
-  public UpdateProfessionalOutputDto Execute(UpdateProfessionalInputDto input)
+  public ProfessionalDefaultDto Execute(UpdateProfessionalInputDto input)
+  {
+    Professional professional = FindProfessional(input.Id);
+
+    professional.ChangeEmail(input.Email);
+    professional.ChangeName(input.Name);
+    professional.ChangeProfessionalDocument(input.ProfessionalDocument);
+
+    UpdateProfessional(professional);
+
+    return new ProfessionalDefaultDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, null);
+  }
+
+  private Professional FindProfessional(string professionalId)
   {
     Professional? professional;
     try
     {
-      professional = ProfessionalGateway.Find(input.Id);
+      professional = ProfessionalGateway.Find(professionalId);
     }
     catch (Exception e)
     {
@@ -25,25 +38,11 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     {
       throw new ApplicationException("UpdateProfessionalUseCase: Profissional não encontrado");
     }
-    professional.ChangeEmail(input.Email);
-    professional.ChangeName(input.Name);
-    professional.ChangeProfessionalDocument(input.ProfessionalDocument);
+    return professional;
+  }
 
-    input.Patients?.ToList().ForEach(inputPatient =>
-    {
-      professional.Patients?.ForEach(patient =>
-      {
-        if (inputPatient.Id.Equals(patient.Id.ToString()))
-        {
-          patient.ChangeEmail(inputPatient.Email);
-          patient.ChangeName(inputPatient.Name);
-        }
-      });
-    });
-
-    UpdateProfessionalPatientOutputDto[]? patientsOutput = professional.Patients?.Select(patient =>
-      new UpdateProfessionalPatientOutputDto(patient.Id.ToString(), patient.Name, patient.Email, patient.Document.Value, patient.IsActive())).ToArray();
-
+  private void UpdateProfessional(Professional professional)
+  {
     try
     {
       ProfessionalGateway.Update(professional);
@@ -52,6 +51,12 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     {
       throw new ApplicationException("UpdateProfessionalUseCase: Erro ao atualizar", e);
     }
-    return new UpdateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, patientsOutput ?? Array.Empty<UpdateProfessionalPatientOutputDto>());
   }
 }
+
+public record UpdateProfessionalInputDto(
+  string Id,
+  string Name,
+  string Email,
+  string ProfessionalDocument
+);
