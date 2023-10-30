@@ -161,11 +161,20 @@ namespace repository.Migrations
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 
+                    b.Property<int?>("PaymentPeriodInDays")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PaymentType")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("ProfessionalId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("SessionType")
-                        .HasColumnType("text");
+                    b.Property<int?>("SessionQuantityPerPayment")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SessionType")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("timestamp without time zone");

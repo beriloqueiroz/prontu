@@ -12,8 +12,8 @@ using infrastructure.repository;
 namespace repository.Migrations
 {
     [DbContext(typeof(ProntuDbContext))]
-    [Migration("20231016024510_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231030042404_InitialCreateProntu")]
+    partial class InitialCreateProntu
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,11 +164,20 @@ namespace repository.Migrations
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 
+                    b.Property<int?>("PaymentPeriodInDays")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("PaymentType")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("ProfessionalId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("SessionType")
-                        .HasColumnType("text");
+                    b.Property<int?>("SessionQuantityPerPayment")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SessionType")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("timestamp without time zone");
