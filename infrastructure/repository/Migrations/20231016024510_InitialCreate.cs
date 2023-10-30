@@ -81,7 +81,7 @@ namespace repository.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProfessionalId = table.Column<Guid>(type: "uuid", nullable: false),
                     PatientId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DefaultPrice = table.Column<decimal>(type: "numeric", nullable: true),
+                    DefaultSessionPrice = table.Column<decimal>(type: "numeric", nullable: true),
                     EstimatedSessionsByWeek = table.Column<int>(type: "integer", nullable: true),
                     EstimatedTimeSessionInMinutes = table.Column<int>(type: "integer", nullable: true),
                     SessionType = table.Column<string>(type: "text", nullable: true),

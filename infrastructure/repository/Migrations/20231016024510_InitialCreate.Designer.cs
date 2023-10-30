@@ -152,7 +152,7 @@ namespace repository.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<decimal?>("DefaultPrice")
+                    b.Property<decimal?>("DefaultSessionPrice")
                         .HasColumnType("numeric");
 
                     b.Property<int?>("EstimatedSessionsByWeek")

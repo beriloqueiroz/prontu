@@ -58,14 +58,14 @@ public class UpdatePatientUsecaseTest
       "teste.silva@gmail.com",
       "86153877028",
       true,
-      new(12.5M, 1, 50, "Remoto"),
+      new(12.5M, 1, 50, SessionType.ONLINE, PaymentType.PER_SESSION, null, null),
       new("Rua dos bobos", "Aracapé", "Fortaleza", "123", "Brasil", "60511111", "Ceará", "Pai", "858585858585", "", null));
 
     var output = Usecase?.Execute(input);
 
     Assert.AreEqual(output?.Email, input.Email);
     Assert.AreEqual(output?.Id, input.PatientId);
-    Assert.AreEqual(output?.FinancialInfo?.DefaultPrice, 12.5M);
+    Assert.AreEqual(output?.FinancialInfo?.DefaultSessionPrice, 12.5M);
     Assert.AreEqual(output?.PersonalForm?.Street, "Rua dos bobos");
     mock.Verify(mk => mk.UpdatePatient(It.IsAny<Patient>(), professionalId), Times.Once());
   }

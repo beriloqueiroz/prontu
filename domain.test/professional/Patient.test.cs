@@ -146,17 +146,20 @@ public class PatientTest
     Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
     patient.ChangeFinancialInfo(new()
     {
-      DefaultPrice = 12.5M,
+      DefaultSessionPrice = 12.5M,
       EstimatedSessionsByWeek = 4,
       EstimatedTimeSessionInMinutes = 50,
-      SessionType = "Remoto"
+      SessionType = SessionType.ONLINE,
+      PaymentType = PaymentType.GROUPED,
+      PaymentPeriodInDays = 30,
+      SessionQuantityPerPayment = 4
     });
 
     Assert.IsNotNull(patient);
     Assert.IsTrue(patient.Active);
     Assert.AreEqual(patient.Name, "Fulano de tal");
-    Assert.AreEqual(patient.FinancialInfo?.SessionType, "Remoto");
-    Assert.AreEqual(patient.FinancialInfo?.DefaultPrice, 12.5M);
+    Assert.AreEqual(patient.FinancialInfo?.SessionType, SessionType.ONLINE);
+    Assert.AreEqual(patient.FinancialInfo?.DefaultSessionPrice, 12.5M);
   }
 
   [TestMethod]
@@ -194,10 +197,13 @@ public class PatientTest
 
       patient.ChangeFinancialInfo(new()
       {
-        DefaultPrice = -12.5M,
+        DefaultSessionPrice = -12.5M,
         EstimatedSessionsByWeek = 0,
         EstimatedTimeSessionInMinutes = 10,
-        SessionType = "Remoto"
+        SessionType = SessionType.ONLINE,
+        PaymentType = PaymentType.GROUPED,
+        PaymentPeriodInDays = 30,
+        SessionQuantityPerPayment = 1
       });
       Assert.Fail();
     }
@@ -206,6 +212,31 @@ public class PatientTest
       Assert.IsTrue(e.Message.Contains("Preço inválido"));
       Assert.IsTrue(e.Message.Contains("Quantidade de sessões por semana inválida"));
       Assert.IsTrue(e.Message.Contains("Tempo estimado para sessão inválido"));
+      Assert.IsTrue(e.Message.Contains("Para o tipo de pagamento selecionado, deve-se haver uma quantidade de sessões por pagamento maior do que 1 (dois)"));
+    }
+
+    try
+    {
+      Patient patient = new("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), null);
+
+      patient.ChangeFinancialInfo(new()
+      {
+        DefaultSessionPrice = -12.5M,
+        EstimatedSessionsByWeek = 0,
+        EstimatedTimeSessionInMinutes = 10,
+        SessionType = SessionType.ONLINE,
+        PaymentType = PaymentType.PER_SESSION,
+        PaymentPeriodInDays = 30,
+        SessionQuantityPerPayment = 3
+      });
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Preço inválido"));
+      Assert.IsTrue(e.Message.Contains("Quantidade de sessões por semana inválida"));
+      Assert.IsTrue(e.Message.Contains("Tempo estimado para sessão inválido"));
+      Assert.IsTrue(e.Message.Contains("Para o tipo de pagamento selecionado, deve-se haver uma quantidade de sessões igual a 1 (hum), ou deixar nulo"));
     }
   }
 

@@ -251,10 +251,13 @@ public class ProfessionalTest
     patientChanged.ChangeFinancialInfo(
       new()
       {
-        DefaultPrice = 12.5M,
+        DefaultSessionPrice = 12.5M,
         EstimatedSessionsByWeek = 4,
         EstimatedTimeSessionInMinutes = 50,
-        SessionType = "Remoto"
+        SessionType = SessionType.ONLINE,
+        PaymentType = PaymentType.GROUPED,
+        PaymentPeriodInDays = 30,
+        SessionQuantityPerPayment = 4
       });
     patientChanged.ChangePersonalForm(new()
     {

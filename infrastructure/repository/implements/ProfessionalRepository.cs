@@ -56,10 +56,13 @@ public class ProfessionalRepository : IProfessionalGateway
     {
       patientToReturn.ChangeFinancialInfo(new()
       {
-        DefaultPrice = financialInfos.DefaultPrice ?? 1000M,
+        DefaultSessionPrice = financialInfos.DefaultSessionPrice ?? 1000M,
         EstimatedSessionsByWeek = financialInfos.EstimatedSessionsByWeek ?? 0,
         EstimatedTimeSessionInMinutes = financialInfos.EstimatedTimeSessionInMinutes ?? 0,
-        SessionType = financialInfos.SessionType ?? "",
+        SessionType = financialInfos.SessionType ?? domain.SessionType.OFFLINE,
+        PaymentType = financialInfos.PaymentType ?? domain.PaymentType.PER_SESSION,
+        PaymentPeriodInDays = financialInfos.PaymentPeriodInDays,
+        SessionQuantityPerPayment = financialInfos.SessionQuantityPerPayment
       });
     }
     return patientToReturn;
@@ -119,7 +122,7 @@ public class ProfessionalRepository : IProfessionalGateway
           PatientId = patient.Id,
           CreatedAt = DateTime.Now,
           UpdateAt = DateTime.Now,
-          DefaultPrice = entity.FinancialInfo.DefaultPrice,
+          DefaultSessionPrice = entity.FinancialInfo.DefaultSessionPrice,
           EstimatedSessionsByWeek = entity.FinancialInfo.EstimatedSessionsByWeek,
           EstimatedTimeSessionInMinutes = entity.FinancialInfo.EstimatedTimeSessionInMinutes,
           SessionType = entity.FinancialInfo.SessionType
@@ -128,7 +131,7 @@ public class ProfessionalRepository : IProfessionalGateway
       }
       else
       {
-        professionalPatients.DefaultPrice = entity.FinancialInfo.DefaultPrice;
+        professionalPatients.DefaultSessionPrice = entity.FinancialInfo.DefaultSessionPrice;
         professionalPatients.EstimatedSessionsByWeek = entity.FinancialInfo.EstimatedSessionsByWeek;
         professionalPatients.EstimatedTimeSessionInMinutes = entity.FinancialInfo.EstimatedTimeSessionInMinutes;
         professionalPatients.SessionType = entity.FinancialInfo.SessionType;
