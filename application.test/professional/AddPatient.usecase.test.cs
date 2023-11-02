@@ -22,7 +22,6 @@ public class AddPatientUsecaseTest
   public void ShouldBeExecuteAddPatientUseCase()
   {
     var professionalId = Guid.NewGuid().ToString();
-    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
 
     var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028");
@@ -37,7 +36,6 @@ public class AddPatientUsecaseTest
   public void ShouldNotBeExecuteAddPatientUseCaseWhenProfessionalNotExists()
   {
     var professionalId = Guid.NewGuid().ToString();
-    var patientId = Guid.NewGuid().ToString();
     Professional? professional = null;
     mock.Setup(p => p.Find(professionalId)).Returns(professional);
 
@@ -45,7 +43,7 @@ public class AddPatientUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      _ = Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -59,14 +57,13 @@ public class AddPatientUsecaseTest
   public void ShouldNotBeExecuteAddPatientUseCaseWhenFindError()
   {
     var professionalId = Guid.NewGuid().ToString();
-    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Throws(new Exception("teste error"));
 
     var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028");
 
     try
     {
-      var output = Usecase?.Execute(input);
+      _ = Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -80,7 +77,6 @@ public class AddPatientUsecaseTest
   public void ShouldNotBeExecuteAddPatientUseCaseWhenAddError()
   {
     var professionalId = Guid.NewGuid().ToString();
-    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.AddPatient(It.IsAny<Patient>(), It.IsAny<string>())).Throws(new Exception("teste error"));
 
@@ -88,7 +84,7 @@ public class AddPatientUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      _ = Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)

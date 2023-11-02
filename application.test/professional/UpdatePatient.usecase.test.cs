@@ -8,7 +8,7 @@ namespace application.test;
 public class UpdatePatientUsecaseTest
 {
 
-  private Mock<IProfessionalGateway> mock = new();
+  private readonly Mock<IProfessionalGateway> mock = new();
   private UpdatePatientUseCase? Usecase;
 
   [TestInitialize]
@@ -65,8 +65,8 @@ public class UpdatePatientUsecaseTest
 
     Assert.AreEqual(output?.Email, input.Email);
     Assert.AreEqual(output?.Id, input.PatientId);
-    Assert.AreEqual(output?.FinancialInfo?.DefaultSessionPrice, 12.5M);
-    Assert.AreEqual(output?.PersonalForm?.Street, "Rua dos bobos");
+    Assert.AreEqual(12.5M, output?.FinancialInfo?.DefaultSessionPrice);
+    Assert.AreEqual("Rua dos bobos", output?.PersonalForm?.Street);
     mock.Verify(mk => mk.UpdatePatient(It.IsAny<Patient>(), professionalId), Times.Once());
   }
 
@@ -89,7 +89,7 @@ public class UpdatePatientUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -119,7 +119,7 @@ public class UpdatePatientUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -149,7 +149,7 @@ public class UpdatePatientUsecaseTest
       null, null);
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -159,7 +159,7 @@ public class UpdatePatientUsecaseTest
     }
   }
 
-  private Patient CreateValidPatient()
+  private static Patient CreateValidPatient()
   {
     return new Patient("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), Guid.NewGuid().ToString());
   }

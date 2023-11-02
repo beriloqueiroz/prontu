@@ -9,7 +9,7 @@ namespace application.test;
 public class CreateProfessionalUsecaseTest
 {
 
-  private Mock<IProfessionalGateway> mock = new();
+  private readonly Mock<IProfessionalGateway> mock = new();
   private CreateProfessionalUseCase? Usecase;
 
   [TestInitialize]
@@ -33,16 +33,13 @@ public class CreateProfessionalUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteCreateProfessionalUseCaseWhenProfessionalAlreadyExists()
   {
-    var professionalId = Guid.NewGuid().ToString();
-    var patientId = Guid.NewGuid().ToString();
-    Professional? professional = CreateValidProfessional();
     mock.Setup(p => p.IsExists(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
     var input = new CreateProfessionalInputDto("teste da silva", "teste@gmail.com", "86153877028", "123654");
 
     try
     {
-      var output = Usecase?.Execute(input);
+      _ = Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -55,15 +52,13 @@ public class CreateProfessionalUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteCreateProfessionalUseCaseWhenVerifyIfExistsError()
   {
-    var professionalId = Guid.NewGuid().ToString();
-    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.IsExists(It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception("teste error"));
 
     var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654");
 
     try
     {
-      var output = Usecase?.Execute(input);
+      _ = Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -77,7 +72,6 @@ public class CreateProfessionalUsecaseTest
   public void ShouldNotBeExecuteCreateProfessionalUseCaseWhenCreateError()
   {
     var professionalId = Guid.NewGuid().ToString();
-    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.Create(It.IsAny<Professional>())).Throws(new Exception("teste error"));
 
@@ -85,7 +79,7 @@ public class CreateProfessionalUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      _ = Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
