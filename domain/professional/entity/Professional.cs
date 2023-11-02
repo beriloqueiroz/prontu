@@ -6,7 +6,7 @@ public class Professional : AggregateRoot
   public string Name { get; private set; }
   public string Email { get; private set; }
   public IDocument Document { get; private set; }
-  public List<Patient> Patients { get; private set; } = new List<Patient>();
+  public List<Patient> Patients { get; private set; }
 
   public Professional(string professionalDocument, string name, string email, IDocument document, List<Patient> patients, string? id) : base(id)
   {
@@ -29,11 +29,11 @@ public class Professional : AggregateRoot
       notification.AddError(new NotificationError("Professional", "Não é possível adicionar paciente"));
       throw new DomainException(notification.GetErrors());
     }
-    if (Patients.Any(pat => pat.Document.Value.Equals(patient.Document.Value)))
+    if (Patients.Exists(pat => pat.Document.Value.Equals(patient.Document.Value)))
     {
       notification.AddError(new NotificationError("Professional", "Já existe um paciente cadastrado com documento informado"));
     }
-    if (Patients.Any(pat => pat.Email.Equals(patient.Email)))
+    if (Patients.Exists(pat => pat.Email.Equals(patient.Email)))
     {
       notification.AddError(new NotificationError("Professional", "Já existe um paciente cadastrado com email informado"));
     }
@@ -56,11 +56,11 @@ public class Professional : AggregateRoot
     {
       throw new DomainException("Professional: Paciente não é atendido pelo profissional");
     }
-    if (Patients.Any(pat => pat.Document.Value.Equals(patient.Document.Value) && !pat.Id.ToString().Equals(patient.Id.ToString())))
+    if (Patients.Exists(pat => pat.Document.Value.Equals(patient.Document.Value) && !pat.Id.ToString().Equals(patient.Id.ToString())))
     {
       notification.AddError(new NotificationError("Professional", "Já existe um paciente cadastrado com documento informado"));
     }
-    if (Patients.Any(pat => pat.Email.Equals(patient.Email) && !pat.Id.ToString().Equals(patient.Id.ToString())))
+    if (Patients.Exists(pat => pat.Email.Equals(patient.Email) && !pat.Id.ToString().Equals(patient.Id.ToString())))
     {
       notification.AddError(new NotificationError("Professional", "Já existe um paciente cadastrado com email informado"));
     }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace repository.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateProntu : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,10 +81,13 @@ namespace repository.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProfessionalId = table.Column<Guid>(type: "uuid", nullable: false),
                     PatientId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DefaultPrice = table.Column<decimal>(type: "numeric", nullable: true),
+                    DefaultSessionPrice = table.Column<decimal>(type: "numeric", nullable: true),
                     EstimatedSessionsByWeek = table.Column<int>(type: "integer", nullable: true),
                     EstimatedTimeSessionInMinutes = table.Column<int>(type: "integer", nullable: true),
-                    SessionType = table.Column<string>(type: "text", nullable: true),
+                    SessionType = table.Column<int>(type: "integer", nullable: true),
+                    PaymentType = table.Column<int>(type: "integer", nullable: true),
+                    PaymentPeriodInDays = table.Column<int>(type: "integer", nullable: true),
+                    SessionQuantityPerPayment = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },

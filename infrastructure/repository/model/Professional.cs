@@ -32,7 +32,6 @@ public class Professional : Model
 
   public static Professional From(domain.Professional entity)
   {
-    var patients = entity.Patients.Select(Patient.From).ToList();
     return new Professional()
     {
       Id = entity.Id,

@@ -9,7 +9,7 @@ namespace application.test;
 public class ListProfessionalUsecaseTest
 {
 
-  private Mock<IProfessionalGateway> mock = new();
+  private readonly Mock<IProfessionalGateway> mock = new();
   private ListProfessionalUseCase? Usecase;
 
   [TestInitialize]
@@ -28,7 +28,7 @@ public class ListProfessionalUsecaseTest
 
     var output = Usecase?.Execute(input);
 
-    Assert.AreEqual(output?.Count, 0);
+    Assert.AreEqual(0, output?.Count);
     mock.Verify(mk => mk.List(It.IsAny<PageAble>()), Times.Once());
   }
 
@@ -41,7 +41,7 @@ public class ListProfessionalUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -70,7 +70,7 @@ public class ListProfessionalUsecaseTest
 
     var output = Usecase?.Execute(input);
 
-    Assert.AreEqual(output?.Count, 4);
+    Assert.AreEqual(4, output?.Count);
     for (int i = 0; i < professionals.Count; i++)
     {
       Assert.AreEqual(professionals[i].Name, output?[i].Name);
@@ -78,7 +78,7 @@ public class ListProfessionalUsecaseTest
     mock.Verify(mk => mk.List(It.IsAny<PageAble>()), Times.Once());
   }
 
-  private Professional CreateValidProfessional(string uuid)
+  private static Professional CreateValidProfessional(string uuid)
   {
     return new Professional(uuid, "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
   }

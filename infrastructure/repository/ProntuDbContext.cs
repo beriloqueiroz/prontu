@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 public class ProntuDbContext : DbContext
 {
-  public static string UrlConnection = "Host=localhost;Database=prontu_db;Username=teste;Password=teste";
+  public static readonly string UrlConnection = "Host=localhost;Database=prontu_db;Username=teste;Password=teste";
   public ProntuDbContext(DbContextOptions<ProntuDbContext> options) : base(options)
   {
     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);//para solucionar datetime error Pgsql
   }
-  protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseNpgsql(UrlConnection);
+  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseNpgsql(UrlConnection);
   public DbSet<Professional>? Professionals { get; set; }
   public DbSet<Patient>? Patients { get; set; }
   public DbSet<ProfessionalPatient>? ProfessionalsPatients { get; set; }

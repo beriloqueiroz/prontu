@@ -1,7 +1,7 @@
 namespace domain;
 public class Notification
 {
-  private List<NotificationError> Errors = new List<NotificationError>();
+  private readonly List<NotificationError> Errors = new List<NotificationError>();
 
   public void AddError(NotificationError error)
   {
@@ -20,7 +20,7 @@ public class Notification
     {
       if (context == null || error.context.Equals(context))
       {
-        message += $"{error.context}: {error.message}" + (message.Equals("") ? "" : ",");
+        message += $"{error.context}: {error.message}" + (string.IsNullOrEmpty(message) ? "" : ",");
       }
     });
     return message;

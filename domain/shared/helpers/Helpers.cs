@@ -8,8 +8,7 @@ public static class Helpers
   {
     try
     {
-      new MailAddress(email);
-
+      _ = new MailAddress(email);
       return true;
     }
     catch (FormatException)

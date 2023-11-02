@@ -29,14 +29,14 @@ public class Cpf : IDocument
 
   private int SecondDigit(string cpf)
   {
-    int mult = 11;
+    int multiply = 11;
     int sum = 0;
 
     int rest;
     for (rest = 0; rest < 10; ++rest)
     {
-      sum += mult * int.Parse(cpf[rest].ToString());
-      --mult;
+      sum += multiply * int.Parse(cpf[rest].ToString());
+      --multiply;
     }
 
     rest = 11 - sum % 11;
@@ -50,14 +50,14 @@ public class Cpf : IDocument
 
   private int FirstDigit(string cpf)
   {
-    int mult = 10;
+    int multiply = 10;
     int sum = 0;
 
     int rest;
     for (rest = 0; rest < 9; ++rest)
     {
-      sum += mult * int.Parse(cpf[rest].ToString());
-      --mult;
+      sum += multiply * int.Parse(cpf[rest].ToString());
+      --multiply;
     }
 
     rest = 11 - sum % 11;

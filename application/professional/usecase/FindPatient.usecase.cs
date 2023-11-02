@@ -34,10 +34,13 @@ public class FindPatientUseCase : IFindPatientUseCase
       patient.Document.Value,
       patient.IsActive(),
       patient.FinancialInfo != null ? new(
-        patient.FinancialInfo.DefaultPrice,
+        patient.FinancialInfo.DefaultSessionPrice,
         patient.FinancialInfo.EstimatedSessionsByWeek,
         patient.FinancialInfo.EstimatedTimeSessionInMinutes,
-        patient.FinancialInfo.SessionType) : null,
+        patient.FinancialInfo.SessionType,
+        patient.FinancialInfo.PaymentType,
+        patient.FinancialInfo.PaymentPeriodInDays,
+        patient.FinancialInfo.SessionQuantityPerPayment) : null,
       patient.PersonalForm != null ? new(
         patient.PersonalForm?.Street,
         patient.PersonalForm?.Neighborhood,

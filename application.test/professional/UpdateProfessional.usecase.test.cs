@@ -8,7 +8,7 @@ namespace application.test;
 public class UpdateProfessionalUsecaseTest
 {
 
-  private Mock<IProfessionalGateway> mock = new();
+  private readonly Mock<IProfessionalGateway> mock = new();
   private UpdateProfessionalUseCase? Usecase;
 
   [TestInitialize]
@@ -42,7 +42,7 @@ public class UpdateProfessionalUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -62,7 +62,7 @@ public class UpdateProfessionalUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -76,7 +76,6 @@ public class UpdateProfessionalUsecaseTest
   public void ShouldNotBeExecuteUpdateProfessionalUseCaseWhenUpdateError()
   {
     var professionalId = Guid.NewGuid().ToString();
-    var patientId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new Exception("teste error"));
 
@@ -84,7 +83,7 @@ public class UpdateProfessionalUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -94,7 +93,7 @@ public class UpdateProfessionalUsecaseTest
     }
   }
 
-  private Professional CreateValidProfessional()
+  private static Professional CreateValidProfessional()
   {
     return new Professional("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
   }

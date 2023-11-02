@@ -9,7 +9,7 @@ namespace application.test;
 public class FindPatientUsecaseTest
 {
 
-  private Mock<IProfessionalGateway> mock = new();
+  private readonly Mock<IProfessionalGateway> mock = new();
   private FindPatientUseCase? Usecase;
 
   [TestInitialize]
@@ -42,7 +42,7 @@ public class FindPatientUsecaseTest
     var patientId = Guid.NewGuid().ToString();
     var professionalId = Guid.NewGuid().ToString();
 
-    Patient? patient = CreateValidPatient(patientId.ToString());
+    CreateValidPatient(patientId.ToString());
 
     Patient? patientFound = null;
 
@@ -52,7 +52,7 @@ public class FindPatientUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -68,7 +68,7 @@ public class FindPatientUsecaseTest
     var patientId = Guid.NewGuid().ToString();
     var professionalId = Guid.NewGuid().ToString();
 
-    Patient? patient = CreateValidPatient(patientId.ToString());
+    CreateValidPatient(patientId.ToString());
 
     mock.Setup(p => p.FindPatient(patientId, professionalId)).Throws(new Exception("erro no find"));
 
@@ -76,7 +76,7 @@ public class FindPatientUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -86,7 +86,7 @@ public class FindPatientUsecaseTest
     }
   }
 
-  private Patient CreateValidPatient(string uuid)
+  private static Patient CreateValidPatient(string uuid)
   {
     return new Patient("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), uuid);
   }

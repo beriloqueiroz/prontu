@@ -9,7 +9,7 @@ namespace application.test;
 public class FindProfessionalUsecaseTest
 {
 
-  private Mock<IProfessionalGateway> mock = new();
+  private readonly Mock<IProfessionalGateway> mock = new();
   private FindProfessionalUseCase? Usecase;
 
   [TestInitialize]
@@ -39,7 +39,7 @@ public class FindProfessionalUsecaseTest
   public void ShouldNotBeExecuteFindProfessionalUseCaseWhenProfessionalNotFound()
   {
     var professionalId = Guid.NewGuid().ToString();
-    Professional? professional = CreateValidProfessional(professionalId.ToString());
+    CreateValidProfessional(professionalId.ToString());
 
     Professional? professionalFound = null;
 
@@ -49,7 +49,7 @@ public class FindProfessionalUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)
@@ -63,7 +63,7 @@ public class FindProfessionalUsecaseTest
   public void ShouldNotBeExecuteFindProfessionalUseCaseWhenFindError()
   {
     var professionalId = Guid.NewGuid().ToString();
-    Professional? professional = CreateValidProfessional(professionalId.ToString());
+    CreateValidProfessional(professionalId.ToString());
 
     mock.Setup(p => p.Find(professionalId)).Throws(new Exception("erro no find"));
 
@@ -71,7 +71,7 @@ public class FindProfessionalUsecaseTest
 
     try
     {
-      var output = Usecase?.Execute(input);
+      Usecase?.Execute(input);
       Assert.Fail();
     }
     catch (ApplicationException e)

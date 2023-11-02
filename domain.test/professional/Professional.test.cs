@@ -9,7 +9,7 @@ public class ProfessionalTest
     Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
 
     Assert.IsNotNull(professional);
-    Assert.AreEqual(professional.Name, "Fulano de tal");
+    Assert.AreEqual("Fulano de tal", professional.Name);
   }
 
   [TestMethod]
@@ -17,12 +17,12 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("123654789", "", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      _ = new Professional("123654789", "", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
     {
-      Assert.AreEqual(e.Message, "Professional: Nome inválido");
+      Assert.AreEqual("Professional: Nome inválido", e.Message);
     }
   }
 
@@ -31,12 +31,12 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("123654789", "Fulano de tal", "fulano.talgmail.com", new Cpf("74838333005"), new(), null);
+      _ = new Professional("123654789", "Fulano de tal", "fulano.talgmail.com", new Cpf("74838333005"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
     {
-      Assert.AreEqual(e.Message, "Professional: Email inválido");
+      Assert.AreEqual("Professional: Email inválido", e.Message);
     }
   }
 
@@ -45,12 +45,12 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      _ = new Professional("", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
     {
-      Assert.AreEqual(e.Message, "Professional: Documento profissional inválido");
+      Assert.AreEqual("Professional: Documento profissional inválido", e.Message);
     }
   }
 
@@ -59,12 +59,12 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("12365478"), new(), null);
+      _ = new Professional("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("12365478"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
     {
-      Assert.AreEqual(e.Message, "Professional: Cpf inválido");
+      Assert.AreEqual("Professional: Cpf inválido", e.Message);
     }
   }
 
@@ -73,7 +73,7 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("123654789", "", "fulano.talgmail.com", new Cpf("123654"), new(), null);
+      _ = new Professional("123654789", "", "fulano.talgmail.com", new Cpf("123654"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
@@ -93,8 +93,8 @@ public class ProfessionalTest
     professional.AddPatient(patient);
 
     Assert.IsNotNull(professional.Patients);
-    Assert.AreEqual(professional.Patients.Count, 1);
-    Assert.AreEqual(professional.Name, "Fulano de tal");
+    Assert.AreEqual(1, professional.Patients.Count);
+    Assert.AreEqual("Fulano de tal", professional.Name);
     Assert.AreSame(professional.Patients[0], patient);
 
     Patient patient2 = PatientTest.CreateValidPatient("2", "37115176094");
@@ -102,7 +102,7 @@ public class ProfessionalTest
     professional.AddPatient(patient2);
     professional.AddPatient(patient3);
 
-    Assert.AreEqual(professional.Patients.Count, 3);
+    Assert.AreEqual(3, professional.Patients.Count);
     Assert.AreSame(professional.Patients[0], patient);
     Assert.AreSame(professional.Patients[1], patient2);
     Assert.AreSame(professional.Patients[2], patient3);
@@ -117,8 +117,8 @@ public class ProfessionalTest
     professional.AddPatient(patient);
 
     Assert.IsNotNull(professional.Patients);
-    Assert.AreEqual(professional.Patients.Count, 1);
-    Assert.AreEqual(professional.Name, "Fulano de tal");
+    Assert.AreEqual(1, professional.Patients.Count);
+    Assert.AreEqual("Fulano de tal", professional.Name);
     Assert.AreSame(professional.Patients[0], patient);
 
     try
@@ -131,7 +131,7 @@ public class ProfessionalTest
     {
       Assert.IsTrue(e.Message.Contains("Professional: Já existe um paciente cadastrado com email informado"));
     }
-    Assert.AreEqual(professional.Patients.Count, 1);
+    Assert.AreEqual(1, professional.Patients.Count);
     Assert.AreSame(professional.Patients[0], patient);
   }
 
@@ -144,8 +144,8 @@ public class ProfessionalTest
     professional.AddPatient(patient);
 
     Assert.IsNotNull(professional.Patients);
-    Assert.AreEqual(professional.Patients.Count, 1);
-    Assert.AreEqual(professional.Name, "Fulano de tal");
+    Assert.AreEqual(1, professional.Patients.Count);
+    Assert.AreEqual("Fulano de tal", professional.Name);
     Assert.AreSame(professional.Patients[0], patient);
 
     try
@@ -158,7 +158,7 @@ public class ProfessionalTest
     {
       Assert.IsTrue(e.Message.Contains("Professional: Já existe um paciente cadastrado com documento informado"));
     }
-    Assert.AreEqual(professional.Patients.Count, 1);
+    Assert.AreEqual(1, professional.Patients.Count);
     Assert.AreSame(professional.Patients[0], patient);
   }
 
@@ -168,7 +168,7 @@ public class ProfessionalTest
     Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
     professional.ChangeEmail("teste.silva@hotmail.com");
 
-    Assert.AreEqual(professional.Email, "teste.silva@hotmail.com");
+    Assert.AreEqual("teste.silva@hotmail.com", professional.Email);
   }
 
   [TestMethod]
@@ -182,7 +182,7 @@ public class ProfessionalTest
     }
     catch (DomainException e)
     {
-      Assert.AreEqual(e.Message, "Professional: Email inválido");
+      Assert.AreEqual("Professional: Email inválido", e.Message);
     }
   }
 
@@ -192,7 +192,7 @@ public class ProfessionalTest
     Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
     professional.ChangeName("teste silva");
 
-    Assert.AreEqual(professional.Name, "teste silva");
+    Assert.AreEqual("teste silva", professional.Name);
   }
 
   [TestMethod]
@@ -206,7 +206,7 @@ public class ProfessionalTest
     }
     catch (DomainException e)
     {
-      Assert.AreEqual(e.Message, "Professional: Nome inválido");
+      Assert.AreEqual("Professional: Nome inválido", e.Message);
     }
   }
 
@@ -216,7 +216,7 @@ public class ProfessionalTest
     Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
     professional.ChangeProfessionalDocument("00112233");
 
-    Assert.AreEqual(professional.ProfessionalDocument, "00112233");
+    Assert.AreEqual("00112233", professional.ProfessionalDocument);
   }
 
   [TestMethod]
@@ -230,7 +230,7 @@ public class ProfessionalTest
     }
     catch (DomainException e)
     {
-      Assert.AreEqual(e.Message, "Professional: Documento profissional inválido");
+      Assert.AreEqual("Professional: Documento profissional inválido", e.Message);
     }
   }
 
@@ -251,10 +251,13 @@ public class ProfessionalTest
     patientChanged.ChangeFinancialInfo(
       new()
       {
-        DefaultPrice = 12.5M,
+        DefaultSessionPrice = 12.5M,
         EstimatedSessionsByWeek = 4,
         EstimatedTimeSessionInMinutes = 50,
-        SessionType = "Remoto"
+        SessionType = SessionType.ONLINE,
+        PaymentType = PaymentType.GROUPED,
+        PaymentPeriodInDays = 30,
+        SessionQuantityPerPayment = 4
       });
     patientChanged.ChangePersonalForm(new()
     {
@@ -274,7 +277,7 @@ public class ProfessionalTest
 
     Patient? patientChangedFound = professional.Patients.Find(p => p.Id.ToString().Equals(patientChanged.Id.ToString()));
 
-    Assert.AreEqual(professional.Patients.Count, 3);
+    Assert.AreEqual(3, professional.Patients.Count);
     Assert.AreEqual(patientChangedFound?.Id, patientChanged.Id);
     Assert.AreEqual(patientChangedFound?.Document, patientChanged.Document);
     Assert.AreEqual(patientChangedFound?.Email, patientChanged.Email);

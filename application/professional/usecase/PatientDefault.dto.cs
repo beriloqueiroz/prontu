@@ -1,3 +1,5 @@
+using domain;
+
 namespace application.professional;
 public record PatientDefaultDto(
   string Id,
@@ -10,10 +12,13 @@ public record PatientDefaultDto(
 );
 
 public record PatientFinancialInfoDefaultDto(
-  decimal DefaultPrice,
+  decimal DefaultSessionPrice,
   int EstimatedSessionsByWeek,
   int EstimatedTimeSessionInMinutes,
-  string SessionType
+  SessionType SessionType,
+  PaymentType PaymentType,
+  int? PaymentPeriodInDays,
+  int? SessionQuantityPerPayment
 );
 
 public record PatientPersonalFormDefaultDto(

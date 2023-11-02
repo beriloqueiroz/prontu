@@ -1,8 +1,8 @@
 namespace domain;
 public class NotificationError
 {
-  public string context;
-  public string message;
+  public string context { get; set; }
+  public string message { get; set; }
 
   public NotificationError(string context, string message)
   {

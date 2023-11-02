@@ -78,7 +78,7 @@ public class ProfessionalController : ControllerBase
     }
 
     [HttpGet("{professionalId}/{patientId}")]
-    public PatientDefaultDto Find(string professionalId, string patientId)
+    public PatientDefaultDto FindPatient(string professionalId, string patientId)
     {
         return findPatientUseCase.Execute(new(patientId, professionalId));
     }

@@ -21,10 +21,13 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
 
     if (input.FinancialInfo != null) patient.ChangeFinancialInfo(new()
     {
-      DefaultPrice = input.FinancialInfo.DefaultPrice,
+      DefaultSessionPrice = input.FinancialInfo.DefaultSessionPrice,
       EstimatedSessionsByWeek = input.FinancialInfo.EstimatedSessionsByWeek,
       EstimatedTimeSessionInMinutes = input.FinancialInfo.EstimatedTimeSessionInMinutes,
-      SessionType = input.FinancialInfo.SessionType
+      SessionType = input.FinancialInfo.SessionType,
+      PaymentType = input.FinancialInfo.PaymentType,
+      PaymentPeriodInDays = input.FinancialInfo.PaymentPeriodInDays,
+      SessionQuantityPerPayment = input.FinancialInfo.SessionQuantityPerPayment
     });
 
     patient.ChangeName(patient.Name);
@@ -57,10 +60,13 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
       patient.Document.Value,
       patient.IsActive(),
       patient.FinancialInfo != null ? new(
-        patient.FinancialInfo.DefaultPrice,
+        patient.FinancialInfo.DefaultSessionPrice,
         patient.FinancialInfo.EstimatedSessionsByWeek,
         patient.FinancialInfo.EstimatedTimeSessionInMinutes,
-        patient.FinancialInfo.SessionType) : null,
+        patient.FinancialInfo.SessionType,
+        patient.FinancialInfo.PaymentType,
+        patient.FinancialInfo.PaymentPeriodInDays,
+        patient.FinancialInfo.SessionQuantityPerPayment) : null,
       patient.PersonalForm != null ? new(
         patient.PersonalForm?.Street,
         patient.PersonalForm?.Neighborhood,
