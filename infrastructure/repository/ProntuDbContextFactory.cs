@@ -1,4 +1,5 @@
-using infrastructure.repository;
+namespace infrastructure.repository;
+
 using Microsoft.EntityFrameworkCore.Design;
 
 public class ProntuDbContextFactory : IDesignTimeDbContextFactory<ProntuDbContext>

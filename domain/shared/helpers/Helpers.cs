@@ -8,8 +8,7 @@ public static class Helpers
   {
     try
     {
-      new MailAddress(email);
-
+      MailAddress.TryCreate(email, out _);
       return true;
     }
     catch (FormatException)
