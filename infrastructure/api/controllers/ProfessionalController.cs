@@ -73,7 +73,7 @@ public class ProfessionalController : ControllerBase
     [HttpPut("{id}")]
     public UpdateProfessionalControllerOutputDto Update(UpdateProfessionalControllerInputDto input, string id)
     {
-        var outputDto = updateProfessionalUseCase.Execute(new(professionalId, input.Name, input.Email, input.Document, input.ProfessionalDocument));
+        var outputDto = updateProfessionalUseCase.Execute(new(id, input.Name, input.Email, input.Document, input.ProfessionalDocument));
         return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument);
     }
 
