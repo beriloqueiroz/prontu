@@ -187,6 +187,30 @@ public class ProfessionalTest
   }
 
   [TestMethod]
+  public void ShouldBeChangeDocument()
+  {
+    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    professional.ChangeDocument(new Cpf("72226922075"));
+
+    Assert.AreEqual("72226922075", professional.Document.Value);
+  }
+
+  [TestMethod]
+  public void ShouldBeNotChangeInvalidDocument()
+  {
+    try
+    {
+      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      professional.ChangeDocument(new Cpf("111222333"));
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.AreEqual("Professional: Cpf inválido", e.Message);
+    }
+  }
+
+  [TestMethod]
   public void ShouldBeChangeProfessionalName()
   {
     Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);

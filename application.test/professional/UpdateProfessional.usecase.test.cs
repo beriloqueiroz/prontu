@@ -23,7 +23,7 @@ public class UpdateProfessionalUsecaseTest
     Professional professional = CreateValidProfessional();
     mock.Setup(p => p.Find(professional.Id.ToString())).Returns(professional);
 
-    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028");
+    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "74838333005", "86153877028");
 
     var output = Usecase?.Execute(input);
 
@@ -38,7 +38,7 @@ public class UpdateProfessionalUsecaseTest
     Professional? professional = null;
     mock.Setup(p => p.Find(It.IsAny<string>())).Returns(professional);
 
-    var input = new UpdateProfessionalInputDto(Guid.NewGuid().ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028");
+    var input = new UpdateProfessionalInputDto(Guid.NewGuid().ToString(), "teste da silva", "teste.silva@gmail.com", "74838333005", "86153877028");
 
     try
     {
@@ -58,7 +58,7 @@ public class UpdateProfessionalUsecaseTest
     Professional professional = CreateValidProfessional();
     mock.Setup(p => p.Find(professional.Id.ToString())).Throws(new Exception("teste error"));
 
-    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "86153877028");
+    var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "74838333005", "86153877028");
 
     try
     {
@@ -79,7 +79,7 @@ public class UpdateProfessionalUsecaseTest
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new Exception("teste error"));
 
-    var input = new UpdateProfessionalInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028");
+    var input = new UpdateProfessionalInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "74838333005", "86153877028");
 
     try
     {

@@ -14,6 +14,7 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
   {
     Professional professional = FindProfessional(input.Id);
 
+    professional.ChangeDocument(new Cpf(input.Document));
     professional.ChangeEmail(input.Email);
     professional.ChangeName(input.Name);
     professional.ChangeProfessionalDocument(input.ProfessionalDocument);
@@ -58,5 +59,6 @@ public record UpdateProfessionalInputDto(
   string Id,
   string Name,
   string Email,
+  string Document,
   string ProfessionalDocument
 );

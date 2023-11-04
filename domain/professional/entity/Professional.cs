@@ -90,6 +90,12 @@ public class Professional : AggregateRoot
     Validate();
   }
 
+  public void ChangeDocument(IDocument document)
+  {
+    Document = document;
+    Validate();
+  }
+
   public override void Validate()
   {
     if (ProfessionalDocument.Length < 3)

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.controllers;
 
 [ApiController]
-[Route("api/professional/")]
+[Route("professional/")]
 public class ProfessionalController : ControllerBase
 {
     private readonly IListProfessionalUseCase listProfessionalUseCase;
@@ -73,7 +73,7 @@ public class ProfessionalController : ControllerBase
     [HttpPut("{id}")]
     public UpdateProfessionalControllerOutputDto Update(UpdateProfessionalControllerInputDto input, string professionalId)
     {
-        var outputDto = updateProfessionalUseCase.Execute(new(professionalId, input.Name, input.Email, input.ProfessionalDocument));
+        var outputDto = updateProfessionalUseCase.Execute(new(professionalId, input.Name, input.Email, input.Document, input.ProfessionalDocument));
         return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument);
     }
 

@@ -20,6 +20,7 @@ public record AddPatientControllerOutputDto(
 public record UpdateProfessionalControllerInputDto(
   string Name,
   string Email,
+  string Document,
   string ProfessionalDocument
 );
 
