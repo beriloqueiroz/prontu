@@ -1,7 +1,6 @@
 # TODO
 
-- incluir useCase para edição do email.
-- incluir a opção de alterar document e retirar email da edição
+- inlcuir phone na entity de professionale usecase e controller
 - inserir validações nos dtos dos controllers
 - seeds
 - ambiente de dev e prod / variáveis de ambiente
