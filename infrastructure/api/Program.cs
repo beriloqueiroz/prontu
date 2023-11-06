@@ -16,6 +16,7 @@ builder.Services.AddScoped<IAddPatientUseCase, AddPatientUseCase>();
 builder.Services.AddScoped<IListProfessionalUseCase, ListProfessionalUseCase>();
 builder.Services.AddScoped<ICreateProfessionalUseCase, CreateProfessionalUseCase>();
 builder.Services.AddScoped<IUpdateProfessionalUseCase, UpdateProfessionalUseCase>();
+builder.Services.AddScoped<IChangeProfessionalEmailUsecase, ChangeProfessionalEmailUseCase>();
 builder.Services.InjectDbContext();
 
 var app = builder.Build();

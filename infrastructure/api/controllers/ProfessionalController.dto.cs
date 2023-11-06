@@ -25,6 +25,10 @@ public record UpdateProfessionalControllerInputDto(
   string ProfessionalDocumentInstitution
 );
 
+public record ChangeProfessionalEmailControllerInputDto(
+  string Email
+);
+
 public record UpdateProfessionalControllerOutputDto(
   string Id,
   string Name,

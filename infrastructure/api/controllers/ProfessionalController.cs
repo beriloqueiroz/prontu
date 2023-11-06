@@ -15,6 +15,7 @@ public class ProfessionalController : ControllerBase
     private readonly IAddPatientUseCase addPatientUseCase;
     private readonly IUpdateProfessionalUseCase updateProfessionalUseCase;
     private readonly IUpdatePatientUseCase updatePatientUseCase;
+    private readonly IChangeProfessionalEmailUsecase changeProfessionalEmailUsecase;
     public ProfessionalController(
         IListProfessionalUseCase listProfessionalUseCase,
         IFindProfessionalUseCase findProfessionalUseCase,
@@ -22,7 +23,8 @@ public class ProfessionalController : ControllerBase
         ICreateProfessionalUseCase createProfessionalUseCase,
         IAddPatientUseCase addPatientUseCase,
         IUpdateProfessionalUseCase updateProfessionalUseCase,
-        IUpdatePatientUseCase updatePatientUseCase
+        IUpdatePatientUseCase updatePatientUseCase,
+        IChangeProfessionalEmailUsecase changeProfessionalEmailUsecase
         )
     {
         this.listProfessionalUseCase = listProfessionalUseCase;
@@ -32,6 +34,7 @@ public class ProfessionalController : ControllerBase
         this.updateProfessionalUseCase = updateProfessionalUseCase;
         this.findPatientUseCase = findPatientUseCase;
         this.updatePatientUseCase = updatePatientUseCase;
+        this.changeProfessionalEmailUsecase = changeProfessionalEmailUsecase;
     }
 
     [HttpGet]
@@ -74,6 +77,14 @@ public class ProfessionalController : ControllerBase
     public UpdateProfessionalControllerOutputDto Update(UpdateProfessionalControllerInputDto input, string id)
     {
         var outputDto = updateProfessionalUseCase.Execute(new(id, input.Name, input.Email, input.Document, input.ProfessionalDocument, input.ProfessionalDocumentInstitution));
+        return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument, outputDto.ProfessionalDocumentInstitution);
+    }
+
+
+    [HttpPut("{id}/email")]
+    public UpdateProfessionalControllerOutputDto ChangeEmail(ChangeProfessionalEmailControllerInputDto input, string id)
+    {
+        var outputDto = changeProfessionalEmailUsecase.Execute(new(id, input.Email));
         return new(outputDto.Id, outputDto.Name, outputDto.Email, outputDto.Document, outputDto.ProfessionalDocument, outputDto.ProfessionalDocumentInstitution);
     }
 
