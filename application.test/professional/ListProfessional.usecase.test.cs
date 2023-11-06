@@ -80,6 +80,6 @@ public class ListProfessionalUsecaseTest
 
   private static Professional CreateValidProfessional(string uuid)
   {
-    return new Professional(uuid, "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    return new Professional(new("12365478", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), uuid);
   }
 }

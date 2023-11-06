@@ -11,6 +11,7 @@ public class Professional : Model
 
   }
   public required string ProfessionalDocument { get; set; }
+  public required string ProfessionalDocumentInstitution { get; set; }
   public required string Name { get; set; }
   public required string Email { get; set; }
   public required string Document { get; set; }
@@ -27,7 +28,8 @@ public class Professional : Model
     Document = entity.Document.Value;
     Email = entity.Email;
     Name = entity.Name;
-    ProfessionalDocument = entity.ProfessionalDocument;
+    ProfessionalDocument = entity.ProfessionalDocument.Value;
+    ProfessionalDocumentInstitution = entity.ProfessionalDocument.Institution;
   }
 
   public static Professional From(domain.Professional entity)
@@ -38,14 +40,15 @@ public class Professional : Model
       Document = entity.Document.Value,
       Email = entity.Email,
       Name = entity.Name,
-      ProfessionalDocument = entity.ProfessionalDocument
+      ProfessionalDocument = entity.ProfessionalDocument.Value,
+      ProfessionalDocumentInstitution = entity.ProfessionalDocument.Institution
     };
   }
 
   public domain.Professional ToEntity()
   {
     return new domain.Professional(
-      ProfessionalDocument,
+      new(ProfessionalDocument, ProfessionalDocumentInstitution),
       Name,
       Email,
       new Cpf(Document),

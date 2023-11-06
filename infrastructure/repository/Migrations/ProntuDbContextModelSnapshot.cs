@@ -130,6 +130,10 @@ namespace repository.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ProfessionalDocumentInstitution")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("timestamp without time zone");
 

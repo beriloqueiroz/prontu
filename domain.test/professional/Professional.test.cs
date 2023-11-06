@@ -6,7 +6,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeCreateAValidProfessional()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
 
     Assert.IsNotNull(professional);
     Assert.AreEqual("Fulano de tal", professional.Name);
@@ -17,7 +17,7 @@ public class ProfessionalTest
   {
     try
     {
-      _ = new Professional("123654789", "", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      _ = new Professional(new("123654789", "CRP"), "", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
@@ -31,7 +31,7 @@ public class ProfessionalTest
   {
     try
     {
-      _ = new Professional("123654789", "Fulano de tal", "fulano.talgmail.com", new Cpf("74838333005"), new(), null);
+      _ = new Professional(new("123654789", "CRP"), "Fulano de tal", "fulano.talgmail.com", new Cpf("74838333005"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
@@ -45,12 +45,32 @@ public class ProfessionalTest
   {
     try
     {
-      _ = new Professional("", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      _ = new Professional(new("", "CRM"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
     {
-      Assert.AreEqual("Professional: Documento profissional inválido", e.Message);
+      Assert.AreEqual("Professional: Documento profissional deve conter um valor válido!", e.Message);
+    }
+    try
+    {
+      _ = new Professional(new("12365478", ""), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.AreEqual("Professional: Instituição do Documento profissional deve conter um valor válido!", e.Message);
+    }
+    try
+    {
+      _ = new Professional(new("", ""), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Professional: "));
+      Assert.IsTrue(e.Message.Contains("Documento profissional deve conter um valor válido!"));
+      Assert.IsTrue(e.Message.Contains("Instituição do Documento profissional deve conter um valor válido!"));
     }
   }
 
@@ -59,7 +79,7 @@ public class ProfessionalTest
   {
     try
     {
-      _ = new Professional("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("12365478"), new(), null);
+      _ = new Professional(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("12365478"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
@@ -73,7 +93,7 @@ public class ProfessionalTest
   {
     try
     {
-      _ = new Professional("123654789", "", "fulano.talgmail.com", new Cpf("123654"), new(), null);
+      _ = new Professional(new("123654789", "CRP"), "", "fulano.talgmail.com", new Cpf("123654"), new(), null);
       Assert.Fail();
     }
     catch (DomainException e)
@@ -87,7 +107,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeAddPatient()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
 
     Patient patient = PatientTest.CreateValidPatient("1", "73345940027");
     professional.AddPatient(patient);
@@ -111,7 +131,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeNotAddPatientWhenAlreadyEmailExists()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("73345940027"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("73345940027"), new(), null);
 
     Patient patient = PatientTest.CreateValidPatient("", "74838333005");
     professional.AddPatient(patient);
@@ -138,7 +158,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeNotAddPatientWhenAlreadyDocumentExists()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("73345940027"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("73345940027"), new(), null);
 
     Patient patient = PatientTest.CreateValidPatient("", "74838333005");
     professional.AddPatient(patient);
@@ -165,7 +185,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeChangeProfessionalEmail()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
     professional.ChangeEmail("teste.silva@hotmail.com");
 
     Assert.AreEqual("teste.silva@hotmail.com", professional.Email);
@@ -176,7 +196,7 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
       professional.ChangeEmail("teste.silvahotmail.com");
       Assert.Fail();
     }
@@ -189,7 +209,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeChangeDocument()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
     professional.ChangeDocument(new Cpf("72226922075"));
 
     Assert.AreEqual("72226922075", professional.Document.Value);
@@ -200,7 +220,7 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
       professional.ChangeDocument(new Cpf("111222333"));
       Assert.Fail();
     }
@@ -213,7 +233,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeChangeProfessionalName()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
     professional.ChangeName("teste silva");
 
     Assert.AreEqual("teste silva", professional.Name);
@@ -224,7 +244,7 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
       professional.ChangeName("");
       Assert.Fail();
     }
@@ -237,10 +257,11 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeChangeProfessionalDocument()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
-    professional.ChangeProfessionalDocument("00112233");
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    professional.ChangeProfessionalDocument(new("00112233", "CRM"));
 
-    Assert.AreEqual("00112233", professional.ProfessionalDocument);
+    Assert.AreEqual("00112233", professional.ProfessionalDocument.Value);
+    Assert.AreEqual("CRM", professional.ProfessionalDocument.Institution);
   }
 
   [TestMethod]
@@ -248,20 +269,20 @@ public class ProfessionalTest
   {
     try
     {
-      Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
-      professional.ChangeProfessionalDocument("");
+      Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+      professional.ChangeProfessionalDocument(new("", "CRM"));
       Assert.Fail();
     }
     catch (DomainException e)
     {
-      Assert.AreEqual("Professional: Documento profissional inválido", e.Message);
+      Assert.AreEqual("Professional: Documento profissional deve conter um valor válido!", e.Message);
     }
   }
 
   [TestMethod]
   public void ShouldBeChangePatient()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
 
     Patient patient = PatientTest.CreateValidPatient("1", "73345940027");
     Patient patient2 = PatientTest.CreateValidPatient("2", "37115176094");
@@ -311,7 +332,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeChangePatientWhenDocumentAlreadyExist()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
 
     Patient patient = PatientTest.CreateValidPatient("1", "73345940027");
     Patient patient2 = PatientTest.CreateValidPatient("2", "37115176094");
@@ -335,7 +356,7 @@ public class ProfessionalTest
   [TestMethod]
   public void ShouldBeChangePatientWhenEmailAlreadyExist()
   {
-    Professional professional = new("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional professional = new(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
 
     Patient patient = PatientTest.CreateValidPatient("1", "73345940027");
     Patient patient2 = PatientTest.CreateValidPatient("2", "37115176094");

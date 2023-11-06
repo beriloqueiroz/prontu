@@ -94,8 +94,8 @@ public class AddPatientUsecaseTest
     }
   }
 
-  private Professional CreateValidProfessional()
+  private static Professional CreateValidProfessional()
   {
-    return new Professional("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    return new Professional(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
   }
 }

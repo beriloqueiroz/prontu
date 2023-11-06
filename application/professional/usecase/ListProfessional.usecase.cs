@@ -30,7 +30,8 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
           professional.Name,
           professional.Email,
           professional.Document.Value,
-          professional.ProfessionalDocument,
+          professional.ProfessionalDocument.Value,
+          professional.ProfessionalDocument.Institution,
           professional.Patients?.Select(pat =>
             new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active, null, null)).ToArray() ?? Array.Empty<PatientDefaultDto>()));
 

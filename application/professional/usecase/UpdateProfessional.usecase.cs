@@ -17,11 +17,11 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     professional.ChangeDocument(new Cpf(input.Document));
     professional.ChangeEmail(input.Email);
     professional.ChangeName(input.Name);
-    professional.ChangeProfessionalDocument(input.ProfessionalDocument);
+    professional.ChangeProfessionalDocument(new(input.ProfessionalDocument, input.ProfessionalDocumentInstitution));
 
     UpdateProfessional(professional);
 
-    return new ProfessionalDefaultDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, null);
+    return new ProfessionalDefaultDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, input.ProfessionalDocument, input.ProfessionalDocumentInstitution, null);
   }
 
   private Professional FindProfessional(string professionalId)
@@ -60,5 +60,6 @@ public record UpdateProfessionalInputDto(
   string Name,
   string Email,
   string Document,
-  string ProfessionalDocument
+  string ProfessionalDocument,
+  string ProfessionalDocumentInstitution
 );

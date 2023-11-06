@@ -21,7 +21,8 @@ public record UpdateProfessionalControllerInputDto(
   string Name,
   string Email,
   string Document,
-  string ProfessionalDocument
+  string ProfessionalDocument,
+  string ProfessionalDocumentInstitution
 );
 
 public record UpdateProfessionalControllerOutputDto(
@@ -29,7 +30,8 @@ public record UpdateProfessionalControllerOutputDto(
   string Name,
   string Email,
   string Document,
-  string ProfessionalDocument
+  string ProfessionalDocument,
+  string ProfessionalDocumentInstitution
 );
 
 public record UpdatePatientControllerInputDto(

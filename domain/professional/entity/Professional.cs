@@ -2,13 +2,13 @@ namespace domain;
 
 public class Professional : AggregateRoot
 {
-  public string ProfessionalDocument { get; private set; }
+  public ProfessionalDocument ProfessionalDocument { get; private set; }
   public string Name { get; private set; }
   public string Email { get; private set; }
   public IDocument Document { get; private set; }
   public List<Patient> Patients { get; private set; }
 
-  public Professional(string professionalDocument, string name, string email, IDocument document, List<Patient> patients, string? id) : base(id)
+  public Professional(ProfessionalDocument professionalDocument, string name, string email, IDocument document, List<Patient> patients, string? id) : base(id)
   {
     ProfessionalDocument = professionalDocument;
     Name = name;
@@ -84,7 +84,7 @@ public class Professional : AggregateRoot
     Validate();
   }
 
-  public void ChangeProfessionalDocument(string professionalDocument)
+  public void ChangeProfessionalDocument(ProfessionalDocument professionalDocument)
   {
     ProfessionalDocument = professionalDocument;
     Validate();
@@ -98,9 +98,9 @@ public class Professional : AggregateRoot
 
   public override void Validate()
   {
-    if (ProfessionalDocument.Length < 3)
+    if (!ProfessionalDocument.IsValid())
     {
-      notification.AddError(new NotificationError("Professional", "Documento profissional inválido"));
+      notification.AddError(new NotificationError("Professional", ProfessionalDocument.GetErrorMessages()));
     }
     if (Name.Length < 4 && !Name.Contains(" "))
     {

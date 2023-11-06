@@ -15,11 +15,11 @@ public class CreateProfessionalUseCase : ICreateProfessionalUseCase
     VerifyIfProfessionalExists(input.Document, input.Email);
 
     Cpf cpf = new(input.Document);
-    Professional professional = new(input.ProfessionalDocument, input.Name, input.Email, cpf, new List<Patient>(), null);
+    Professional professional = new(new(input.ProfessionalDocument, input.ProfessionalDocumentInstitution), input.Name, input.Email, cpf, new List<Patient>(), null);
 
     CreateProfessional(professional);
 
-    return new CreateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, cpf.Value, input.ProfessionalDocument);
+    return new CreateProfessionalOutputDto(professional.Id.ToString(), input.Name, input.Email, cpf.Value, input.ProfessionalDocument, input.ProfessionalDocumentInstitution);
   }
 
   private void VerifyIfProfessionalExists(string document, string email)
@@ -56,7 +56,8 @@ public record CreateProfessionalInputDto(
   string Name,
   string Email,
   string Document,
-  string ProfessionalDocument
+  string ProfessionalDocument,
+  string ProfessionalDocumentInstitution
 );
 
 public record CreateProfessionalOutputDto(
@@ -64,5 +65,6 @@ public record CreateProfessionalOutputDto(
   string Name,
   string Email,
   string Document,
-  string ProfessionalDocument
+  string ProfessionalDocument,
+  string ProfessionalDocumentInstitution
 );

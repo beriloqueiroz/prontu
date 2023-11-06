@@ -164,9 +164,9 @@ public class UpdatePatientUsecaseTest
     return new Patient("Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), Guid.NewGuid().ToString());
   }
 
-  private Professional CreateValidProfessional(Patient patient)
+  private static Professional CreateValidProfessional(Patient patient)
   {
-    Professional prof = new Professional("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    Professional prof = new Professional(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
     prof.AddPatient(patient);
     return prof;
   }

@@ -34,6 +34,7 @@ namespace repository.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProfessionalDocument = table.Column<string>(type: "text", nullable: false),
+                    ProfessionalDocumentInstitution = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Document = table.Column<string>(type: "text", nullable: false),

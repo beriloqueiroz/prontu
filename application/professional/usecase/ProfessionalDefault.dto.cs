@@ -6,5 +6,6 @@ public record ProfessionalDefaultDto(
   string Email,
   string Document,
   string ProfessionalDocument,
+  string ProfessionalDocumentInstitution,
   PatientDefaultDto[]? Patients
 );

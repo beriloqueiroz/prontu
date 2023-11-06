@@ -21,7 +21,7 @@ public class CreateProfessionalUsecaseTest
   [TestMethod]
   public void ShouldBeExecuteCreateProfessionalUseCase()
   {
-    var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654");
+    var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654", "CRP");
 
     var output = Usecase?.Execute(input);
 
@@ -35,7 +35,7 @@ public class CreateProfessionalUsecaseTest
   {
     mock.Setup(p => p.IsExists(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
-    var input = new CreateProfessionalInputDto("teste da silva", "teste@gmail.com", "86153877028", "123654");
+    var input = new CreateProfessionalInputDto("teste da silva", "teste@gmail.com", "86153877028", "123654", "CRP");
 
     try
     {
@@ -54,7 +54,7 @@ public class CreateProfessionalUsecaseTest
   {
     mock.Setup(p => p.IsExists(It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception("teste error"));
 
-    var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654");
+    var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654", "CRP");
 
     try
     {
@@ -75,7 +75,7 @@ public class CreateProfessionalUsecaseTest
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
     mock.Setup(p => p.Create(It.IsAny<Professional>())).Throws(new Exception("teste error"));
 
-    var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654");
+    var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654", "CRP");
 
     try
     {
@@ -89,8 +89,8 @@ public class CreateProfessionalUsecaseTest
     }
   }
 
-  private Professional CreateValidProfessional()
+  private static Professional CreateValidProfessional()
   {
-    return new Professional("123654789", "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
+    return new Professional(new("123654789", "CRP"), "Fulano de tal", "fulano.tal@gmail.com", new Cpf("74838333005"), new(), null);
   }
 }

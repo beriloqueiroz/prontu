@@ -22,7 +22,14 @@ public class AddPatientUseCase : IAddPatientUseCase
     PatientDefaultDto[]? addPatientsOutputDto = professional.Patients?.Select(pat =>
       new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.IsActive(), null, null)).ToArray();
 
-    return new ProfessionalDefaultDto(professional.Id.ToString(), input.Name, input.Email, professional.Document.Value, professional.ProfessionalDocument, addPatientsOutputDto ?? Array.Empty<PatientDefaultDto>());
+    return new ProfessionalDefaultDto(
+      professional.Id.ToString(),
+      input.Name,
+      input.Email,
+      professional.Document.Value,
+      professional.ProfessionalDocument.Value,
+      professional.ProfessionalDocument.Institution,
+      addPatientsOutputDto ?? Array.Empty<PatientDefaultDto>());
   }
 
   private Professional Find(string id)

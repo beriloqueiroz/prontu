@@ -12,7 +12,7 @@ using infrastructure.repository;
 namespace repository.Migrations
 {
     [DbContext(typeof(ProntuDbContext))]
-    [Migration("20231030042404_InitialCreateProntu")]
+    [Migration("20231106014955_InitialCreateProntu")]
     partial class InitialCreateProntu
     {
         /// <inheritdoc />
@@ -130,6 +130,10 @@ namespace repository.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ProfessionalDocument")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProfessionalDocumentInstitution")
                         .IsRequired()
                         .HasColumnType("text");
 
