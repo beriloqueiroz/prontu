@@ -7,6 +7,8 @@ public class Patient : Entity
   public bool Active { get; private set; }
   public FinancialInfo? FinancialInfo { get; private set; }
   public PersonalForm? PersonalForm { get; private set; }
+  public List<Phone>? Phones { get; private set; } = new();
+  public Avatar? Avatar { get; private set; }
   public Patient(string name, string email, IDocument document, string? id) : base(id)
   {
     Name = name;
@@ -43,6 +45,12 @@ public class Patient : Entity
     Validate();
   }
 
+  public void ChangeAvatar(Avatar avatar)
+  {
+    Avatar = avatar;
+    Validate();
+  }
+
   public void ChangeFinancialInfo(FinancialInfo financialInfo)
   {
     FinancialInfo = financialInfo;
@@ -53,6 +61,32 @@ public class Patient : Entity
   {
     PersonalForm = personalForm;
     Validate();
+  }
+
+  public void AddPhone(Phone phone)
+  {
+    if (Phones == null) Phones = new();
+    Phones.Add(phone);
+  }
+
+  public void RemovePhone(string phone)
+  {
+    if (Phones != null)
+    {
+      Phone? phoneFound = Phones.Find(p => p.Value == phone);
+      if (phoneFound != null)
+        Phones.Remove(phoneFound);
+    }
+  }
+
+  public void ChangePhones(List<Phone> phones)
+  {
+    Phones = phones;
+  }
+
+  public void AddAllPhones()
+  {
+    Phones = new();
   }
 
   public override void Validate()

@@ -121,6 +121,26 @@ public class PatientTest
   }
 
   [TestMethod]
+  public void ShouldBeChangePatientAvatar()
+  {
+    Patient patient = CreateValidPatient("1", "74838333005");
+    patient.ChangeAvatar(new("11dalsasld31as2d2sd"));
+
+    Assert.AreEqual("11dalsasld31as2d2sd", patient.Avatar?.Value);
+  }
+
+  [TestMethod]
+  public void ShouldBeAddAndRemovePhone()
+  {
+    Patient patient = CreateValidPatient("1", "74838333005");
+    patient.AddPhone(new("859988555522", null));
+    patient.AddPhone(new("859988555111", null));
+    Assert.AreEqual(2, patient.Phones?.Count);
+    patient.RemovePhone("859988555111");
+    Assert.AreEqual(1, patient.Phones?.Count);
+  }
+
+  [TestMethod]
   public void ShouldBeNotChangePatientNameToInvalidName()
   {
     try

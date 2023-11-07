@@ -8,7 +8,10 @@ public record PatientDefaultDto(
   string Document,
   bool IsActive,
   PatientFinancialInfoDefaultDto? FinancialInfo,
-  PatientPersonalFormDefaultDto? PersonalForm
+  PatientPersonalFormDefaultDto? PersonalForm,
+  List<PhoneDto>? Phones,
+  string? Avatar
+
 );
 
 public record PatientFinancialInfoDefaultDto(
@@ -34,3 +37,23 @@ public record PatientPersonalFormDefaultDto(
   string? OthersInfos,
   string? Observations
 );
+
+public record PhoneDto(string Value, bool? IsChat)
+{
+  public Phone ToEntity()
+  {
+    return new(Value, IsChat);
+  }
+
+  public static List<Phone> ToEntityList(List<PhoneDto>? phoneDtoList)
+  {
+    if (phoneDtoList == null || phoneDtoList.Count == 0) return new List<Phone>();
+    return phoneDtoList.Select(ph => new Phone(ph.Value, ph.IsChat)).ToList();
+  }
+
+  public static List<PhoneDto> ByEntityList(List<Phone>? phoneList)
+  {
+    if (phoneList == null || phoneList.Count == 0) return new List<PhoneDto>();
+    return phoneList.Select(ph => new PhoneDto(ph.Value, ph.IsChat)).ToList();
+  }
+}

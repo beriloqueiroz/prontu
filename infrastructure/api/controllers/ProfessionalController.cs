@@ -63,7 +63,8 @@ public class ProfessionalController : ControllerBase
             professionalId,
             input.Name,
             input.Email,
-            input.Document
+            input.Document,
+            input.Phones
         ));
         return new(
             outputDto.Id,
@@ -106,7 +107,9 @@ public class ProfessionalController : ControllerBase
             input.Document,
             input.IsActive,
             input.FinancialInfo,
-            input.PersonalForm
+            input.PersonalForm,
+            input.Phones,
+            input.Avatar
         ));
     }
 

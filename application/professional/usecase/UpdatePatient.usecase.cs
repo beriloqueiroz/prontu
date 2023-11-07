@@ -18,6 +18,8 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     Patient patient = FindPatient(input.PatientId, input.ProfessionalId);
 
     patient.ChangeEmail(input.Email);
+    patient.ChangeName(patient.Name);
+    patient.ChangePhones(PhoneDto.ToEntityList(input.Phones));
 
     if (input.FinancialInfo != null) patient.ChangeFinancialInfo(new()
     {
@@ -30,7 +32,6 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
       SessionQuantityPerPayment = input.FinancialInfo.SessionQuantityPerPayment
     });
 
-    patient.ChangeName(patient.Name);
 
     if (input.PersonalForm != null) patient.ChangePersonalForm(
       new()
@@ -79,7 +80,7 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
         patient.PersonalForm?.Phones,
         patient.PersonalForm?.OthersInfos,
         patient.PersonalForm?.Observations
-      ) : null);
+      ) : null, PhoneDto.ByEntityList(patient.Phones), patient.Avatar?.Value);
   }
 
   private Professional FindProfessional(string professionalId)
@@ -139,7 +140,9 @@ public record UpdatePatientInputDto(
   string Name,
   string Email,
   string Document,
-   bool IsActive,
+  bool IsActive,
   PatientFinancialInfoDefaultDto? FinancialInfo,
-  PatientPersonalFormDefaultDto? PersonalForm
+  PatientPersonalFormDefaultDto? PersonalForm,
+  List<PhoneDto>? Phones,
+  string? Avatar
 );

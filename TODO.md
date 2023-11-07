@@ -1,7 +1,12 @@
 # TODO
 
-- inlcuir phone
+- incluir phone no patient
+- incluir avatar no patient
+
+- refactor dos records
+
 - inserir validações nos dtos dos controllers
+- incluir phone no professional
 - seeds
 - ambiente de dev e prod / variáveis de ambiente
 - testes e2e

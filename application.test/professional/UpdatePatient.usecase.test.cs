@@ -33,12 +33,13 @@ public class UpdatePatientUsecaseTest
       "teste.silva@gmail.com",
       "86153877028",
       true,
-      null, null);
+      null, null, new List<PhoneDto> { new("85989898989", null) }, null);
 
     var output = Usecase?.Execute(input);
 
     Assert.AreEqual(output?.Email, input.Email);
     Assert.AreEqual(output?.Id, input.PatientId);
+    Assert.AreEqual("85989898989", output?.Phones?[0]?.Value);
     mock.Verify(mk => mk.UpdatePatient(It.IsAny<Patient>(), professionalId), Times.Once());
   }
 
@@ -59,7 +60,9 @@ public class UpdatePatientUsecaseTest
       "86153877028",
       true,
       new(12.5M, 1, 50, SessionType.ONLINE, PaymentType.PER_SESSION, null, null),
-      new("Rua dos bobos", "Aracapé", "Fortaleza", "123", "Brasil", "60511111", "Ceará", "Pai", "858585858585", "", null));
+      new("Rua dos bobos", "Aracapé", "Fortaleza", "123", "Brasil", "60511111", "Ceará", "Pai", "858585858585", "", null),
+      new List<PhoneDto> { new("85989898989", null) }, null
+      );
 
     var output = Usecase?.Execute(input);
 
@@ -85,7 +88,7 @@ public class UpdatePatientUsecaseTest
       "teste.silva@gmail.com",
       "86153877028",
       true,
-      null, null);
+      null, null, new List<PhoneDto> { new("85989898989", null) }, null);
 
     try
     {
@@ -115,7 +118,7 @@ public class UpdatePatientUsecaseTest
       "teste.silva@gmail.com",
       "86153877028",
       true,
-      null, null);
+      null, null, new List<PhoneDto> { new("85989898989", null) }, null);
 
     try
     {
@@ -146,7 +149,7 @@ public class UpdatePatientUsecaseTest
       "teste.silva@gmail.com",
       "86153877028",
       true,
-      null, null);
+      null, null, new List<PhoneDto> { new("85989898989", null) }, null);
     try
     {
       Usecase?.Execute(input);

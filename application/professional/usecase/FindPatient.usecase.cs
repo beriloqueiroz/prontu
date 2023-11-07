@@ -53,7 +53,9 @@ public class FindPatientUseCase : IFindPatientUseCase
         patient.PersonalForm?.Phones,
         patient.PersonalForm?.OthersInfos,
         patient.PersonalForm?.Observations
-      ) : null);
+      ) : null,
+      PhoneDto.ByEntityList(patient.Phones),
+      patient.Avatar?.Value);
   }
 }
 

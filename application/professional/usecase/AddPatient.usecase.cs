@@ -15,12 +15,21 @@ public class AddPatientUseCase : IAddPatientUseCase
     Professional? professional = Find(input.ProfessionalId);
 
     Patient patient = new(input.Name, input.Email, new Cpf(input.Document), null);
+
+    if (input.Phones != null && input.Phones.Count > 0)
+    {
+      foreach (var phone in input.Phones)
+      {
+        patient.AddPhone(phone.ToEntity());
+      }
+    }
+
     professional.AddPatient(patient);
 
     AddPatient(patient, input.ProfessionalId);
 
     PatientDefaultDto[]? addPatientsOutputDto = professional.Patients?.Select(pat =>
-      new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.IsActive(), null, null)).ToArray();
+      new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.IsActive(), null, null, PhoneDto.ByEntityList(pat.Phones), pat.Avatar?.Value)).ToArray();
 
     return new ProfessionalDefaultDto(
       professional.Id.ToString(),
@@ -66,6 +75,6 @@ public record AddPatientInputDto(
   string ProfessionalId,
   string Name,
   string Email,
-  string Document
+  string Document,
+  List<PhoneDto>? Phones
 );
-

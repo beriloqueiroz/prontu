@@ -33,7 +33,7 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
           professional.ProfessionalDocument.Value,
           professional.ProfessionalDocument.Institution,
           professional.Patients?.Select(pat =>
-            new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active, null, null)).ToArray() ?? Array.Empty<PatientDefaultDto>()));
+            new PatientDefaultDto(pat.Id.ToString(), pat.Name, pat.Email, pat.Document.Value, pat.Active, null, null, PhoneDto.ByEntityList(pat.Phones), pat.Avatar?.Value)).ToArray() ?? Array.Empty<PatientDefaultDto>()));
 
     return new PaginatedList<ProfessionalDefaultDto>(professionalList, pageAble);
   }

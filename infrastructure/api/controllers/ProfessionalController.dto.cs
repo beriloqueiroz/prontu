@@ -5,7 +5,8 @@ namespace infrastructure.controller;
 public record AddPatientControllerInputDto(
   string Name,
   string Email,
-  string Document
+  string Document,
+  List<PhoneDto>? Phones
 );
 
 public record AddPatientControllerOutputDto(
@@ -44,5 +45,7 @@ public record UpdatePatientControllerInputDto(
   string Document,
   bool IsActive,
   PatientFinancialInfoDefaultDto? FinancialInfo,
-  PatientPersonalFormDefaultDto? PersonalForm
+  PatientPersonalFormDefaultDto? PersonalForm,
+  List<PhoneDto>? Phones,
+  string? Avatar
 );

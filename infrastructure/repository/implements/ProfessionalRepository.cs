@@ -46,6 +46,7 @@ public class ProfessionalRepository : IProfessionalGateway
   {
     var patient = Context.Patients?
     .Include(p => p.PersonalForm)
+    .Include(p => p.ProfessionalPatients)
     .First(p => p.Id.Equals(new Guid(id)));
 
     var patientToReturn = patient?.ToEntity();
