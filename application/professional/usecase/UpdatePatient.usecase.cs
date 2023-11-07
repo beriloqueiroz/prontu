@@ -20,6 +20,8 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     patient.ChangeEmail(input.Email);
     patient.ChangeName(patient.Name);
     patient.ChangePhones(PhoneDto.ToEntityList(input.Phones));
+    if (input.Avatar != null)
+      patient.ChangeAvatar(new(input.Avatar));
 
     if (input.FinancialInfo != null) patient.ChangeFinancialInfo(new()
     {
