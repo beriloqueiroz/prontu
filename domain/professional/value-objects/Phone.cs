@@ -2,12 +2,17 @@ namespace domain;
 
 public class Phone : IValueObject
 {
-  public string Value { get; private set; }
-  public bool IsChat { get; private set; }
+  public string Value { get; set; }
+  public bool IsChat { get; set; }
   public Phone(string value, bool? isChat)
   {
     Value = value;
     IsChat = isChat ?? false;
+  }
+
+  //necessário para desserialização
+  public Phone()
+  {
   }
 
   public bool IsValid()

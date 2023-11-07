@@ -31,6 +31,9 @@ namespace repository.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -44,6 +47,9 @@ namespace repository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phones")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdateAt")

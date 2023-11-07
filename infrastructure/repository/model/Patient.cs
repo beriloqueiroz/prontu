@@ -1,3 +1,4 @@
+using System.Text.Json;
 using domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,19 @@ public class Patient : Model
   public required string Name { get; set; }
   public required string Email { get; set; }
   public required string Document { get; set; }
+  public string? Avatar { get; set; }
+  public string? Phones { get; set; }
   public bool Active { get; set; }
+
+  public List<Phone> GetPhones()
+  {
+    if (Phones == null) return new List<Phone>();
+    var options = new JsonSerializerOptions
+    {
+      PropertyNameCaseInsensitive = true,
+    };
+    return JsonSerializer.Deserialize<List<Phone>>(Phones, options) ?? new List<Phone>();
+  }
 
   public List<ProfessionalPatient> ProfessionalPatients { get; } = new();
 
@@ -30,6 +43,9 @@ public class Patient : Model
     Document = entity.Document.Value;
     Email = entity.Email;
     Name = entity.Name;
+    Avatar = entity.Avatar?.Value;
+    if (entity.Phones != null)
+      Phones = JsonSerializer.Serialize(entity.Phones);
     if (entity.PersonalForm != null)
     {
       PersonalForm ??= new()
@@ -57,7 +73,9 @@ public class Patient : Model
       Id = entity.Id,
       Document = entity.Document.Value,
       Email = entity.Email,
-      Name = entity.Name
+      Name = entity.Name,
+      Avatar = entity.Avatar?.Value,
+      Phones = JsonSerializer.Serialize(entity.Phones)
     };
     if (entity.PersonalForm != null)
     {
@@ -98,6 +116,10 @@ public class Patient : Model
         OthersInfos = PersonalForm.OthersInfos,
         Observations = PersonalForm.Observations
       });
+
+    if (Avatar != null)
+      patient.ChangeAvatar(new(Avatar));
+    patient.ChangePhones(GetPhones());
     return patient;
   }
 

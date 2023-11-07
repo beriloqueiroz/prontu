@@ -51,7 +51,7 @@ public class ProfessionalRepository : IProfessionalGateway
 
     var patientToReturn = patient?.ToEntity();
 
-    var financialInfos = Context.ProfessionalsPatients?.First(pp => pp.PatientId.ToString().Equals(id) && pp.ProfessionalId.ToString().Equals(professionalId));
+    var financialInfos = patient?.ProfessionalPatients?.First(pp => pp.PatientId.ToString().Equals(id) && pp.ProfessionalId.ToString().Equals(professionalId));
 
     if (patientToReturn != null && financialInfos != null && financialInfos.IsFinancialInfoComplete())
     {
