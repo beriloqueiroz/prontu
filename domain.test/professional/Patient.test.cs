@@ -291,4 +291,28 @@ public class PatientTest
       Assert.IsTrue(e.Message.Contains("Contato inválido"));
     }
   }
+
+  [TestMethod]
+  public void ShouldBeChangePatientDocument()
+  {
+    Patient patient = CreateValidPatient("1", "74838333005");
+    patient.ChangeDocument(new Cpf("57263720000"));
+
+    Assert.AreEqual("57263720000", patient.Document.Value);
+  }
+
+  [TestMethod]
+  public void ShouldBeNotChangePatientDocumentToInvalidDocument()
+  {
+    try
+    {
+      Patient patient = CreateValidPatient("1", "74838333005");
+      patient.ChangeDocument(new Cpf(""));
+      Assert.Fail();
+    }
+    catch (DomainException e)
+    {
+      Assert.IsTrue(e.Message.Contains("Patient:") && e.Message.ToLower().Contains("inválido"));
+    }
+  }
 }

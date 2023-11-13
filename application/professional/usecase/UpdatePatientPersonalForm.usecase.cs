@@ -2,58 +2,35 @@ using domain;
 
 namespace application.professional;
 
-public class UpdatePatientUseCase : IUpdatePatientUseCase
+public class UpdatePatientPersonalFormUseCase : IUpdatePatientPersonalFormUseCase
 {
   private readonly IProfessionalGateway ProfessionalGateway;
-  public UpdatePatientUseCase(IProfessionalGateway professionalGateway)
+  public UpdatePatientPersonalFormUseCase(IProfessionalGateway professionalGateway)
   {
     ProfessionalGateway = professionalGateway;
   }
 
-  public PatientDefaultDto Execute(UpdatePatientInputDto input)
+  public PatientDefaultDto Execute(UpdatePatientPersonalFormInputDto input)
   {
 
     Professional professional = FindProfessional(input.ProfessionalId);
 
     Patient patient = FindPatient(input.PatientId, input.ProfessionalId);
 
-    patient.ChangeEmail(input.Email);
-    patient.ChangeName(input.Name);
-    patient.ChangePhones(PhoneDto.ToEntityList(input.Phones));
-    patient.ChangeDocument(new Cpf(input.Document));
-
-    if (input.IsActive) patient.Activate();
-    else patient.Deactivate();
-
-    if (input.Avatar != null)
-      patient.ChangeAvatar(new(input.Avatar));
-
-    if (input.FinancialInfo != null) patient.ChangeFinancialInfo(new()
-    {
-      DefaultSessionPrice = input.FinancialInfo.DefaultSessionPrice,
-      EstimatedSessionsByWeek = input.FinancialInfo.EstimatedSessionsByWeek,
-      EstimatedTimeSessionInMinutes = input.FinancialInfo.EstimatedTimeSessionInMinutes,
-      SessionType = input.FinancialInfo.SessionType,
-      PaymentType = input.FinancialInfo.PaymentType,
-      PaymentPeriodInDays = input.FinancialInfo.PaymentPeriodInDays,
-      SessionQuantityPerPayment = input.FinancialInfo.SessionQuantityPerPayment
-    });
-
-
-    if (input.PersonalForm != null) patient.ChangePersonalForm(
+    patient.ChangePersonalForm(
       new()
       {
-        Street = input.PersonalForm.Street,
-        Neighborhood = input.PersonalForm.Neighborhood,
-        City = input.PersonalForm.City,
-        Number = input.PersonalForm.Number,
-        Country = input.PersonalForm.Country,
-        ZipCode = input.PersonalForm.ZipCode,
-        Region = input.PersonalForm.Region,
-        Contact = input.PersonalForm.Contact,
-        Phones = input.PersonalForm.Phones,
-        OthersInfos = input.PersonalForm.OthersInfos,
-        Observations = input.PersonalForm.Observations,
+        Street = input.Street,
+        Neighborhood = input.Neighborhood,
+        City = input.City,
+        Number = input.Number,
+        Country = input.Country,
+        ZipCode = input.ZipCode,
+        Region = input.Region,
+        Contact = input.Contact,
+        Phones = input.Phones,
+        OthersInfos = input.OthersInfos,
+        Observations = input.Observations,
       }
     );
 
@@ -99,12 +76,12 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     }
     catch (Exception e)
     {
-      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
+      throw new ApplicationException("UpdatePatientPersonalFormUseCase: Erro ao buscar paciente", e);
     }
 
     if (professional == null)
     {
-      throw new ApplicationException("UpdatePatientUseCase: Paciente não encontrado");
+      throw new ApplicationException("UpdatePatientPersonalFormUseCase: Paciente não encontrado");
     }
     return professional;
   }
@@ -118,12 +95,12 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     }
     catch (Exception e)
     {
-      throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
+      throw new ApplicationException("UpdatePatientPersonalFormUseCase: Erro ao buscar paciente", e);
     }
 
     if (patient == null)
     {
-      throw new ApplicationException("UpdatePatientUseCase: Paciente não encontrado");
+      throw new ApplicationException("UpdatePatientPersonalFormUseCase: Paciente não encontrado");
     }
     return patient;
   }
@@ -136,20 +113,23 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     }
     catch (Exception e)
     {
-      throw new ApplicationException("UpdatePatientUseCase: Erro ao atualizar", e);
+      throw new ApplicationException("UpdatePatientPersonalFormUseCase: Erro ao atualizar", e);
     }
   }
 }
 
-public record UpdatePatientInputDto(
+public record UpdatePatientPersonalFormInputDto(
   string ProfessionalId,
   string PatientId,
-  string Name,
-  string Email,
-  string Document,
-  bool IsActive,
-  PatientFinancialInfoDefaultDto? FinancialInfo,
-  PatientPersonalFormDefaultDto? PersonalForm,
-  List<PhoneDto>? Phones,
-  string? Avatar
+  string Street,
+  string Neighborhood,
+  string City,
+  string Number,
+  string Country,
+  string ZipCode,
+  string Region,
+  string Contact,
+  string Phones,
+  string OthersInfos,
+  string Observations
 );

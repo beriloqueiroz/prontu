@@ -17,6 +17,8 @@ public class ProfessionalController : ControllerBase
     private readonly IUpdateProfessionalUseCase updateProfessionalUseCase;
     private readonly IUpdatePatientUseCase updatePatientUseCase;
     private readonly IChangeProfessionalEmailUsecase changeProfessionalEmailUsecase;
+    private readonly IUpdatePatientFinancialInfoUseCase updatePatientFinancialInfoUseCase;
+    private readonly IUpdatePatientPersonalFormUseCase updatePatientPersonalFormUseCase;
     public ProfessionalController(
         IListProfessionalUseCase listProfessionalUseCase,
         IFindProfessionalUseCase findProfessionalUseCase,
@@ -25,7 +27,9 @@ public class ProfessionalController : ControllerBase
         IAddPatientUseCase addPatientUseCase,
         IUpdateProfessionalUseCase updateProfessionalUseCase,
         IUpdatePatientUseCase updatePatientUseCase,
-        IChangeProfessionalEmailUsecase changeProfessionalEmailUsecase
+        IChangeProfessionalEmailUsecase changeProfessionalEmailUsecase,
+        IUpdatePatientFinancialInfoUseCase updatePatientFinancialInfoUseCase,
+        IUpdatePatientPersonalFormUseCase updatePatientPersonalFormUseCase
         )
     {
         this.listProfessionalUseCase = listProfessionalUseCase;
@@ -36,6 +40,8 @@ public class ProfessionalController : ControllerBase
         this.findPatientUseCase = findPatientUseCase;
         this.updatePatientUseCase = updatePatientUseCase;
         this.changeProfessionalEmailUsecase = changeProfessionalEmailUsecase;
+        this.updatePatientFinancialInfoUseCase = updatePatientFinancialInfoUseCase;
+        this.updatePatientPersonalFormUseCase = updatePatientPersonalFormUseCase;
     }
 
     [HttpGet]
@@ -111,6 +117,41 @@ public class ProfessionalController : ControllerBase
             input.Phones,
             input.Avatar
         ));
+    }
+
+    [HttpPut("{professionalId}/{patientId}/financial-info")]
+    public PatientDefaultDto UpdatePatientFinancialInfo(PatientFinancialInfoDefaultDto input, string professionalId, string patientId)
+    {
+        return updatePatientFinancialInfoUseCase.Execute(new(
+            professionalId,
+            patientId,
+            input.DefaultSessionPrice,
+            input.EstimatedSessionsByWeek,
+            input.EstimatedTimeSessionInMinutes,
+            input.SessionType,
+            input.PaymentType,
+            input.PaymentPeriodInDays,
+            input.SessionQuantityPerPayment
+        ));
+    }
+
+    [HttpPut("{professionalId}/{patientId}/personal-form")]
+    public PatientDefaultDto UpdatePatientPersonalForm(PatientPersonalFormDefaultDto input, string professionalId, string patientId)
+    {
+        return updatePatientPersonalFormUseCase.Execute(new(
+            professionalId,
+            patientId,
+            input.Street ?? "",
+            input.Neighborhood ?? "",
+            input.City ?? "",
+            input.Number ?? "",
+            input.Country ?? "",
+            input.ZipCode ?? "",
+            input.Region ?? "",
+            input.Contact ?? "",
+            input.Phones ?? "",
+            input.OthersInfos ?? "",
+            input.Observations ?? ""));
     }
 
     [Route("/error-development")]

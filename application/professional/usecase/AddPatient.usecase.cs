@@ -24,6 +24,8 @@ public class AddPatientUseCase : IAddPatientUseCase
       }
     }
 
+    patient.Activate();
+
     professional.AddPatient(patient);
 
     AddPatient(patient, input.ProfessionalId);

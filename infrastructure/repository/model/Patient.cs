@@ -44,6 +44,7 @@ public class Patient : Model
     Email = entity.Email;
     Name = entity.Name;
     Avatar = entity.Avatar?.Value;
+    Active = entity.IsActive();
     if (entity.Phones != null)
       Phones = JsonSerializer.Serialize(entity.Phones);
     if (entity.PersonalForm != null)
@@ -75,7 +76,8 @@ public class Patient : Model
       Email = entity.Email,
       Name = entity.Name,
       Avatar = entity.Avatar?.Value,
-      Phones = JsonSerializer.Serialize(entity.Phones)
+      Phones = JsonSerializer.Serialize(entity.Phones),
+      Active = entity.IsActive(),
     };
     if (entity.PersonalForm != null)
     {
@@ -120,6 +122,9 @@ public class Patient : Model
     if (Avatar != null)
       patient.ChangeAvatar(new(Avatar));
     patient.ChangePhones(GetPhones());
+
+    if (Active) patient.Activate();
+    else patient.Deactivate();
     return patient;
   }
 

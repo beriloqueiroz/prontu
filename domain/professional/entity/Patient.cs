@@ -38,6 +38,12 @@ public class Patient : Entity
     Email = email;
     Validate();
   }
+  
+  public void ChangeDocument(IDocument document)
+  {
+    Document = document;
+    Validate();
+  }
 
   public void ChangeName(string name)
   {
