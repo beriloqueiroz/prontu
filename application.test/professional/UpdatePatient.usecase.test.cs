@@ -59,7 +59,7 @@ public class UpdatePatientUsecaseTest
       "teste.silva@gmail.com",
       "86153877028",
       true,
-      new(12.5M, 1, 50, SessionType.ONLINE, PaymentType.PER_SESSION, null, null),
+      new(12.5M, 1, 50, SessionType.REMOTE, PaymentType.PER_SESSION, null, null),
       new("Rua dos bobos", "Aracapé", "Fortaleza", "123", "Brasil", "60511111", "Ceará", "Pai", "858585858585", "", null),
       new List<PhoneDto> { new("85989898989", null) }, null
       );

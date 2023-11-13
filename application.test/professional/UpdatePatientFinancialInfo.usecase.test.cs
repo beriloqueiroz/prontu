@@ -32,7 +32,7 @@ public class UpdatePatientFinancialInfoUsecaseTest
       decimal.Parse("105.25"),
       4,
       50,
-      SessionType.OFFLINE,
+      SessionType.IN_PERSON,
       PaymentType.PER_SESSION,
       null,
       null
@@ -65,7 +65,7 @@ public class UpdatePatientFinancialInfoUsecaseTest
       decimal.Parse("105.25"),
       4,
       50,
-      SessionType.OFFLINE,
+      SessionType.IN_PERSON,
       PaymentType.PER_SESSION,
       null,
       null
@@ -98,7 +98,7 @@ public class UpdatePatientFinancialInfoUsecaseTest
        decimal.Parse("105.25"),
        4,
        50,
-       SessionType.OFFLINE,
+       SessionType.IN_PERSON,
        PaymentType.PER_SESSION,
        null,
        null
@@ -132,7 +132,7 @@ public class UpdatePatientFinancialInfoUsecaseTest
       decimal.Parse("105.25"),
       4,
       50,
-      SessionType.OFFLINE,
+      SessionType.IN_PERSON,
       PaymentType.PER_SESSION,
       null,
       null

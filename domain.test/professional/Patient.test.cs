@@ -169,7 +169,7 @@ public class PatientTest
       DefaultSessionPrice = 12.5M,
       EstimatedSessionsByWeek = 4,
       EstimatedTimeSessionInMinutes = 50,
-      SessionType = SessionType.ONLINE,
+      SessionType = SessionType.REMOTE,
       PaymentType = PaymentType.GROUPED,
       PaymentPeriodInDays = 30,
       SessionQuantityPerPayment = 4
@@ -178,7 +178,7 @@ public class PatientTest
     Assert.IsNotNull(patient);
     Assert.IsTrue(patient.Active);
     Assert.AreEqual("Fulano de tal", patient.Name);
-    Assert.AreEqual(SessionType.ONLINE, patient.FinancialInfo?.SessionType);
+    Assert.AreEqual(SessionType.REMOTE, patient.FinancialInfo?.SessionType);
     Assert.AreEqual(12.5M, patient.FinancialInfo?.DefaultSessionPrice);
   }
 
@@ -220,7 +220,7 @@ public class PatientTest
         DefaultSessionPrice = -12.5M,
         EstimatedSessionsByWeek = 0,
         EstimatedTimeSessionInMinutes = 10,
-        SessionType = SessionType.ONLINE,
+        SessionType = SessionType.REMOTE,
         PaymentType = PaymentType.GROUPED,
         PaymentPeriodInDays = 30,
         SessionQuantityPerPayment = 1
@@ -244,7 +244,7 @@ public class PatientTest
         DefaultSessionPrice = -12.5M,
         EstimatedSessionsByWeek = 0,
         EstimatedTimeSessionInMinutes = 10,
-        SessionType = SessionType.ONLINE,
+        SessionType = SessionType.REMOTE,
         PaymentType = PaymentType.PER_SESSION,
         PaymentPeriodInDays = 30,
         SessionQuantityPerPayment = 3

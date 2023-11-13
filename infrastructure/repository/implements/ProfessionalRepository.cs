@@ -53,14 +53,14 @@ public class ProfessionalRepository : IProfessionalGateway
 
     var financialInfos = patient?.ProfessionalPatients?.First(pp => pp.PatientId.ToString().Equals(id) && pp.ProfessionalId.ToString().Equals(professionalId));
 
-    if (patientToReturn != null && financialInfos != null && financialInfos.IsFinancialInfoComplete())
+    if (patientToReturn != null && financialInfos != null)
     {
       patientToReturn.ChangeFinancialInfo(new()
       {
         DefaultSessionPrice = financialInfos.DefaultSessionPrice ?? 1000M,
-        EstimatedSessionsByWeek = financialInfos.EstimatedSessionsByWeek ?? 0,
+        EstimatedSessionsByWeek = financialInfos.EstimatedSessionsByWeek ?? 1,
         EstimatedTimeSessionInMinutes = financialInfos.EstimatedTimeSessionInMinutes ?? 0,
-        SessionType = financialInfos.SessionType ?? domain.SessionType.OFFLINE,
+        SessionType = financialInfos.SessionType ?? domain.SessionType.IN_PERSON,
         PaymentType = financialInfos.PaymentType ?? domain.PaymentType.PER_SESSION,
         PaymentPeriodInDays = financialInfos.PaymentPeriodInDays,
         SessionQuantityPerPayment = financialInfos.SessionQuantityPerPayment

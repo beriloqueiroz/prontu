@@ -299,7 +299,7 @@ public class ProfessionalTest
         DefaultSessionPrice = 12.5M,
         EstimatedSessionsByWeek = 4,
         EstimatedTimeSessionInMinutes = 50,
-        SessionType = SessionType.ONLINE,
+        SessionType = SessionType.REMOTE,
         PaymentType = PaymentType.GROUPED,
         PaymentPeriodInDays = 30,
         SessionQuantityPerPayment = 4
