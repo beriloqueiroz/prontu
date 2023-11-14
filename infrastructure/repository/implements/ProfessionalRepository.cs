@@ -57,7 +57,7 @@ public class ProfessionalRepository : IProfessionalGateway
     {
       patientToReturn.ChangeFinancialInfo(new()
       {
-        DefaultSessionPrice = financialInfos.DefaultSessionPrice ?? 1000M,
+        DefaultSessionPrice = financialInfos.DefaultSessionPrice ?? 0,
         EstimatedSessionsByWeek = financialInfos.EstimatedSessionsByWeek ?? 1,
         EstimatedTimeSessionInMinutes = financialInfos.EstimatedTimeSessionInMinutes ?? 0,
         SessionType = financialInfos.SessionType ?? domain.SessionType.IN_PERSON,

@@ -19,10 +19,10 @@ public class FinancialInfo : IValueObject
   public bool IsValid()
   {
     if (DefaultSessionPrice.CompareTo(decimal.Zero) < 0) Errors.Add("Preço inválido");
-    if (EstimatedSessionsByWeek <= 0) Errors.Add("Quantidade de sessões por semana inválida");
-    if (EstimatedTimeSessionInMinutes <= 10) Errors.Add("Tempo estimado para sessão inválido");
-    if (SessionQuantityPerPayment <= 0) Errors.Add("Quantidade de sessões por pagamento inválida");
-    if (PaymentPeriodInDays <= 0) Errors.Add("Período de pagamento inválido");
+    if (EstimatedSessionsByWeek < 0) Errors.Add("Quantidade de sessões por semana inválida");
+    if (EstimatedTimeSessionInMinutes < 0) Errors.Add("Tempo estimado para sessão inválido");
+    if (SessionQuantityPerPayment < 0) Errors.Add("Quantidade de sessões por pagamento inválida");
+    if (PaymentPeriodInDays < 0) Errors.Add("Período de pagamento inválido");
     if (PaymentType.Equals(PaymentType.GROUPED) && SessionQuantityPerPayment < 2) Errors.Add("Para o tipo de pagamento selecionado, deve-se haver uma quantidade de sessões por pagamento maior do que 1 (dois)");
     if (PaymentType.Equals(PaymentType.PER_SESSION) && SessionQuantityPerPayment != 1 && SessionQuantityPerPayment != null)
       Errors.Add("Para o tipo de pagamento selecionado, deve-se haver uma quantidade de sessões igual a 1 (hum), ou deixar nulo");

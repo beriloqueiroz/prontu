@@ -1,5 +1,6 @@
 namespace infrastructure.repository;
 
+using domain;
 using Microsoft.EntityFrameworkCore;
 
 public class ProntuDbContext : DbContext
@@ -27,5 +28,19 @@ public class ProntuDbContext : DbContext
       .WithOne(pf => pf.Patient)
       .HasForeignKey<PersonalForm>()
       .IsRequired(false);
+
+    modelBuilder
+      .Entity<ProfessionalPatient>()
+      .Property(e => e.SessionType)
+      .HasConversion(
+          v => v.ToString(),
+          v => (SessionType)Enum.Parse(typeof(SessionType), v));
+
+    modelBuilder
+      .Entity<ProfessionalPatient>()
+      .Property(e => e.PaymentType)
+      .HasConversion(
+          v => v.ToString(),
+          v => (PaymentType)Enum.Parse(typeof(PaymentType), v));
   }
 }

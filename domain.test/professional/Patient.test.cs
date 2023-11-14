@@ -218,8 +218,8 @@ public class PatientTest
       patient.ChangeFinancialInfo(new()
       {
         DefaultSessionPrice = -12.5M,
-        EstimatedSessionsByWeek = 0,
-        EstimatedTimeSessionInMinutes = 10,
+        EstimatedSessionsByWeek = -1,
+        EstimatedTimeSessionInMinutes = -1,
         SessionType = SessionType.REMOTE,
         PaymentType = PaymentType.GROUPED,
         PaymentPeriodInDays = 30,
@@ -242,12 +242,12 @@ public class PatientTest
       patient.ChangeFinancialInfo(new()
       {
         DefaultSessionPrice = -12.5M,
-        EstimatedSessionsByWeek = 0,
-        EstimatedTimeSessionInMinutes = 10,
+        EstimatedSessionsByWeek = -1,
+        EstimatedTimeSessionInMinutes = -1,
         SessionType = SessionType.REMOTE,
         PaymentType = PaymentType.PER_SESSION,
         PaymentPeriodInDays = 30,
-        SessionQuantityPerPayment = 3
+        SessionQuantityPerPayment = -1
       });
       Assert.Fail();
     }

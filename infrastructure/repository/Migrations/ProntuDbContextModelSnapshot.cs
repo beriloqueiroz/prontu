@@ -174,8 +174,8 @@ namespace repository.Migrations
                     b.Property<int?>("PaymentPeriodInDays")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("PaymentType")
-                        .HasColumnType("integer");
+                    b.Property<string>("PaymentType")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ProfessionalId")
                         .HasColumnType("uuid");
@@ -183,8 +183,8 @@ namespace repository.Migrations
                     b.Property<int?>("SessionQuantityPerPayment")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("SessionType")
-                        .HasColumnType("integer");
+                    b.Property<string>("SessionType")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdateAt")
                         .HasColumnType("timestamp without time zone");
