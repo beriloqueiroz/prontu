@@ -13,13 +13,7 @@ public class ProfessionalPatient : Model
   public PaymentType? PaymentType { get; internal set; }
   public int? PaymentPeriodInDays { get; internal set; }
   public int? SessionQuantityPerPayment { get; internal set; }
+  public bool Active { get; set; }
 
-  public bool IsFinancialInfoComplete()
-  {
-    return
-      DefaultSessionPrice != null &&
-      EstimatedSessionsByWeek != null &&
-      EstimatedTimeSessionInMinutes != null &&
-      SessionType != null && PaymentType != null;
-  }
+
 }

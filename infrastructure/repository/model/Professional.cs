@@ -17,6 +17,8 @@ public class Professional : Model
   public required string Document { get; set; }
   public IList<Patient> Patients { get; } = new List<Patient>();
 
+  public List<ProfessionalPatient> ProfessionalPatients { get; } = new();
+
   public void AddPatient(Patient patient)
   {
     Patients.Add(patient);
@@ -52,7 +54,15 @@ public class Professional : Model
       Name,
       Email,
       new Cpf(Document),
-      Patients.Where(p => p != null).Select(p => p.ToEntity()).ToList(),
+      Patients.Where(p => p != null).Select(p => p.ToEntity())
+      .Select(p =>
+      {
+        var professionalPatient = ProfessionalPatients.Find(pp => pp.PatientId == p.Id);
+        if (professionalPatient != null && professionalPatient.Active)
+          p.Activate();
+        else p.Deactivate();
+        return p;
+      }).ToList(),
       Id.ToString());
   }
 

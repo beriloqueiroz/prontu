@@ -25,6 +25,10 @@ public class ProfessionalRepository : IProfessionalGateway
     patientModel.UpdateAt = DateTime.Now;
     Context.Add(patientModel);
     Context.SaveChanges();
+    var professionalPatient = patientModel.ProfessionalPatients.Find(pp => pp.ProfessionalId.ToString() == professionalId);
+    if (professionalPatient != null)
+      professionalPatient.Active = patient.Active;
+    Context.SaveChanges();
     transaction.Commit();
   }
 
@@ -39,7 +43,10 @@ public class ProfessionalRepository : IProfessionalGateway
 
   public domain.Professional? Find(string id)
   {
-    return Context.Professionals?.Include(p => p.Patients).First(p => p.Id.Equals(new Guid(id)))?.ToEntity();
+    return Context.Professionals?
+    .Include(p => p.Patients)
+    .Include(p => p.ProfessionalPatients)
+    .First(p => p.Id.Equals(new Guid(id)))?.ToEntity();
   }
 
   public domain.Patient? FindPatient(string id, string professionalId)
@@ -55,6 +62,8 @@ public class ProfessionalRepository : IProfessionalGateway
 
     if (patientToReturn != null && financialInfos != null)
     {
+      if (financialInfos.Active) patientToReturn.Activate();
+      else patientToReturn.Deactivate();
       patientToReturn.ChangeFinancialInfo(new()
       {
         DefaultSessionPrice = financialInfos.DefaultSessionPrice ?? 0,
@@ -126,7 +135,8 @@ public class ProfessionalRepository : IProfessionalGateway
           DefaultSessionPrice = patient.FinancialInfo.DefaultSessionPrice,
           EstimatedSessionsByWeek = patient.FinancialInfo.EstimatedSessionsByWeek,
           EstimatedTimeSessionInMinutes = patient.FinancialInfo.EstimatedTimeSessionInMinutes,
-          SessionType = patient.FinancialInfo.SessionType
+          SessionType = patient.FinancialInfo.SessionType,
+          Active = patient.IsActive()
         };
         Context.Add(professionalPatients);
       }
@@ -137,6 +147,7 @@ public class ProfessionalRepository : IProfessionalGateway
         professionalPatients.EstimatedTimeSessionInMinutes = patient.FinancialInfo.EstimatedTimeSessionInMinutes;
         professionalPatients.SessionType = patient.FinancialInfo.SessionType;
         professionalPatients.UpdateAt = DateTime.Now;
+        professionalPatients.Active = patient.IsActive();
       }
     }
     Context.SaveChanges();

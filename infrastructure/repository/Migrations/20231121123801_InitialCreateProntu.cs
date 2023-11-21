@@ -21,7 +21,6 @@ namespace repository.Migrations
                     Document = table.Column<string>(type: "text", nullable: false),
                     Avatar = table.Column<string>(type: "text", nullable: true),
                     Phones = table.Column<string>(type: "text", nullable: true),
-                    Active = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -91,6 +90,7 @@ namespace repository.Migrations
                     PaymentType = table.Column<string>(type: "text", nullable: true),
                     PaymentPeriodInDays = table.Column<int>(type: "integer", nullable: true),
                     SessionQuantityPerPayment = table.Column<int>(type: "integer", nullable: true),
+                    Active = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },

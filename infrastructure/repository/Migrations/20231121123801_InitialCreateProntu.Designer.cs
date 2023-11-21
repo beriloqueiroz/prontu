@@ -12,7 +12,7 @@ using infrastructure.repository;
 namespace repository.Migrations
 {
     [DbContext(typeof(ProntuDbContext))]
-    [Migration("20231114164240_InitialCreateProntu")]
+    [Migration("20231121123801_InitialCreateProntu")]
     partial class InitialCreateProntu
     {
         /// <inheritdoc />
@@ -30,9 +30,6 @@ namespace repository.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Avatar")
                         .HasColumnType("text");
@@ -158,6 +155,9 @@ namespace repository.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");

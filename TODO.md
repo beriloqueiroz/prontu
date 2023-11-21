@@ -1,12 +1,7 @@
 # TODO
 
-- incluir phone no patient
-- incluir avatar no patient
-
-- refactor dos records
-
+- há um problema na exception do application, há try catch com Exception para operações no gateway, deveria mapear somente o gatewayException, por causa do DomainException
 - inserir validações nos dtos dos controllers
-- incluir phone no professional
 - seeds
 - ambiente de dev e prod / variáveis de ambiente
 - testes e2e
