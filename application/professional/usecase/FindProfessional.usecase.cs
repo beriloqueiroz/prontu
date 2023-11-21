@@ -17,7 +17,7 @@ public class FindProfessionalUseCase : IFindProfessionalUseCase
     {
       professional = ProfessionalGateway.Find(input.Id);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("FindProfessionalUseCase: Erro ao buscar profissional", e);
     }

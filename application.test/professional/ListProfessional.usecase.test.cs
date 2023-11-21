@@ -35,7 +35,7 @@ public class ListProfessionalUsecaseTest
   [TestMethod]
   public void ShouldBeErrorExecuteListProfessionalUseCaseWhenListError()
   {
-    mock.Setup(p => p.List(It.IsAny<PageAble>())).Throws(new Exception("erro do list"));
+    mock.Setup(p => p.List(It.IsAny<PageAble>())).Throws(new GatewayException("erro do list"));
 
     var input = new ListProfessionalInputDto(100, 0);
 

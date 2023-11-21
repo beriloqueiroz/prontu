@@ -29,7 +29,7 @@ public class CreateProfessionalUseCase : ICreateProfessionalUseCase
     {
       exists = ProfessionalGateway.IsExists(document, email);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("CreateProfessionalUseCase: Erro ao verificar se existe", e);
     }
@@ -45,7 +45,7 @@ public class CreateProfessionalUseCase : ICreateProfessionalUseCase
     {
       ProfessionalGateway.Create(professional);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("CreateProfessionalUseCase: Erro ao criar", e);
     }

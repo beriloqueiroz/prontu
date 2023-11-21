@@ -27,7 +27,7 @@ public class ChangeProfessionalEmailUseCase : IChangeProfessionalEmailUsecase
     {
       ProfessionalGateway.Update(professional);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("ChangeProfessionalEmailUseCase: Erro ao atualizar", e);
     }
@@ -40,7 +40,7 @@ public class ChangeProfessionalEmailUseCase : IChangeProfessionalEmailUsecase
     {
       professional = ProfessionalGateway.Find(professionalId);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("ChangeProfessionalEmailUseCase: Erro ao buscar", e);
     }

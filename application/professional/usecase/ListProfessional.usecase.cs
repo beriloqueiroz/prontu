@@ -19,7 +19,7 @@ public class ListProfessionalUseCase : IListProfessionalUseCase
     {
       professionals = ProfessionalGateway.List(pageAble);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("ListProfessionalUseCase: Erro ao listar profissionais", e);
     }

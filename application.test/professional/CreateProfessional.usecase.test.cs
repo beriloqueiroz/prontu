@@ -52,7 +52,7 @@ public class CreateProfessionalUsecaseTest
   [TestMethod]
   public void ShouldNotBeExecuteCreateProfessionalUseCaseWhenVerifyIfExistsError()
   {
-    mock.Setup(p => p.IsExists(It.IsAny<string>(), It.IsAny<string>())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.IsExists(It.IsAny<string>(), It.IsAny<string>())).Throws(new GatewayException("teste error"));
 
     var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654", "CRP");
 
@@ -73,7 +73,7 @@ public class CreateProfessionalUsecaseTest
   {
     var professionalId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
-    mock.Setup(p => p.Create(It.IsAny<Professional>())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.Create(It.IsAny<Professional>())).Throws(new GatewayException("teste error"));
 
     var input = new CreateProfessionalInputDto("teste da silva", "teste.silva@gmail.com", "86153877028", "123654", "CRP");
 

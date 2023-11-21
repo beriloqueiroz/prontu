@@ -17,7 +17,7 @@ public class FindPatientUseCase : IFindPatientUseCase
     {
       patient = ProfessionalGateway.FindPatient(input.PatientId, input.ProfessionalId);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("FindPatientUseCase: Erro ao buscar paciente", e);
     }

@@ -56,7 +56,7 @@ public class UpdateProfessionalUsecaseTest
   public void ShouldNotBeExecuteUpdateProfessionalUseCaseWhenFindError()
   {
     Professional professional = CreateValidProfessional();
-    mock.Setup(p => p.Find(professional.Id.ToString())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.Find(professional.Id.ToString())).Throws(new GatewayException("teste error"));
 
     var input = new UpdateProfessionalInputDto(professional.Id.ToString(), "teste da silva", "teste.silva@gmail.com", "74838333005", "86153877028", "CRP");
 
@@ -77,7 +77,7 @@ public class UpdateProfessionalUsecaseTest
   {
     var professionalId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
-    mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new GatewayException("teste error"));
 
     var input = new UpdateProfessionalInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "74838333005", "86153877028", "CRP");
 

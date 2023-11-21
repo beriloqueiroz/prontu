@@ -57,7 +57,7 @@ public class AddPatientUsecaseTest
   public void ShouldNotBeExecuteAddPatientUseCaseWhenFindError()
   {
     var professionalId = Guid.NewGuid().ToString();
-    mock.Setup(p => p.Find(professionalId)).Throws(new Exception("teste error"));
+    mock.Setup(p => p.Find(professionalId)).Throws(new GatewayException("teste error"));
 
     var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028", new List<PhoneDto> { new("85989898989", null) });
 
@@ -78,7 +78,7 @@ public class AddPatientUsecaseTest
   {
     var professionalId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
-    mock.Setup(p => p.AddPatient(It.IsAny<Patient>(), It.IsAny<string>())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.AddPatient(It.IsAny<Patient>(), It.IsAny<string>())).Throws(new GatewayException("teste error"));
 
     var input = new AddPatientInputDto(professionalId, "teste da silva", "teste.silva@gmail.com", "86153877028", new List<PhoneDto> { new("85989898989", null) });
 

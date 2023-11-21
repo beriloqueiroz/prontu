@@ -50,7 +50,7 @@ public class AddPatientUseCase : IAddPatientUseCase
     {
       professional = ProfessionalGateway.Find(id);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("AddPatientUseCase: Erro ao buscar", e);
     }
@@ -66,7 +66,7 @@ public class AddPatientUseCase : IAddPatientUseCase
     {
       ProfessionalGateway.AddPatient(patient, professionalId);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("AddPatientUseCase: Erro ao adicionar", e);
     }

@@ -65,7 +65,7 @@ public class FindProfessionalUsecaseTest
     var professionalId = Guid.NewGuid().ToString();
     CreateValidProfessional(professionalId.ToString());
 
-    mock.Setup(p => p.Find(professionalId)).Throws(new Exception("erro no find"));
+    mock.Setup(p => p.Find(professionalId)).Throws(new GatewayException("erro no find"));
 
     var input = new FindProfessionalInputDto(professionalId);
 

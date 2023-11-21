@@ -109,7 +109,7 @@ public class UpdatePatientUsecaseTest
     Professional professional = CreateValidProfessional(patient);
     var professionalId = professional.Id.ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(professional);
-    mock.Setup(p => p.FindPatient(patient.Id.ToString(), professionalId)).Throws(new Exception("teste error"));
+    mock.Setup(p => p.FindPatient(patient.Id.ToString(), professionalId)).Throws(new GatewayException("teste error"));
 
     var input = new UpdatePatientInputDto(
       professionalId,
@@ -140,7 +140,7 @@ public class UpdatePatientUsecaseTest
     var professionalId = professional.Id.ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(professional);
     mock.Setup(p => p.FindPatient(patient.Id.ToString(), professionalId)).Returns(patient);
-    mock.Setup(p => p.UpdatePatient(It.IsAny<Patient>(), It.IsAny<string>())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.UpdatePatient(It.IsAny<Patient>(), It.IsAny<string>())).Throws(new GatewayException("teste error"));
 
     var input = new UpdatePatientInputDto(
       professionalId,

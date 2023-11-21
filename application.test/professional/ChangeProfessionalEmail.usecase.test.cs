@@ -56,7 +56,7 @@ public class ChangeProfessionalEmailUsecaseTest
   public void ShouldNotBeExecuteChangeProfessionalEmailUseCaseWhenFindError()
   {
     Professional professional = CreateValidProfessional();
-    mock.Setup(p => p.Find(professional.Id.ToString())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.Find(professional.Id.ToString())).Throws(new GatewayException("teste error"));
 
     var input = new ChangeProfessionalEmailInputDto(professional.Id.ToString(), "teste.silva@gmail.com");
 
@@ -77,7 +77,7 @@ public class ChangeProfessionalEmailUsecaseTest
   {
     var professionalId = Guid.NewGuid().ToString();
     mock.Setup(p => p.Find(professionalId)).Returns(CreateValidProfessional());
-    mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new Exception("teste error"));
+    mock.Setup(p => p.Update(It.IsAny<Professional>())).Throws(new GatewayException("teste error"));
 
     var input = new ChangeProfessionalEmailInputDto(professionalId, "teste.silva@gmail.com");
 

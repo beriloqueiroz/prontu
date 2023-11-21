@@ -70,7 +70,7 @@ public class FindPatientUsecaseTest
 
     CreateValidPatient(patientId.ToString());
 
-    mock.Setup(p => p.FindPatient(patientId, professionalId)).Throws(new Exception("erro no find"));
+    mock.Setup(p => p.FindPatient(patientId, professionalId)).Throws(new GatewayException("erro no find"));
 
     var input = new FindPatientInputDto(patientId, professionalId);
 

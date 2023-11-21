@@ -19,7 +19,7 @@ public class ProfessionalRepository : IProfessionalGateway
     var transaction = Context.Database.BeginTransaction();
     var patientModel = Patient.From(patient);
     var professional = Context.Professionals?.Find(new Guid(professionalId));
-    if (professional == null) throw new ArgumentException("Profissional inválido");
+    if (professional == null) throw new GatewayException("Profissional inválido");
     patientModel.Professionals.Add(professional);
     patientModel.CreatedAt = DateTime.Now;
     patientModel.UpdateAt = DateTime.Now;
@@ -107,7 +107,7 @@ public class ProfessionalRepository : IProfessionalGateway
 
   public void Update(domain.Professional entity)
   {
-    var professional = (Context.Professionals?.Find(entity.Id)) ?? throw new ArgumentException("ProfessionalRepository: Profissional não encontrado");
+    var professional = (Context.Professionals?.Find(entity.Id)) ?? throw new GatewayException("ProfessionalRepository: Profissional não encontrado");
     professional.FromEntity(entity);
     professional.UpdateAt = DateTime.Now;
     Context.SaveChanges();
@@ -117,7 +117,7 @@ public class ProfessionalRepository : IProfessionalGateway
   {
     var transaction = Context.Database.BeginTransaction();
     var patientModel = (Context.Patients?.Include(p => p.ProfessionalPatients).First(p => p.Id.Equals(patient.Id)))
-      ?? throw new ArgumentException("ProfessionalRepository: Patient não encontrado");
+      ?? throw new GatewayException("ProfessionalRepository: Patient não encontrado");
     patientModel.FromEntity(patient);
     patientModel.UpdateAt = DateTime.Now;
     if (patient.FinancialInfo != null)

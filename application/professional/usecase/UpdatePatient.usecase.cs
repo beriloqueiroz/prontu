@@ -97,7 +97,7 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     {
       professional = ProfessionalGateway.Find(professionalId);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
     }
@@ -116,7 +116,7 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     {
       patient = ProfessionalGateway.FindPatient(patientId, professionalId);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("UpdatePatientUseCase: Erro ao buscar paciente", e);
     }
@@ -134,7 +134,7 @@ public class UpdatePatientUseCase : IUpdatePatientUseCase
     {
       ProfessionalGateway.UpdatePatient(patient, professionalId);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("UpdatePatientUseCase: Erro ao atualizar", e);
     }

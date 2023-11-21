@@ -31,7 +31,7 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     {
       professional = ProfessionalGateway.Find(professionalId);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("UpdateProfessionalUseCase: Erro ao buscar", e);
     }
@@ -48,7 +48,7 @@ public class UpdateProfessionalUseCase : IUpdateProfessionalUseCase
     {
       ProfessionalGateway.Update(professional);
     }
-    catch (Exception e)
+    catch (GatewayException e)
     {
       throw new ApplicationException("UpdateProfessionalUseCase: Erro ao atualizar", e);
     }
