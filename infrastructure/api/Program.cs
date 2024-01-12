@@ -3,6 +3,7 @@ using infrastructure.repository;
 using repository;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -20,6 +21,15 @@ builder.Services.AddScoped<IChangeProfessionalEmailUsecase, ChangeProfessionalEm
 builder.Services.AddScoped<IUpdatePatientFinancialInfoUseCase, UpdatePatientFinancialInfoUseCase>();
 builder.Services.AddScoped<IUpdatePatientPersonalFormUseCase, UpdatePatientPersonalFormUseCase>();
 builder.Services.InjectDbContext(builder.Configuration);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("*");
+                      });
+});
 
 var app = builder.Build();
 
@@ -43,5 +53,7 @@ else
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.Run();
