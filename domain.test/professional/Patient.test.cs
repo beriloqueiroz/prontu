@@ -307,7 +307,7 @@ public class PatientTest
     try
     {
       Patient patient = CreateValidPatient("1", "74838333005");
-      patient.ChangeDocument(new Cpf(""));
+      patient.ChangeDocument(new Cpf("12365478"));
       Assert.Fail();
     }
     catch (DomainException e)
