@@ -101,11 +101,11 @@ public class Patient : Entity
     {
       notification.AddError(new NotificationError("Patient", "Nome inválido"));
     }
-    if (!Helpers.IsValidEmail(Email))
+    if (Email!=null && Email != "" && !Helpers.IsValidEmail(Email))
     {
       notification.AddError(new NotificationError("Patient", "Email inválido"));
     }
-    if (!Document.IsValid())
+    if (Document != null && Document.Value != "" && Document.Value!="" && !Document.IsValid())
     {
       notification.AddError(new NotificationError("Patient", Document.GetErrorMessages()));
     }
